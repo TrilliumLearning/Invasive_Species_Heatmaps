@@ -1,0 +1,29 @@
+<!-- views/login.ejs -->
+<!doctype html>
+<html>
+<head>
+	<title>FAW/Locust - Login</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    <p> Your request is success</p>
+    <p> You will be redirect to the login page in <span id="countdowntimer">3 </span> Seconds</p>
+</div>
+<script>
+    $(document).ready(function(){
+        $(function () {
+            var timeleft = 3;
+            var downloadTimer = setInterval(function () {
+                timeleft--;
+                document.getElementById("countdowntimer").textContent = timeleft;
+                if (timeleft <= 0) {
+                    clearInterval(downloadTimer);
+                    window.location.replace('/login');
+                }
+            }, 1000);
+        });
+    });
+</script>
+</body>
+</html>
