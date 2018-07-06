@@ -1,4 +1,4 @@
-define(['worldwind.min.js'], function (WorldWind) {
+define(['./worldwind.min'], function (WorldWind) {
     "use strict";
 
     var ColoredTile = WorldWind.ColoredTile;

@@ -955,7 +955,7 @@ module.exports = function (app, passport) {
         // console.log(req.query);
         res.setHeader("Access-Control-Allow-Origin", "*"); // Allow cross domain header
 
-        var myStat = "SELECT latitude, longitude, intensity FROM FAWv4.Historical_heatmap_DataTable WHERE date >= '" + req.query.startDate + "' AND date <= '" + req.query.endDate + "';";
+        var myStat = "SELECT latitude, longitude, intensity, date, country, cropMain, cropIrrigation, cropStage, cropSystem, cropFieldSize, cropFieldSizeUnit, rainAmount, totalFAW FROM FAW_PUB.Historical_heatmap_DataTable WHERE date >= '" + req.query.startDate + "' AND date <= '" + req.query.endDate + "';";
         // var myStat = "SELECT latitude, longitude, temperature FROM FAWv4.testData;";
         // console.log(myStat);
         connection.query(myStat, function(err, results, fields) {
@@ -965,7 +965,7 @@ module.exports = function (app, passport) {
                 res.end();
             } else {
                 // console.log(results);
-                res.json({"error": false, "data": results});
+                res.json({"error": false, "message": results});
                 res.end();
             }
         });
