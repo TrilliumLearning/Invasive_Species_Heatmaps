@@ -64,20 +64,87 @@ requirejs(['./worldwind.min',
 
             var data = table.rows('.selected').data();
             var placemark = wwd.layers[11].renderables;
-            console.log(data);
-            console.log(placemark);
+            var originalSize = true;
+
+            // console.log(data);
+            // console.log(data[0][0]);
 
             for (var i = 0; i < placemark.length; i++) {
+
+                if (data.length === 0 && placemark[i].attributes.imageScale === 1.0) {
+                    drawPlacemark(i, placemark, 0.5, 0.6);
+                    break;
+                }
+
                 for (var z = 0; z < data.length; z++) {
                     if (placemark[i].userProperties === data[z][0]) {
-                        placemark[i].activeAttributes._imageScale = 1;
+                        // console.log(placemark[i].userProperties);
+                        if (placemark[i].attributes.imageScale === 0.5) {
+                            console.log(placemark[i].userProperties + " A");
+                            drawPlacemark(i, placemark, 1.0, 1.2);
+                            wwd.goTo(new WorldWind.Position(placemark[i].position.latitude, placemark[i].position.longitude, 10000000));
+                            // console.log(placemark);
+                        }
+                        originalSize = false;
                         break;
                     } else {
                         if (z === data.length - 1) {
-                            placemark[i].activeAttributes._imageScale = 0.5;
+                            // console.log(originalSize + " " + placemark[i].attributes.imageScale);
+                            if (originalSize && placemark[i].attributes.imageScale === 1.0) {
+                                // console.log(placemark[i]);
+                                console.log(placemark[i].userProperties + " C");
+                                // console.log(placemark);
+                                drawPlacemark(i, placemark, 0.5, 0.6);
+                            }
+
+                            originalSize = true;
                         }
                     }
                 }
+            }
+
+            function drawPlacemark(i, placemark, imageScale, highlightScale) {
+
+                var info = placemark[i];
+
+                placemark.splice(i, 1);
+
+                var canvas = document.createElement("canvas"),
+                    ctx2d = canvas.getContext("2d"),
+                    size = 64, c = size / 2  - 0.5, innerRadius = 5, outerRadius = 20;
+
+                canvas.width = size;
+                canvas.height = size;
+
+                var gradient = ctx2d.createRadialGradient(c, c, innerRadius, c, c, outerRadius);
+                gradient.addColorStop(0, 'rgb(204, 255, 255)');
+                gradient.addColorStop(0.5, 'rgb(102, 153, 255)');
+                gradient.addColorStop(1, 'rgb(102, 0, 255)');
+
+                ctx2d.fillStyle = gradient;
+                ctx2d.arc(c, c, outerRadius, 0, 2 * Math.PI, false);
+                ctx2d.fill();
+
+                var placemarkAttributess = new WorldWind.PlacemarkAttributes(null);
+                placemarkAttributess.imageSource = new WorldWind.ImageSource(canvas);
+                placemarkAttributess.imageScale = imageScale;
+
+                var highlightAttributess = new WorldWind.PlacemarkAttributes(placemarkAttributess);
+                highlightAttributess.imageScale = highlightScale;
+
+                var placemarkPositions = new WorldWind.Position(info.position.latitude, info.position.longitude, 0);
+                var placemarks = new WorldWind.Placemark(placemarkPositions, false, placemarkAttributess);
+                placemarks.userProperties = info.userProperties;
+                placemarks.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
+                placemarks.highlightAttributes = highlightAttributess;
+                wwd.layers[11].addRenderable(placemarks);
+
+                // console.log(wwd.layers[11].renderables[i]);
+
+                placemark.splice(i, 0, placemark[placemark.length - 1]);
+                placemark.splice(placemark.length - 1, 1);
+
+                // console.log(wwd.layers[11].renderables[i]);
             }
 
         });
@@ -115,8 +182,8 @@ requirejs(['./worldwind.min',
 
                         table.row.add([
                             resp.message[i]._id,
-                            resp.message[i].latitude,
-                            resp.message[i].longitude,
+                            // resp.message[i].latitude,
+                            // resp.message[i].longitude,
                             resp.message[i].date,
                             resp.message[i].country,
                             resp.message[i].cropMain,
@@ -130,7 +197,7 @@ requirejs(['./worldwind.min',
                         ]).draw(false);
 
                         if (i === resp.message.length - 1) {
-                            table.columns([0, 1, 2]).visible(false);
+                            table.columns([]).visible(false);
                             drawHeatMap();
                         }
                     }
@@ -194,7 +261,7 @@ requirejs(['./worldwind.min',
                         // var pushpin = "../../pic/plain-white.png";
                         var placemarkAttributes = new WorldWind.PlacemarkAttributes(null);
                         placemarkAttributes.imageSource = new WorldWind.ImageSource(canvas);
-                        placemarkAttributes.imageScale = 25/70;
+                        placemarkAttributes.imageScale = 0.5;
 
                         var highlightAttributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
                         highlightAttributes.imageScale = 0.6;
@@ -214,32 +281,33 @@ requirejs(['./worldwind.min',
                                 wwd.addLayer(placemarkLayer);
                                 console.log(wwd.layers);
                                 layerManager.synchronizeLayerList();
+
                                 // console.log(wwd.layers[11].renderables[0].activeAttributes);
                                 // console.log(wwd.layers[11].renderables[0].attributes);
-                                wwd.layers[11].renderables[0].position.latitude = "0";
-                                wwd.layers[11].renderables[0].position.longitude = "0";
+                                // wwd.layers[11].renderables[0].position.latitude = "0";
+                                // wwd.layers[11].renderables[0].position.longitude = "0";
                                 // wwd.layers[11].renderables[0].attributes.imageSource = "../../pic/plain-red.png";
-                                wwd.layers[11].renderables.splice(0, 1);
-                                console.log(wwd.layers[11].renderables[0]);
-                                console.log(wwd.layers[11].renderables);
-
-                                // var pushpins = "../../pic/plain-white.png";
-                                var placemarkAttributess = new WorldWind.PlacemarkAttributes(null);
+                                // wwd.layers[11].renderables.splice(0, 1);
+                                // console.log(wwd.layers[11].renderables[0]);
+                                // console.log(wwd.layers[11].renderables);
+                                //
+                                // // var pushpins = "../../pic/plain-white.png";
+                                // var placemarkAttributess = new WorldWind.PlacemarkAttributes(null);
                                 // placemarkAttributess.imageSource = new WorldWind.ImageSource(canvas);
-                                placemarkAttributess.imageScale = 1;
-
-                                var highlightAttributess = new WorldWind.PlacemarkAttributes(placemarkAttributess);
-                                highlightAttributess.imageScale = 1.2;
-
-                                var placemarkPositions = new WorldWind.Position(0, 0, 0);
-                                var placemarks = new WorldWind.Placemark(placemarkPositions, false, placemarkAttributess);
-                                placemarks.userProperties = resp.message[i]._id;
-                                placemarks.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
-                                placemarks.highlightAttributes = highlightAttributess;
-                                wwd.layers[11].addRenderable(placemarks);
-
-                                console.log(wwd.layers[11].renderables[0]);
-                                console.log(wwd.layers[11].renderables);
+                                // placemarkAttributess.imageScale = 1;
+                                //
+                                // var highlightAttributess = new WorldWind.PlacemarkAttributes(placemarkAttributess);
+                                // highlightAttributess.imageScale = 1.2;
+                                //
+                                // var placemarkPositions = new WorldWind.Position(0, 0, 0);
+                                // var placemarks = new WorldWind.Placemark(placemarkPositions, false, placemarkAttributess);
+                                // placemarks.userProperties = resp.message[i]._id;
+                                // placemarks.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
+                                // placemarks.highlightAttributes = highlightAttributess;
+                                // wwd.layers[11].addRenderable(placemarks);
+                                //
+                                // console.log(wwd.layers[11].renderables[0]);
+                                // console.log(wwd.layers[11].renderables);
 
 
                                 // Listen for mouse double clicks placemarks and then pop up a new dialog box.
@@ -266,17 +334,19 @@ requirejs(['./worldwind.min',
 
                         // Perform the pick. Must first convert from window coordinates to canvas coordinates, which are
                         // relative to the upper left corner of the canvas rather than the upper left corner of the page.
-
+                        // console.log("x :" + (x - wwd.canvasCoordinates(x, y)[0]) + "   " + "y :" + (y - wwd.canvasCoordinates(x, y)[1]));
                         var pickList = wwd.pick(wwd.canvasCoordinates(x, y));
                         for (var q = 0; q < pickList.objects.length; q++) {
                             var pickedPL = pickList.objects[q].userObject;
                             if (pickedPL instanceof WorldWind.Placemark) {
-                                // console.log(x + ", " + y);
+                                // console.log(x + ", " + y + "   " + wwd.canvasCoordinates(x, y));
 
                                 var popover = document.getElementById('popover');
                                 popover.style.position = "absolute";
-                                popover.style.left = x + 'px';
-                                popover.style.top = y + 'px';
+                                popover.style.left = (wwd.canvasCoordinates(x, y)[0] + 281.5) + 'px';
+                                popover.style.top = (wwd.canvasCoordinates(x, y)[1] + 355 ) + 'px';
+                                // popover.style.left = x + 'px';
+                                // popover.style.top = y + 'px';
 
                                 // console.log(table.columns(0).data());
 
@@ -331,7 +401,7 @@ requirejs(['./worldwind.min',
                             if (pickedPL instanceof WorldWind.Placemark) {
                                 // console.log(pickedPL);
                                 console.log("A");
-                                autoZoom(pickedPL.position, pickedPL.userProperties);
+                                // autoZoom(pickedPL.position, pickedPL.userProperties);
                             }
                         }
 
