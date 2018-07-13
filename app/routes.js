@@ -955,9 +955,25 @@ module.exports = function (app, passport) {
         // console.log(req.query);
         res.setHeader("Access-Control-Allow-Origin", "*"); // Allow cross domain header
 
-        var myStat = "SELECT latitude, longitude, intensity, date, country, cropMain, cropIrrigation, cropStage, cropSystem, cropFieldSize, cropFieldSizeUnit, rainAmount, totalFAW FROM FAW_PUB.Historical_heatmap_DataTable WHERE date >= '" + req.query.startDate + "' AND date <= '" + req.query.endDate + "';";
+        var keyword = "cropHealth";
+
+        var myStat = "SELECT latitude, longitude, " + keyword + ", _id, date, country, cropMain, cropIrrigation, cropStage, cropSystem, cropFieldSize, cropFieldSizeUnit, rainAmount, totalFAW FROM FAW_PUB.Historical_heatmap_DataTable";
         // var myStat = "SELECT latitude, longitude, temperature FROM FAWv4.testData;";
+
+        if (!!req.query.startDate && !!req.query.endDate) {
+            myStat += " WHERE date >= '" + req.query.startDate + "' AND date <= '" + req.query.endDate + "';";
+        } else if (!req.query.startDate || !req.query.endDate) {
+            if (!!req.query.startDate) {
+                myStat += " WHERE date >= '" + req.query.startDate + "';";
+            } else if (!!req.query.endDate) {
+                myStat += " WHERE date <= '" + req.query.endDate + "';";
+            }
+        } else {
+            myStat += "';";
+        }
+
         // console.log(myStat);
+
         connection.query(myStat, function(err, results, fields) {
             if (err) {
                 console.log(err);
@@ -965,8 +981,22 @@ module.exports = function (app, passport) {
                 res.end();
             } else {
                 // console.log(results);
-                res.json({"error": false, "message": results});
-                res.end();
+                if (!!config[keyword]) {
+                    console.log(config[keyword]);
+                    console.log(config[keyword]["good"]);
+                    // console.log(results);
+                    for (var i = 0; i < results.length; i++) {
+                        results[i].intensity = config[keyword][results[i][keyword]];
+
+                        if (i === results.length - 1) {
+                            console.log(results);
+                            res.json({"error": false, "message": results});
+                        }
+                    }
+                } else {
+                    console.log("!");
+                    res.json({"error": false, "message": results});
+                }
             }
         });
     });

@@ -24,6 +24,12 @@ module.exports = {
 
     'Server_Port': 9087,
 
-    'Upload_Path': 'http://pub.faw.aworldbridgelabs.com/uploadfiles'
+    'Upload_Path': 'http://pub.faw.aworldbridgelabs.com/uploadfiles',
+
+    'cropHealth': {
+        'good': 1,
+        'medium': 2,
+        'poor': 3
+    }
 
 };
