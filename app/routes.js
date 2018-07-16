@@ -982,19 +982,19 @@ module.exports = function (app, passport) {
             } else {
                 // console.log(results);
                 if (!!config[keyword]) {
-                    console.log(config[keyword]);
-                    console.log(config[keyword]["good"]);
+                    // console.log(config[keyword]);
+                    // console.log(config[keyword]["good"]);
                     // console.log(results);
                     for (var i = 0; i < results.length; i++) {
                         results[i].intensity = config[keyword][results[i][keyword]];
 
                         if (i === results.length - 1) {
-                            console.log(results);
+                            // console.log(results);
                             res.json({"error": false, "message": results});
                         }
                     }
                 } else {
-                    console.log("!");
+                    // console.log("!");
                     res.json({"error": false, "message": results});
                 }
             }
