@@ -27,9 +27,9 @@ module.exports = {
     'Upload_Path': 'http://pub.faw.aworldbridgelabs.com/uploadfiles',
 
     'cropHealth': {
-        'good': 1,
-        'medium': 2,
-        'poor': 3
+        'good': 21,
+        'medium': 27,
+        'poor': 31
     }
 
 };

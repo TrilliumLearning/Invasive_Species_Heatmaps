@@ -33,18 +33,18 @@
     </div>
     <div class="row">
         <div style="border-style: solid;"  class="col-sm-3">
-            <h4>Menu</h4>
             <div class="container">
-                <div>
+                <!--<div>-->
                     <!--<h4>Type: *</h4>-->
                     <!--<select id="type">-->
                         <!--<option></option>-->
                         <!--<option value="temperature">Temperature</option>-->
                         <!--<option value="humidity">Humidity</option>-->
                     <!--</select>-->
-                </div>
+                <!--</div>-->
                 <br><br>
                 <div>
+                    <h4>Menu</h4>
                     <h4>Time: *</h4>
                     <h5 class="floating-Box">From:&nbsp;</h5>&nbsp;
                     <input id="startDate" class="date" type="text" placeholder="Select Date"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -65,6 +65,10 @@
             </canvas>
         </div>
         <br><br>
+        <div id="popover" style="border-style: solid;" hidden></div>
+        <!--<div style="border-style: solid; position: absolute; left: 749px; top: 775px"></div>-->
+    </div>
+    <div>
         <table id="dataDisplay">
             <thead>
             <tr>
@@ -86,8 +90,6 @@
             <tbody>
             </tbody>
         </table>
-
-        <div id="popover" style="border-style: solid;"></div>
     </div>
 </div>
 </body>
