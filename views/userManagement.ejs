@@ -89,10 +89,8 @@
         }
 
         .navul {
-            list-style-type: none;
             margin: 0;
             padding: 0;
-            overflow: hidden;
         }
 
         .navbutton1 {
@@ -141,9 +139,48 @@
         .button2:hover {
             background-color: #9BBF93;
             color: white;
-        }</style>
+        }
+
+        .dropbutton {
+            float: right;
+            width: 150px;
+            height: 60px;
+            padding: 16px;
+            color: white;
+            background-color: #337ab7;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+        }
+        .dropbutton:hover, .dropbutton:focus {
+            background-color: #2b6699;
+        }
+        .dropdown-content {
+            display: none;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            right: 0;
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 20px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown a:hover {
+            background-color: #ddd;
+        }
+        .show {
+            display: block;
+        }
+    </style>
 </head>
-<ul class="navul" style="height: 60px;
+<div class="navul" style="height: 60px;
     background: #000000;
     padding: 0px;">
     <a class="navul" href="//aworldbridge.com" style="background: #000000;">
@@ -156,24 +193,22 @@
     <a href="/addUser" style="width: 110px;">
         <button class="navbutton1"> Add User </button>
     </a>
-    <div class="dropdown" style="width: 190px;
-    float: right;
-    margin: 0;
-    height: 60px;">
-        <button class="btn btn-primary btn-lg" data-toggle="dropdown" id="Username" style="margin: 0;
-    border: 0 solid;
-    border-radius: 0;
-    height: 60px;
-    font-size: 16px;
-    -webkit-transition-duration: 0.4s;
-    transition-duration: 0.4s;">
+    <div class="dropdown" style="height: 60px; width: 200px; float: right; margin: 0;">
+        <button onclick="dropDown()" class="dropbutton" id="Username">
             <%= user.firstName%>
             <span class="caret"></span>
         </button>
-        <ul id="userMenu" class="dropdown-menu">
-        </ul>
+        <div id="userMenuAdmin" class="dropdown-content">
+            <a href="/userProfile"> User Profile </a>
+            <a href="/userManagement"> User Management </a>
+            <a href="/signout"> Sign Out </a>
+        </div>
+        <div id="userMenuRegular" class="dropdown-content">
+            <a href="/userProfile"> User Profile </a>
+            <a href="/signout"> Sign Out </a>
+        </div>
     </div>
-</ul>
+</div>
 <body>
 <div class="container" style="width: 750px;">
     <div class="container" style="width: 700px;">
@@ -299,11 +334,11 @@
             </table>
         </div>
         <script type="text/javascript">
-            var rowSelected, thArray, DropMenu, queryString1, queryString2;
+            var rowSelected, thArray, queryString1, queryString2;
             var table = $('#dataDisplay').DataTable({ "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]]});
             var querystr = "";
             var userrole = "";
-            var UserRol = "<%= user.userrole %>";
+            var UserRole = "<%= user.userrole %>";
             var rowUserName = [];
             $(document).ready(function() {
                 $(function () {
@@ -312,18 +347,6 @@
                         dateFormat: "Y-m-d",
                         time_24hr: true
                     });
-                    if (UserRol === "Admin") {
-                        DropMenu = "<li><a href=\"/userProfile\">Profile</a></li>\n" +
-                            "\t\t\t<li><a href=\"/userManagement\">User Management</a></li>\n" +
-                            "\t\t\t<li><a href=\"/signout\">Sign Out</a></li>";
-                        $("#userMenu").empty();
-                        $("#userMenu").append(DropMenu)
-                    } else if (UserRol === "Regular") {
-                        DropMenu = "<li><a href=\"/userProfile\">Profile</a></li>\n" +
-                            "\t\t\t<li><a href=\"/signout\">Sign Out</a></li>";
-                        $("#userMenu").empty();
-                        $("#userMenu").append(DropMenu)
-                    }
                 });
                 $('#dataDisplay tbody').on('click', 'tr', function () {
                     thArray = [];
@@ -386,6 +409,25 @@
                     } else { return false;}
                 });
             });
+            function dropDown() {
+                console.log(UserRole);
+                if (UserRole === "Admin") {
+                    document.getElementById("userMenuAdmin").classList.toggle("show");
+                } else if (UserRole === "Regular") {
+                    document.getElementById("userMenuRegular").classList.toggle("show");
+                }
+            }
+            window.onclick = function(event) {
+                if (!event.target.matches('.dropbutton')) {
+                    var dropdowns = document.getElementsByClassName("dropdown-content");
+                    for (var i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+            }
             function query() {
                 var dateCreatedFrom = document.getElementsByClassName("datePicker")[0].value;
                 var dateCreatedTo = document.getElementsByClassName("datePicker")[1].value;

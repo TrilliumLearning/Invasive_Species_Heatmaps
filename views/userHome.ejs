@@ -85,66 +85,9 @@
             height: 7px;
         }
 
-        .x {
-            border: 1px solid #ddd;
-
-            /* Gray border */
-            border-radius: 4px;
-
-            /* Rounded border */
-            padding: 5px;
-
-            /* Some padding */
-            width: 125px;
-
-            /* Set a small width */
-            height: auto;
-        }
-
-        .y {
-            border: 1px solid #ddd;
-
-            /* Gray border */
-            border-radius: 4px;
-
-            /* Rounded border */
-            padding: 5px;
-
-            /* Some padding */
-            height: 125px;
-
-            /* Set a small width */
-            width: auto;
-        }
-
-        .z {
-            border: 1px solid #ddd;
-
-            /* Gray border */
-            border-radius: 4px;
-
-            /* Rounded border */
-            padding: 5px;
-
-            /* Some padding */
-            height: 125px;
-
-            /* Set a small width */
-            width: 125px;
-        }
-
-        /* Add a hover effect (blue shadow) */
-        .x:hover,
-        .y:hover,
-        .z:hover {
-            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-        }
-
         .navul {
-            list-style-type: none;
             margin: 0;
             padding: 0;
-            overflow: hidden;
         }
 
         .button1 {
@@ -181,6 +124,44 @@
         .navbutton1:hover {
             background-color: #333;
             color: white;
+        }
+
+        .dropbutton {
+            float: right;
+            width: 150px;
+            height: 60px;
+            padding: 16px;
+            color: white;
+            background-color: #337ab7;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+        }
+        .dropbutton:hover, .dropbutton:focus {
+            background-color: #2b6699;
+        }
+        .dropdown-content {
+            display: none;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            right: 0;
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 20px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown a:hover {
+            background-color: #ddd;
+        }
+        .show {
+            display: block;
         }
 
         /*
@@ -363,7 +344,7 @@
                 */
     </style>
 </head>
-<ul class="navul" style="height: 60px;
+<div class="navul" style="height: 60px;
     background: #000000;">
     <a class="navul" href="//aworldbridge.com" style="background: #000000;">
         <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 400px;
@@ -376,29 +357,35 @@
         <button class="navbutton1"> Data History </button>
     </a>
     <a href="/recovery" id="restoreButton" style="width: 110px;">
-        <button class="navbutton1"> Recorvery </button>
+        <button class="navbutton1"> Recovery </button>
     </a>
     <a href="/heatmap" id="heatmap" style="width: 110px;">
         <button class="navbutton1"> Heatmap </button>
     </a>
-    <div class="dropdown" style="width: 190px;
-    float: right;
-    margin: 0;
-    height: 60px;">
-        <button class="btn btn-primary btn-lg" data-toggle="dropdown" id="Username" style="margin: 0;
-    border: 0 solid;
-    border-radius: 0;
-    height: 60px;
-    font-size: 16px;
-    -webkit-transition-duration: 0.4s;
-    transition-duration: 0.4s;">
-            <%= user.firstName%>
+    <!-- <div class="dropdown floating-Box">
+        <button class="btn btn-primary btn-lg" data-toggle="dropdown" id="Username">
             <span class="caret"></span>
         </button>
         <ul id="userMenu" class="dropdown-menu">
+
         </ul>
+    </div> -->
+    <div class="dropdown" style="height: 60px; width: 200px; float: right; margin: 0;">
+        <button onclick="dropDown()" class="dropbutton" id="Username">
+            <%= user.firstName%>
+            <span class="caret"></span>
+        </button>
+        <div id="userMenuAdmin" class="dropdown-content">
+            <a href="/userProfile"> User Profile </a>
+            <a href="/userManagement"> User Management </a>
+            <a href="/signout"> Sign Out </a>
+        </div>
+        <div id="userMenuRegular" class="dropdown-content">
+            <a href="/userProfile"> User Profile </a>
+            <a href="/signout"> Sign Out </a>
+        </div>
     </div>
-</ul>
+</div>
 <body>
 <div class="container" style="width: 750px;">
     <div class="container center" style="width: 700px;">
@@ -428,19 +415,19 @@
     border: 1px solid #c8c8c8;">
             </div>
         </div>
-        <div class="center floating-Box" style="width: 290px;">
+        <div class="floating-Box" style="width: 290px;">
             <h4 class="floatingBox" style="width: 220px;"><strong>User Name:&nbsp;</strong></h4>
             <div class="name" style="width: 325px;">
-                <h5 class="floating-Box">First Name:&nbsp;&nbsp;</h5>
-                <input id="firstName" type="text" name="first name" style="background: WhiteSmoke;
+                <h5 class="floating-Box">First Name:</h5>
+                <input class="floating-Box" id="firstName" type="text" name="first name" style="background: WhiteSmoke;
     width: 240px;
     height: 40px;
     padding-left: 10px;
     margin: 5px 0px;
     border-radius: 5px;
     border: 1px solid #c8c8c8;" value="">
-                <h5 class="floating-Box">Last Name:&nbsp;&nbsp;</h5>
-                <input id="lastName" type="text" name="first name" style="background: WhiteSmoke;
+                <h5 class="floating-Box">Last Name:</h5>
+                <input class="floating-Box" id="lastName" type="text" name="first name" style="background: WhiteSmoke;
     width: 240px;
     height: 40px;
     padding-left: 10px;
@@ -803,7 +790,7 @@
     </div>
 </div>
 <script type='text/javascript'>
-    var scoutingRowSelected, trapRowSelected, DropMenu, queryString1, queryString2;
+    var scoutingRowSelected, trapRowSelected, queryString1, queryString2;
     var table = $("#dataDisplay").DataTable();
     var trapTable = $("#trapDisplay").DataTable();
     var UserRole = "<%= user.userrole %>";
@@ -817,18 +804,6 @@
                 dateFormat: "Y-m-d",
                 time_24hr: true
             });
-            if (UserRole === "Admin") {
-                DropMenu = "<li><a href=\"/userProfile\">Profile</a></li>\n" +
-                    "\t\t\t<li><a href=\"/userManagement\">User Management</a></li>\n" +
-                    "\t\t\t<li><a href=\"/signout\">Sign Out</a></li>";
-                $("#userMenu").empty();
-                $("#userMenu").append(DropMenu)
-            } else if ( UserRole === "Regular") {
-                DropMenu = "<li><a href=\"/userProfile\">Profile</a></li>\n" +
-                    "\t\t\t<li><a href=\"/signout\">Sign Out</a></li>";
-                $("#userMenu").empty();
-                $("#userMenu").append(DropMenu)
-            }
             table.clear();
             table.draw();
             trapTable.clear();
@@ -900,6 +875,25 @@
             } else { return false;}
         });
     });
+    function dropDown() {
+        console.log(UserRole);
+        if (UserRole === "Admin") {
+            document.getElementById("userMenuAdmin").classList.toggle("show");
+        } else if (UserRole === "Regular") {
+            document.getElementById("userMenuRegular").classList.toggle("show");
+        }
+    }
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbutton')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
     function query() {
         var firstName = document.getElementById("firstName").value;
         var lastName = document.getElementById("lastName").value;
