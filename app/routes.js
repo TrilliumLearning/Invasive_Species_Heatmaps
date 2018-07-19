@@ -494,7 +494,7 @@ module.exports = function (app, passport) {
                     }
                 });
             }, function (results, done) {
-            var statement = "";
+                var statement = "";
                 for (var i = 0; i < results.length; i++) {
                     statement += "UPDATE Field SET id = '" + req.user.username + "_" + ('0' + (1 + i)).slice(-2) + "' WHERE id = '" + results[i].id + "'; ";
 
@@ -929,7 +929,7 @@ module.exports = function (app, passport) {
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
 
-    app.get('/userhome', isLoggedIn, function (req, res) {
+    app.get('/userHome', isLoggedIn, function (req, res) {
         var myStat = "SELECT userrole FROM Users WHERE username = '" + req.user.username + "';";
 
         connection.query(myStat, function (err, results, fields) {

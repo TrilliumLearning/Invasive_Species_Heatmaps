@@ -1,19 +1,35 @@
-<!-- views/login.ejs -->
+<!-- views/success.ejs -->
 <!doctype html>
 <html>
 <head>
-	<title>FAW/Locust - Login</title>
+    <title>FAW/Locust Project - Success</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
-<body>
-<div>
-    <p> Your request is success</p>
-    <p> You will be redirect to the login page in <span id="countdowntimer">3 </span> Seconds</p>
+<ul class="navul" style="height: 60px;
+    background: #000000;
+    margin: 0px;">
+    <a class="navul" href="//aworldbridge.com" style="background: #000000;
+    width: 500px;
+    height: 60px;">
+        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 500px;
+    height: 60px;
+    margin-left: 480px;" />
+    </a>
+</ul>
+<body style="margin: 0px;">
+<div class="container" style="width: 500px;
+    margin: 20px auto auto;
+    text-align: center;">
+    <p><strong> Your request has been successfully delivered!</strong></p>
+    <p> You will be redirected to the login page in <strong><span id="countdowntimer">5 </span></strong> seconds</p>
+    <p>
+        Or go to Login page <a href="/login">here</a> </p>
 </div>
 <script>
     $(document).ready(function(){
         $(function () {
-            var timeleft = 3;
+            var timeleft = 5;
             var downloadTimer = setInterval(function () {
                 timeleft--;
                 document.getElementById("countdowntimer").textContent = timeleft;

@@ -1,8 +1,8 @@
-<!-- views/profileBK.ejs -->
+<!-- views/profile.ejs -->
 <!doctype html>
 <html>
 <head>
-	<title>FAW/Locust Project - User Profile</title>
+    <title>FAW/Locust Project - User Profile</title>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/Profile.css" type="text/css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
@@ -10,33 +10,163 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="../css/Title.css" type="text/css">
-
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <style>
-        .banner{
-            position:relative;
-            width:100%;
-            text-align:center;
-            display:inline-block;
+    <style>.banner {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            display: inline-block;
         }
-        body { padding-top:80px; word-wrap:break-word; }
 
-        .container1{
-            margin-left:100px;
+        body {
+            padding-bottom: 80px;
+            word-wrap: break-word;
+        }
+
+        .floating-Box {
+            display: inline-block;
+        }
+
+        .container1 {
+            width: 700px;
         }
 
         .input {
             width: 8%;
         }
-        .change1{
-            width:30%;
+
+        .change1 {
+            width: 30%;
         }
-        @media only screen and (max-width: 320px){
-            .input{
+
+        #cancel {
+            cursor: pointer;
+        }
+
+        table {
+            overflow-x: auto;
+            width: 100%;
+            display: block;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #cdcdcd;
+            text-align: center;
+        }
+
+        table th,
+        table td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        table::-webkit-scrollbar-thumb {
+            border-radius: 2px;
+            background-color: rgba(0, 0, 0, .5);
+            -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+        }
+
+        table::-webkit-scrollbar {
+            -webkit-appearance: none;
+            height: 7px;
+        }
+
+        .invisibleRow {
+            display: none;
+        }
+
+        .navul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .navbutton1 {
+            width: 110px;
+            font-size: 16px;
+            height: 60px;
+            margin: 0;
+            padding: 0px;
+            border-radius: 0px 0 0;
+            background-color: #000000;
+            border: 0 solid;
+            color: #ffffff;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+        }
+
+        .navbutton1:hover {
+            background-color: #333;
+            color: white;
+        }
+
+        .button1 {
+            width: 485px;
+            height: 50px;
+            border-radius: 15px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            background-color: white;
+            color: #f0ad4e;
+            border: 1px solid #f0ad4e;
+        }
+
+        .button1:hover {
+            background-color: #f0ad4e;
+            color: white;
+        }
+
+        .button2 {
+            width: 110px;
+            height: 40px;
+        }
+
+        .button3 {
+            width: 110px;
+            height: 40px;
+            float: right;
+            border-radius: 5px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            background-color: white;
+            color: #f0ad4e;
+            border: 1px solid #f0ad4e;
+        }
+
+        .button3:hover {
+            background-color: #f0ad4e;
+            color: white;
+        }
+
+        .button4 {
+            width: 80px;
+            height: 30px;
+            border-radius: 5px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            background-color: white;
+            color: #f0ad4e;
+            border: 1px solid #f0ad4e;
+        }
+
+        .button4:hover {
+            background-color: #f0ad4e;
+            color: white;
+        }
+
+        /*@media only screen and (max-width: 320px){
+            .input {
                 font-size: 10px;
                 width: 22%;
             }
@@ -44,18 +174,24 @@
             .container1 {
                 margin-left: 10px;
             }
-            #currentpassword,#newpassword,#Confirmpassword{
-                width:35%;
+
+            #currentpassword,
+            #newpassword,
+            #Confirmpassword {
+                width: 35%;
             }
-            .change1{
+
+            .change1 {
                 font-size: 10px;
-                width:50%;
+                width: 50%;
             }
-            h5{
-                margin-left:1px;
+
+            h5 {
+                margin-left: 1px;
             }
-            #userrole{
-                margin-top:-20px;
+
+            #userrole {
+                margin-top: -20px;
             }
         }
 
@@ -63,226 +199,281 @@
             .container1 {
                 margin-left: 10px;
             }
-            .input{
+
+            .input {
                 font-size: 14px;
                 width: 22%;
             }
-            #userrole{
-                margin-top:-20px;
-            }
-            .change1{
-                font-size: 13px;
-                width:50%;
-            }
-            #currentpassword,#newpassword,#Confirmpassword{
-                width:40%;
+
+            #userrole {
+                margin-top: -20px;
             }
 
+            .change1 {
+                font-size: 13px;
+                width: 50%;
+            }
+
+            #currentpassword,
+            #newpassword,
+            #Confirmpassword {
+                width: 40%;
+            }
         }
+
         @media screen and (max-width:414px) {
             .container1 {
                 margin-left: 10px;
             }
-            .input{
+
+            .input {
                 font-size: 15px;
                 width: 22%;
             }
-            #userrole{
-                margin-top:-20px;
+
+            #userrole {
+                margin-top: -20px;
             }
-            .change1{
+
+            .change1 {
                 font-size: 14px;
-                width:60%;
-            }
-            #currentpassword,#newpassword,#Confirmpassword{
-                width:40%;
+                width: 60%;
             }
 
-        }
-
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-
-        .invisibleRow {
-            display: none;
-        }
-    </style>
-
+            #currentpassword,
+            #newpassword,
+            #Confirmpassword {
+                width: 40%;
+            }
+        }*/</style>
 </head>
-<body>
-
-<div class="container">
-    <a href="//aworldbridge.com"><img class="banner" src="/pic/NewWBBanner.jpg"/></a>
-    <div class="page-header text-center header">
-        <h1><span class="fa fa-anchor"></span> FAW Project -  User Profile </h1><h4><span class="fa fa-user"></span>&nbsp;<strong>Account Name</strong>: <%= user.username %></h4><br>
-        <a href="/userhome" class="btn btn-default btn-lg">User Home</a>&nbsp;&nbsp;
-        <a id="information" class="btn btn-default btn-lg refresh" onclick="refresh(this.id)" style="display: none">Information</a>&nbsp;&nbsp;
-        <!--<a id="resetPassword" class="btn btn-default btn-lg refresh" onclick="refresh(this.id)">Reset Password</a>&nbsp;&nbsp;-->
-        <a id="fieldManagement" class="btn btn-default btn-lg refresh" onclick="refresh(this.id)">Field Management</a>&nbsp;&nbsp;
-        <div class="dropdown floating-Box">
-            <button class="btn btn-primary btn-lg" data-toggle="dropdown" id="Username"><%= user.firstName%>
-                <span class="caret"></span>
-            </button>
-            <ul id="userMenu" class="dropdown-menu">
-
-            </ul>
-        </div>
+<ul class="navul" style="height: 60px;
+    background: #000000;">
+    <a class="navul" href="//aworldbridge.com" style="background: #000000;">
+        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 400px;
+    height: 60px;" />
+    </a>
+    <a href="/userHome" style="width: 110px;">
+        <button class="navbutton1"> User Home </button>
+    </a>
+    <a style="width: 110px;">
+        <button id="information" class="navbutton1 refresh" onclick="refresh(this.id)" style="display: none"> Information </button>
+    </a>
+    <a style="width: 110px;">
+        <button id="fieldManagement" class="navbutton1 refresh" onclick="refresh(this.id)" style="width: 160px;"> Field Management </button>
+    </a>
+    <div class="dropdown" style="width: 190px;
+    float: right;
+    margin: 0;
+    height: 60px;">
+        <button class="btn btn-primary btn-lg" data-toggle="dropdown" id="Username" style="margin: 0;
+    border: 0 solid;
+    border-radius: 0;
+    height: 60px;
+    font-size: 16px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;">
+            <%= user.firstName%>
+            <span class="caret"></span>
+        </button>
+        <ul id="userMenu" class="dropdown-menu">
+        </ul>
     </div>
-
-    <div class="container1">
-        <br><br>
-        <div id="informationDiv">
-            <form id="submit" onsubmit="return checkForm()" action="/userProfile" method="post">
-                <h4 class="floating-Box"><strong>User Name:&nbsp;</strong></h4>
-                <h5 class="floating-Box">First Name:&nbsp;
-                    <input type="text" id="usernameF" name="usernameF"  value="<%= user.firstName %>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                <h5 class="floating-Box">Last Name:&nbsp;
-                    <input type="text" id="usernameL" name="usernameL" value="<%= user.lastName %>">
-                </h5>
-                <br><br>
-                <div>
-                    <h4 id="userrole" class="floating-Box"><strong>User Role:&nbsp;&nbsp;</strong></h4><input class="input" type="text" style="background:WhiteSmoke;" value="<%= user.userrole%>" readonly>
-                </div><br>
-                <div>
-                    <h4 class="floating-Box"><strong>Date created:&nbsp;&nbsp;</strong></h4><input class="change1" type="text" style="background:WhiteSmoke;" value="<%= user.dateCreated %>" readonly>
-                </div><br>
-                <div>
-                    <h4 class="floating-Box"><strong>Last Modification:&nbsp;&nbsp;</strong></h4><input class="change1" type="text" style="background:WhiteSmoke;" value="<%= user.dateModified %>" readonly>
-                </div><br>
-                <div>
-                    <h4 class="floating-Box"><strong>LoginName/Email:&nbsp;&nbsp;</strong></h4><input class="input" type="text" style="background:WhiteSmoke;" value="<%= user.username%>" readonly>
-                </div><br>
-                <div>
-                    <h4 class="floating-Box"><strong>Last Modificated by:&nbsp;&nbsp;</strong></h4><input class="input" type="text" style="background:WhiteSmoke;" value="<%= user.username%>" readonly>
-                </div>
-
-                <h4><strong>Password Reset</strong>:   </h4>
-
-                <div>
-                    <h5>Current Password:
-                        <input type="password" id="currentpassword" name="currentpassword" maxlength="2000px" style="margin-left:55px;">
-                    </h5>
-                </div>
-                <div>
-                    <h5>New Password:
-                        <input type="password" id="newpassword" name="newpassword" maxlength="2000px" style="margin-left:74px;">
-                    </h5>
-                </div>
-                <div>
-                    <h5>Confirm New Password:
-                        <input type="password" id="Confirmpassword" name="Confirmpassword" maxlength="2000px" style="margin-left:19px;">
-                    </h5>
-                </div>
-
-                <button id="SS"  type="submit" class="btn btn-warning btn-sm"> Submit </button>
-            </form>
+</ul>
+<body>
+<div class="container" style="width: 750px;
+    padding: 0px;">
+    <div class="container center" style="width: 700px;
+    padding: 0px;">
+        <br>
+        <div class="page-header text-center header">
+            <h1><span class="fa fa-anchor"></span><strong> FAW/Locust Project -  User Profile </strong></h1>
+            <h4><span class="fa fa-user"></span>&nbsp;<strong>Account Name</strong>: <%= user.username %></h4>&nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;
         </div>
-
-        <!--<div id="resetPasswordDiv" style="display: none">-->
-            <!--<h4><strong>Password Reset</strong>:   </h4>-->
-
-            <!--<div>-->
-                <!--<h5>Current Password:-->
-                    <!--<input type="password" id="currentpassword" name="currentpassword" maxlength="2000px" style="margin-left:55px;">-->
-                <!--</h5>-->
-            <!--</div>-->
-            <!--<div>-->
-                <!--<h5>New Password:-->
-                    <!--<input type="password" id="newpassword" name="newpassword" maxlength="2000px" style="margin-left:74px;">-->
-                <!--</h5>-->
-            <!--</div>-->
-            <!--<div>-->
-                <!--<h5>Confirm New Password:-->
-                    <!--<input type="password" id="Confirmpassword" name="Confirmpassword" maxlength="2000px" style="margin-left:19px;">-->
-                <!--</h5>-->
-            <!--</div>-->
-        <!--</div>-->
-
-
-        <!--<button id="SS"  type="submit" class="btn btn-warning btn-sm"> Submit </button>-->
-        <!--<a href="/userhome" class="btn btn-warning btn-sm">Cancel</a>-->
-        <!--</form>-->
-        <div id="fieldManagementDiv" style="display: none">
-            <table id="field">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Location Name</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
-                    <th>Main Crop</th>
-                    <th>Main Crop Variety</th>
-                    <th>Irrigation</th>
-                    <th>Fertilized Used</th>
-                    <th>Farming System</th>
-                    <th>Field Size</th>
-                    <th>Field Size Unit</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-            <div>
-                <button class="btn btn-warning btn-sm button buttons" id="add">Add</button>
-                <button class="btn btn-warning btn-sm button buttons" id="edit">Edit</button>
-                <button class="btn btn-warning btn-sm button buttons" id="delete">Delete</button>
-                <button class="btn btn-warning btn-sm button" id="addRow" style="display: none">Add a Row</button>
-                <button class="btn btn-warning btn-sm button" id="deleteRow" style="display: none">Delete last Row</button>
-                <!--<button class="btn btn-warning btn-sm button" id="save" style="display: none">Add a Row</button>-->
-                <button class="btn btn-warning btn-sm button" id="addField" style="display: none">Save</button>
-                <button class="btn btn-warning btn-sm button" id="editField" style="display: none">Save</button>
-                <!--<button class="btn btn-warning btn-sm button" id="save" style="display: none">Save</button>-->
-                <button class="btn btn-warning btn-sm button" id="cancel" style="display: none">Cancel</button>
-                <!--<button class="btn btn-warning btn-sm button" onclick="a()">Click</button>-->
+        <div class="container1">
+            <div class="container" id="informationDiv" style="width: 700px;
+    padding: 0px;">
+                <form class="container" id="submit" onsubmit="return checkForm()" action="/userProfile" method="post" style="width: 500px;
+    padding: 0px 0px 0px 10px;">
+                    <div class="center floating-Box" style="width: 500px;">
+                        <h4 class="floating-Box" style="width: 500px;"><strong>Username:</strong></h4>
+                        <h5 class="floating-Box" style="width: 80px;">First Name:</h5>
+                        <input type="text" id="usernameF" name="usernameF" value="<%= user.firstName %>" style="width: 400px;
+    height: 40px;
+    margin: 5px 5px 5px 0px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;">
+                        <h5 class="floating-Box" style="width: 80px;">Last Name:</h5>
+                        <input type="text" id="usernameL" name="usernameL" value="<%= user.lastName %>" style="width: 400px;
+    height: 40px;
+    margin: 5px 5px 5px 0px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;">
+                    </div>
+                    <div class="center floating-Box" style="width: 500px;">
+                        <h4 id="userrole" class="floating-Box" style="width: 125px;"><strong>User Role:</strong></h4>
+                        <input class="input" type="text" style="background: WhiteSmoke;
+    width: 350px;
+    height: 40px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;
+    margin: 5px;" value="<%= user.userrole%>" readonly>
+                        <h4 class="floating-Box"><strong style="width: 125px;">Date created:&nbsp;&nbsp;</strong></h4>
+                        <input class="change1" type="text" style="background: WhiteSmoke;
+    width: 350px;
+    height: 40px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;
+    margin: 5px;" value="<%= user.dateCreated %>" readonly>
+                    </div>
+                    <br>
+                    <div style="width: 500px;
+    margin-top: 10px;">
+                        <h4 class="floating-Box" style="width: 190px;"><strong>Last Modification:</strong></h4>
+                        <input class="change1" type="text" style="background: WhiteSmoke;
+    width: 285px;
+    height: 40px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;
+    margin: 5px;" value="<%= user.dateModified %>" readonly>
+                        <h4 class="floating-Box" style="width: 190px;"><strong>LoginName/Email:</strong></h4>
+                        <input class="input" type="text" style="background: WhiteSmoke;
+    width: 285px;
+    height: 40px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;
+    margin: 5px;" value="<%= user.username%>" readonly>
+                        <h4 class="floating-Box" style="width: 190px;"><strong>Last Modificated by:</strong></h4>
+                        <input class="input" type="text" style="background: WhiteSmoke;
+    width: 285px;
+    height: 40px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;
+    margin: 5px;" value="<%= user.username%>" readonly>
+                    </div>
+                    <br>
+                    <h4 style="width: 500px;"><strong>Password Reset</strong>:   </h4>
+                    <div style="width: 500px;">
+                        <h5 class="floating-Box" style="width: 190px;">Current Password: </h5>
+                        <input class="floating-Box" type="password" id="currentpassword" name="currentpassword" maxlength="2000px" style="width: 285px;
+    height: 40px;
+    margin: 5px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;">
+                        <h5 class="floating-Box" style="width: 190px;">New Password: </h5>
+                        <input class="floating-Box" type="password" id="newpassword" name="newpassword" maxlength="2000px" style="width: 285px;
+    height: 40px;
+    margin: 5px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;">
+                        <h5 class="floating-Box" style="width: 190px;">Confirm New Password: </h5>
+                        <input class="floating-Box" type="password" id="Confirmpassword" name="Confirmpassword" maxlength="2000px" style="width: 285px;
+    height: 40px;
+    margin: 5px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;">
+                    </div>
+                    <br>
+                    <button id="SS" type="submit" class="button1"> Submit </button>
+                    <hr style="margin-bottom: 10px;">
+                    <p style="margin-left: 220px;"> <a href="/userHome">Cancel</a></p>
+                </form>
             </div>
+            <div class="container center" id="fieldManagementDiv" style="display: none;
+    width: 700px;">
+                <table id="field">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Location Name</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Main Crop</th>
+                        <th>Main Crop Variety</th>
+                        <th>Irrigation</th>
+                        <th>Fertilized Used</th>
+                        <th>Farming System</th>
+                        <th>Field Size</th>
+                        <th>Field Size Unit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div>
+                    <button class="btn btn-warning btn-sm button buttons button3" id="add">Add</button>
+                    <button class="btn btn-warning btn-sm button buttons button2" id="edit">Edit</button>
+                    <button class="btn btn-warning btn-sm button buttons button2" id="delete">Delete</button>
+                    <button class="btn btn-warning btn-sm button button2" id="addRow" style="display: none">Add a Row</button>
+                    <button class="btn btn-warning btn-sm button button2" id="deleteRow" style="display: none">Delete Last Row</button>
+                    <!--<button class="btn btn-warning btn-sm button" id="save" style="display: none">Add a Row</button>-->
+                    <button class="btn btn-warning btn-sm button button4" id="addField" style="display: none">Save</button>
+                    <button class="btn btn-warning btn-sm button button4" id="editField" style="display: none">Save</button>
+                    <!--<button class="btn btn-warning btn-sm button" id="save" style="display: none">Save</button>-->
+                    <a id="cancel" style="display: none">Cancel</a>
+                    <!--<button class="btn btn-warning btn-sm button" onclick="a()">Click</button>-->
+                </div>
+            </div>
+            <!--<div id="resetPasswordDiv" style="display: none">-->
+            <!--<h4><strong>Password Reset</strong>:   </h4>-->
+            <!--<div>-->
+            <!--<h5>Current Password:-->
+            <!--<input type="password" id="currentpassword" name="currentpassword" maxlength="2000px" style="margin-left:55px;">-->
+            <!--</h5>-->
+            <!--</div>-->
+            <!--<div>-->
+            <!--<h5>New Password:-->
+            <!--<input type="password" id="newpassword" name="newpassword" maxlength="2000px" style="margin-left:74px;">-->
+            <!--</h5>-->
+            <!--</div>-->
+            <!--<div>-->
+            <!--<h5>Confirm New Password:-->
+            <!--<input type="password" id="Confirmpassword" name="Confirmpassword" maxlength="2000px" style="margin-left:19px;">-->
+            <!--</h5>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<button id="SS"  type="submit" class="btn btn-warning btn-sm"> Submit </button>-->
+            <!--<a href="/userHome" class="btn btn-warning btn-sm">Cancel</a>-->
+            <!--</form>-->
         </div>
     </div>
 </div>
-
 <script>
-
     var UserRole = "<%= user.userrole %>";
     var DropMenu;
     var table = $("#field").DataTable();
     var fieldID;
     var OriLength;
     var CurLength;
-
     $(document).ready(function(){
         $(function () {
             if (UserRole === "Admin") {
-                DropMenu = "<li><a href=\"/userprofile\">Profile</a></li>\n" +
+                DropMenu = "<li><a href=\"/userProfile\">Profile</a></li>\n" +
                     "\t\t\t<li><a href=\"/userManagement\">User Management</a></li>\n" +
                     "\t\t\t<li><a href=\"/signout\">Sign Out</a></li>";
                 $("#userMenu").empty();
                 $("#userMenu").append(DropMenu);
             } else if (UserRole === "Regular") {
-                DropMenu = "<li><a href=\"/userprofile\">Profile</a></li>\n" +
+                DropMenu = "<li><a href=\"/userProfile\">Profile</a></li>\n" +
                     "\t\t\t<li><a href=\"/signout\">Sign Out</a></li>";
                 $("#userMenu").empty();
                 $("#userMenu").append(DropMenu);
             }
-
             var field = '<%- JSON.stringify(fieldInfo) %>';
             var username = "<%= user.username %>";
-
             field = JSON.parse(field);
             OriLength = field.length;
             CurLength = OriLength;
-
             for (var i = 0; i < field.length; i++) {
                 // table.append($("<tr><td>" + field[i].locationName + "</td><td>" + field[i].latitude + "</td><td>" + field[i].longitude + "</td></tr>"));
                 table.row.add([
@@ -300,11 +491,9 @@
                     field[i].fieldSizeUnit
                 ]).draw(false);
             }
-
             // table.row(0).data()[0] = "Z";
             // table.draw();
             // console.log(table.row(0).data()[0]);
-
             // var tbl = document.getElementById('field');
             // var rows = tbl.getElementsByTagName('tr');
             // console.log(rows.length);
@@ -314,10 +503,8 @@
             // }
         });
     });
-
     function refresh(id) {
         var tags = document.getElementsByClassName("refresh");
-
         for (var i = 0; i < tags.length; i++) {
             var selectId = tags[i].id;
             var selectDiv = tags[i].id + "Div";
@@ -331,30 +518,23 @@
             }
         }
     }
-
     $('#field tbody').on('click', 'tr', function() {
         selectRow(this)
     });
-
     function selectRow(tbody) {
         fieldID = [];
-
         $(tbody).toggleClass('selected');    //toggle class for the rows selected
-
         var rowSelected = table.rows('.selected').data();    //Store all the data for selected rows'
         console.log(rowSelected);
-
         for (var i = 0; i < rowSelected.length; i ++) {
             // console.log(rowSelected[i][0]);
             fieldID.push(rowSelected[i][0]);
         }
     }
-
     $("#delete").on("click", function () {
         if (confirm("Are you sure you would like to delete this row(s)?") === true) {
             var fieldIDStr = "fieldIDStr=" + fieldID.toString();
             // console.log ("transactionIDStr: " + transactionIDStr);
-
             $.ajax({
                 url: '/deleteField',
                 type: 'GET',
@@ -365,13 +545,11 @@
                     if (!result.error) {
                         window.location.replace('/userProfile');
                     } else {
-
                     }
                 }
             })
         } else { return false;}
     });
-
     $("#add").on("click", function () {
         $(".buttons").css("display", "none");
         $("#addField, #addRow, #deleteRow, #cancel").css("display", "inline");
@@ -379,11 +557,9 @@
         $("tr").removeClass("selected");
         row();
     });
-
     $("#addRow").on("click", function () {
         row();
     });
-
     $("#deleteRow").on("click", function () {
         if (CurLength !== OriLength) {
             table.rows(CurLength - 1).remove().draw(false);
@@ -392,18 +568,15 @@
             alert("Fail!")
         }
     });
-
     $("#edit").on("click", function () {
         var selectedRow = $(".selected");
         // var edit = table.rows('.selected').data();
         // console.log(edit);
-
         if (selectedRow.length !== 0) {
             $(".buttons").css("display", "none");
             $("#editField, #cancel").css("display", "inline");
             $("#field tbody").off("click");
             var edit = table.rows('.selected').data();
-
             for (var i = 0; i < edit.length; i++) {
                 var data = [];
                 for (var z = 0; z < edit[i].length; z++) {
@@ -415,11 +588,9 @@
                     }
                 }
             }
-
         } else {
             alert("Please choose the row you wish to edit");
         }
-
         // if (selectedRow.length === 1) {
         //     $(".buttons").css("display", "none");
         //     $("#editField, #cancel").css("display", "inline");
@@ -443,14 +614,12 @@
         //     alert("Please choose one row to edit");
         // }
     });
-
     $("#cancel").on("click", function () {
         $(".buttons").css("display", "inline");
         $("#addField, #editField, #cancel, #addRow, #deleteRow").css("display", "none");
         $('#field tbody').on('click', 'tr', function() {
             selectRow(this)
         });
-
         for (; OriLength < CurLength; CurLength--) {
             // console.log(OriLength + "   " + CurLength);
             table.rows(CurLength - 1).remove().draw(false);
@@ -459,17 +628,13 @@
                 // console.log(CurLength);
             }
         }
-
         // table.rows(OriLength).remove().draw(false);
         // $(".invisibleRow").removeClass("invisibleRow");
     });
-
     $("#addField, #editField").on("click", function () {
         var url = "/" + $(this).attr("id");
         console.log(url);
-
         // checkField(table.$("input, select").serialize());
-
         if (checkField(table.$("input, select").serialize()) !== false) {
             console.log("TRUE");
             $.ajax({
@@ -490,7 +655,6 @@
             alert("Please fill out all the required fields !")
             console.log("FALSE");
         }
-
         // $.ajax({
         //     type: "get",
         //     url: url,
@@ -506,12 +670,10 @@
         //     }
         // });
     });
-
     function checkField(dataStr) {
         console.log(dataStr);
         console.log(dataStr.split("=").join().split("&").join().split(","));
         var data = dataStr.split("=").join().split("&").join().split(",");
-
         for (var i = 1; i < data.length; i+=2) {
             if (data[i - 1] !== "mainCropVariety") {
                 if (!data[i]) {
@@ -523,17 +685,15 @@
             }
         }
     }
-
     function row(data) {
         CurLength++;
         table.page('first');
-
         table.row.add([
             "<input id='id' name='id' value='" + (('0' + (CurLength)).slice(-2)) + "' readonly>",
             "<input id='locationName' name='locationName' type='text' required>",
             "<select id='latitudeDirection' name='latDir' required>" +
-                "<option>N</option>" +
-                "<option>S</option>" +
+            "<option>N</option>" +
+            "<option>S</option>" +
             "</select>" +
             "<input id='latitudeDegree' name='latDeg' type='number' required>°" +
             "<input id='latitudeMinute' name='latMin' type='number' required>'" +
@@ -546,27 +706,27 @@
             "<input id='longitudeMinute' name='lonMin' type='number' required>'" +
             "<input id='longitudeSecond' name='lonSec' type='number' required>''",
             "<select id='mainCrop' name='mainCrop' required>" +
-                "<option value=''>SELECT THE MAIN CROP</option> " +
-                "<option>ALFALFA</option> " +
-                "<option>BARLEY</option> " +
-                "<option>COTTON</option> " +
-                "<option>FLOWERS</option> " +
-                "<option>MAIZE</option> " +
-                "<option>MILLET</option> " +
-                "<option>PEANUT</option> " +
-                "<option>RICE</option> " +
-                "<option>SORGHUM</option> " +
-                "<option>SOYBEAN</option> " +
-                "<option>SUGARBEET</option> " +
-                "<option>SUGARCANE</option> " +
-                "<option>TEFF</option> " +
-                "<option>TOBACCO</option> " +
-                "<option>WEEDS</option> " +
-                "<option>WHEAT</option> " +
-                "<option>OTHER CEREALS</option> " +
-                "<option>OTHER FRUITS</option> " +
-                "<option>OTHER GRASSES</option> " +
-                "<option>OTHER VEGETABLES</option>" +
+            "<option value=''>SELECT THE MAIN CROP</option> " +
+            "<option>ALFALFA</option> " +
+            "<option>BARLEY</option> " +
+            "<option>COTTON</option> " +
+            "<option>FLOWERS</option> " +
+            "<option>MAIZE</option> " +
+            "<option>MILLET</option> " +
+            "<option>PEANUT</option> " +
+            "<option>RICE</option> " +
+            "<option>SORGHUM</option> " +
+            "<option>SOYBEAN</option> " +
+            "<option>SUGARBEET</option> " +
+            "<option>SUGARCANE</option> " +
+            "<option>TEFF</option> " +
+            "<option>TOBACCO</option> " +
+            "<option>WEEDS</option> " +
+            "<option>WHEAT</option> " +
+            "<option>OTHER CEREALS</option> " +
+            "<option>OTHER FRUITS</option> " +
+            "<option>OTHER GRASSES</option> " +
+            "<option>OTHER VEGETABLES</option>" +
             "</select>",
             "<input id='mainCropVariety' name='mainCropVariety' type='text'>",
             // "<input type='radio' name='irrigation' value='Irrigated' required> IRRIGATED " +
@@ -576,35 +736,34 @@
             // "<input type='radio' name='fertilizedUsed' value='NO' required> NO " +
             // "<input type='radio' name='fertilizedUsed' value='UNKNOWN' required> UNKNOWN ",
             "<select id='irrigation' name='irrigation' required> " +
-                "<option value=''>SELECT THE IRRIGATION METHOD</option> " +
-                "<option>IRRIGATED</option> " +
-                "<option>RAIN-FED</option> " +
-                "<option>UNKNOWN</option> " +
+            "<option value=''>SELECT THE IRRIGATION METHOD</option> " +
+            "<option>IRRIGATED</option> " +
+            "<option>RAIN-FED</option> " +
+            "<option>UNKNOWN</option> " +
             "</select>",
             "<select id='fertilizedUsed' name='fertilizedUsed' required> " +
-                "<option value=''>SELECT THE FERTILIZED USED</option> " +
-                "<option>YES</option> " +
-                "<option>NO</option> " +
-                "<option>UNKNOWN</option> " +
+            "<option value=''>SELECT THE FERTILIZED USED</option> " +
+            "<option>YES</option> " +
+            "<option>NO</option> " +
+            "<option>UNKNOWN</option> " +
             "</select>",
             "<select id='farmingSystem' name='farmingSystem' required> " +
-                "<option value=''>SELECT THE FARMING SYSTEM</option> " +
-                "<option>SEASONAL</option> " +
-                "<option>ROTATION</option> " +
-                "<option>INTERCROPPING</option> " +
-                "<option>PUSH-PULL</option> " +
-                "<option>UNKNOWN</option> " +
+            "<option value=''>SELECT THE FARMING SYSTEM</option> " +
+            "<option>SEASONAL</option> " +
+            "<option>ROTATION</option> " +
+            "<option>INTERCROPPING</option> " +
+            "<option>PUSH-PULL</option> " +
+            "<option>UNKNOWN</option> " +
             "</select>",
             "<input id='fieldSize' name='fieldSize' type='number' required>",
             "<select id='fieldSizeUnit' name='fieldSizeUnit' required> " +
-                "<option value=''>SELECT THE FIELD SIZE UNIT</option> " +
-                "<option>ACRE (acre)</option> " +
-                "<option>HECTARE (ha)</option> " +
-                "<option>SQUARE METER (m2)</option> " +
-                "<option>SQUARE YARD (yd2)</option> " +
+            "<option value=''>SELECT THE FIELD SIZE UNIT</option> " +
+            "<option>ACRE (acre)</option> " +
+            "<option>HECTARE (ha)</option> " +
+            "<option>SQUARE METER (m2)</option> " +
+            "<option>SQUARE YARD (yd2)</option> " +
             "</select>"
         ]).draw(false);
-
         if (!!data) {
             $("#id").val(data[0]);
             $("#locationName").val(data[1]);
@@ -627,25 +786,21 @@
             $("#farmingSystem").val(data[8]);
             $("#fieldSize").val(data[9]);
             $("#fieldSizeUnit").val(data[10]);
-
             // console.log(OriLength);
             // console.log(CurLength);
             table.$("input, select").removeAttr('id');
         }
     }
-
     // function a() {
     //     console.log(table.rows(0).data());
     //     console.log(table.rows(1).data());
     //     console.log(table.rows(2).data());
     //     console.log(table.rows(3).data());
     // }
-
     function checkForm() {
         var oldP=document.getElementById("currentpassword").value;
         var newP=document.getElementById("newpassword").value;
         var confirmP =document.getElementById("Confirmpassword").value;
-
         if (newP != "") {
             if(oldP != "" && confirmP != "") {
                 if(oldP != newP) {
@@ -666,7 +821,6 @@
             }
         } else {return true}
     }
-
     function submit(e) {
         e.preventDefault();
         $.ajax({
@@ -677,13 +831,10 @@
             success: function (result) {
                 if (!result.error) {
                     document.getElementById("modal-footer").style.display = "none";
-
                     document.getElementById("modal-header").style.backgroundColor = "#5cb85c";
-                    document.getElementById("close").innerHTML = "<a href='/userhome'>&times</a>";
-
-                    document.getElementById("header").innerHTML = "Congratulations, Your Data Entry is Successfully Complete !";
+                    document.getElementById("close").innerHTML = "<a href='/userHome'>&times</a>";
+                    document.getElementById("header").innerHTML = "Congratulations, Your Data Entry is Successfully Complete!";
                     document.getElementById("body").innerHTML = "<br>Click X to return to the Home Page.<br>";
-
                     document.getElementById("modal").style.display = "block";
                 } else {
                     alert(result.message);
@@ -691,11 +842,9 @@
             }
         });
     }
-
     $('#submit').submit(function(e) {
         // Prevent form submission
         e.preventDefault();
-
         $.ajax({
             type: "post",
             url: "/userProfile",
@@ -712,6 +861,5 @@
         })
     });
 </script>
-
 </body>
 </html>

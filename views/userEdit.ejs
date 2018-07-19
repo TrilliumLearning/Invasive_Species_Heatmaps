@@ -1,8 +1,8 @@
-<!-- views/profile.ejs -->
+<!-- views/userEdit.ejs -->
 <!doctype html>
 <html>
 <head>
-	<title>FAW/Locust Project</title>
+	<title>FAW/Locust Project - User Management - Edit User</title>
 	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -16,159 +16,188 @@
 	<!--<script src="//unpkg.com/flatpickr"></script>-->
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/flatpickr"></script>
-
-	<style>
-		.banner{
-			position:relative;
+	<style>.banner {
+			position: relative;
 			width: 100%;
 		}
-		table, th{
+
+		table,
+		th {
 			border: 1px solid black;
-			text-align:center;
+			text-align: center;
 		}
-		body { padding-top:80px; word-wrap:break-word; }
-		.btn{
-			font-size:18px;
-			text-align:center;
-			width:80px;
-			padding:5px 5px;
+
+		body {
+			padding-bottom: 80px;
+			word-wrap: break-word;
 		}
-		/* for1024px or less */
-		@media screen and (max-width:1024px) {
-			.btn {
-				font-size: 20px;
-				text-align: center;
-				width: 90px;
-				padding: 5px 5px;
-			}
+
+		.btn {
+			font-size: 18px;
+			text-align: center;
+			width: 80px;
+			padding: 5px 5px;
 		}
-			/* for768px or less */
-			@media screen and (max-width:768px) {
-				.btn {
-					font-size: 13px;
-					text-align: center;
-					width: 70px;
-					padding: 5px 5px;
-				}
-			}
-				/* for414px or less */
-				@media screen and (max-width:414px) {
-					.btn {
-						font-size: 13px;
-						text-align: center;
-						width: 70px;
-						padding: 5px 5px;
-					}
-				}
-					/* for375px or less */
-					@media screen and (max-width:375px) {
-						h1 {
-							font-size: 30px;
-						}
 
-						.btn {
-							font-size: 13px;
-							text-align: center;
-							width: 70px;
-							padding: 5px 5px;
-						}
-					}
-						/* for320px or less */
-						@media screen and (max-width:320px) {
-							h1 {
-								font-size: 25px;
-							}
+		.floating-Box {
+			display: inline-block;
+		}
 
-							.btn {
-								font-size: 13px;
-								text-align: center;
-								width: 70px;
-								padding: 5px 5px;
-							}
-						}
-	</style>
+		.button1 {
+			width: 500px;
+			height: 50px;
+			border-radius: 15px;
+			-webkit-transition-duration: 0.4s;
+			transition-duration: 0.4s;
+			cursor: pointer;
+			background-color: white;
+			color: #f0ad4e;
+			border: 1px solid #f0ad4e;
+		}
 
+		.button1:hover {
+			background-color: #f0ad4e;
+			color: white;
+		}
+
+		/*
+                @media screen and (max-width:1024px) {
+                    .btn {
+                        font-size: 20px;
+                        text-align: center;
+                        width: 90px;
+                        padding: 5px 5px;
+                    }
+                }
+
+                    @media screen and (max-width:768px) {
+                        .btn {
+                            font-size: 13px;
+                            text-align: center;
+                            width: 70px;
+                            padding: 5px 5px;
+                        }
+                    }
+
+                        @media screen and (max-width:414px) {
+                            .btn {
+                                font-size: 13px;
+                                text-align: center;
+                                width: 70px;
+                                padding: 5px 5px;
+                            }
+                        }
+
+                            @media screen and (max-width:375px) {
+                                h1 {
+                                    font-size: 30px;
+                                }
+                                .btn {
+                                    font-size: 13px;
+                                    text-align: center;
+                                    width: 70px;
+                                    padding: 5px 5px;
+                                }
+                            }
+
+                                @media screen and (max-width:320px) {
+                                    h1 {
+                                        font-size: 25px;
+                                    }
+                                    .btn {
+                                        font-size: 13px;
+                                        text-align: center;
+                                        width: 70px;
+                                        padding: 5px 5px;
+                                    }
+                                }*/</style>
 </head>
+<ul class="navul" style="height: 60px;
+    background: #000000;">
+	<a class="navul" href="//aworldbridge.com" style="background: #000000;
+    width: 500px;
+    height: 60px;">
+		<img class="banner" src="../pic/NewWBBanner.jpg" style="width: 500px;
+    height: 60px;
+    margin-left: 480px;" />
+	</a>
+</ul>
 <body>
-<div class="container">
-	<div class="text-center">
-		<a href="//aworldbridge.com"><img class="banner" src="/pic/NewWBBanner.jpg" style="height:147px" /></a>
-		<h1><span class="fa fa-anchor"></span> FAW/Locust - Edit User(s) </h1>
-		<h4><span class="fa fa-user"></span>&nbsp;<strong>Account Name</strong>: <%= user.username %></h4><br>
+<div class="container" style="width: 750px;">
+	<div class="page-header text-center header" style="margin-top: 50px;">
+		<h1><span class="fa fa-anchor"></span><strong>FAW/Locust Project -  Edit User</strong></h1>
+		<h4><span class="fa fa-user"></span>&nbsp;<strong>Account Name</strong>: <%= user.username %></h4>&nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;
 	</div>
-
-	<div class="col-sm-6 col-sm-offset-3">
-
+	<div class="container" style="width: 500px;
+    padding: 0px;">
 		<!-- show any messages that come back with authentication -->
-        <% if (message.length > 0) { %>
-		<div class="alert alert-danger"><%= message %></div>
-        <% } %>
-
+		<% if (message.length > 0) { %>
+		<div class="alert alert-danger">
+			<%= message %>
+		</div>
+		<% } %>
 		<form onsubmit="return checkForm()" id="editForm" action="/editUser" method="post">
 			<div class="form-group">
 				<label for="username">Username:</label>
-				<input type="text" id="username" class="form-control" name="Username" value="<%= userName %>" readonly>
+				<input type="text" id="username" class="form-control" name="Username" value="<%= userName %>" readonly style="height: 50px;">
 			</div>
 			<div class="form-group">
 				<label for="firstName">First Name:</label>
-				<input type="text" id="firstName" class="form-control" name="First_Name" value="<%= firstName %>">
+				<input type="text" id="firstName" class="form-control" name="First_Name" value="<%= firstName %>" style="height: 50px;">
 			</div>
 			<div class="form-group">
 				<label for="lastName">Last Name:</label>
-				<input type="text" id="lastName" class="form-control" name="Last_Name" value="<%= lastName %>">
-			</div><br>
+				<input type="text" id="lastName" class="form-control" name="Last_Name" value="<%= lastName %>" style="height: 50px;">
+			</div>
+			<br>
 			<div class="form-group">
-				<h4 class="floating-Box">Reset Password</h4>&nbsp;&nbsp;&nbsp;<input type="checkbox" class="checkpass">
+				<h4 class="floating-Box" style="width: 150px;"><strong>Reset Password</strong></h4>
+				<input type="checkbox" class="checkpass floating-Box">
 				<div>
 					<label for="newpassword">New Password:</label>
-					<input type="password" id="newpassword" class="form-control" name="newPassword" maxlength="2000px">
+					<input type="password" id="newpassword" class="form-control" name="newPassword" maxlength="2000px" style="height: 50px;">
 				</div>
 				<div>
 					<label for="Confirmpassword">Confirm New Password:</label>
-					<input type="password" id="Confirmpassword" class="form-control" name="confirmPassword" maxlength="2000px">
+					<input type="password" id="Confirmpassword" class="form-control" name="confirmPassword" maxlength="2000px" style="height: 50px;">
 				</div>
 			</div>
 			<div class="form-group">
-				<label>User Role</label><br>
-				<select id="UsErRoLe" name="User_Role" class="form-control">
+				<label>User Role:</label>
+				<br>
+				<select id="UsErRoLe" name="User_Role" class="form-control" style="height: 50px;">
 					<option class="admin" value="Admin">Admin</option>
 					<option class="regular" value="Regular">Regular</option>
 				</select>
 			</div>
 			<div class="form-group">
-				<label>Status</label>
-				<select id="StAtUs" name="Status" class="form-control">
-					<option class="active"  value="Active">Active</option>
+				<label>Status:</label>
+				<select id="StAtUs" name="Status" class="form-control" style="height: 50px;">
+					<option class="active" value="Active">Active</option>
 					<option class="suspended" value="Suspended">Suspended</option>
 					<option class="never_logged_in" value="Never Logged In">Never Logged In</option>
 				</select>
-			</div><br>
-
-			<button type="submit" class="btn btn-warning btn-lg"> Update </button>
-			<a href="/userManagement" class="btn floating-Box">Cancel</a>
-
+			</div>
+			<br>
+			<button type="submit" class="button1"> Update </button>
+			<hr>
+			<a href="/userManagement" style="margin-left: 230px;">Cancel</a>
 		</form>
 	</div>
 </div>
 <script>
     var UserRole = "<%= userrole %>";
     var UserStatus = "<%= status %>"
-
     console.log("aefwefaw: "+ "<%= userrole %>");
     $(document).ready(function(){
-
         $("#UsErRoLe").val(UserRole);
-
         $("#StAtUs").val(UserStatus);
-
     });
     function checkForm() {
         var newP=document.getElementById("newpassword").value;
         var confirmP =document.getElementById("Confirmpassword").value;
         if ($(".checkpass").prop('checked')){
-
             if(newP!=="" && confirmP!=="") {
-
                 if(newP === confirmP) {
                     return true;
                 } else {
@@ -196,11 +225,8 @@
                     window.location.replace('/userManagement')                }
             }
         });
-
         return false;
     });
-
-
 </script>
 </body>
 </html>

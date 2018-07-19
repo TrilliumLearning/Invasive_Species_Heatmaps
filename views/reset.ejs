@@ -1,8 +1,8 @@
-<!-- views/profileBK.ejs -->
+<!-- views/reset.ejs -->
 <!doctype html>
 <html>
 <head>
-    <title>FAW/Locust Project - Reset Password</title>
+    <title>FAW/Locust Project - Change Password</title>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/Profile.css" type="text/css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
@@ -16,93 +16,105 @@
     <!--<script src="//unpkg.com/flatpickr"></script>-->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/flatpickr"></script>
-    <style>.banner {
-            position: relative;
-            left: 60px;
-            top: -35px;
-            width: 80%;
-        }
-
-        body {
-            padding-top: 80px;
+    <style>body {
+            padding-bottom: 80px;
             word-wrap: break-word;
         }
 
-        .container1 {
-            margin-left: 100px;
+        .navul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
         }
 
-        @media screen and (max-width: 320px){
-            strong {
-                margin-left: -100px;
-            }
-
-            h5 {
-                margin-left: -100px;
-            }
-
-            input {
-                width: 38%;
-            }
-        }
-        @media  screen and (min-width:330px) and (max-width: 375px){
-            strong {
-                margin-left: -100px;
-            }
-
-            h5 {
-                margin-left: -100px;
-            }
-
-            input {
-                width: 47%;
-            }
-        }
-        @media  screen and (min-width:380px) and (max-width: 414px){
-            strong {
-                margin-left: -100px;
-            }
-
-            h5 {
-                margin-left: -100px;
-            }
+        .button1 {
+            width: 500px;
+            height: 50px;
+            border-radius: 15px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            background-color: white;
+            color: #f0ad4e;
+            border: 1px solid #f0ad4e;
         }
 
-    </style>
+        .button1:hover {
+            background-color: #f0ad4e;
+            color: white;
+        }
+
+        /*
+                @media screen and (max-width: 320px){
+                    strong {
+                        margin-left: -100px;
+                    }
+                    h5 {
+                        margin-left: -100px;
+                    }
+                    input {
+                        width: 38%;
+                    }
+                }
+                @media  screen and (min-width:330px) and (max-width: 375px){
+                    strong {
+                        margin-left: -100px;
+                    }
+                    h5 {
+                        margin-left: -100px;
+                    }
+                    input {
+                        width: 47%;
+                    }
+                }
+                @media  screen and (min-width:380px) and (max-width: 414px){
+                    strong {
+                        margin-left: -100px;
+                    }
+                    h5 {
+                        margin-left: -100px;
+                    }
+                }*/</style>
 </head>
-<body>
-<div class="container">
-    <a href="//aworldbridge.com">
-        <img class="banner" src="/pic/NewWBBanner.jpg" />
+<ul class="navul" style="height: 60px;
+    background: #000000;">
+    <a class="navul" href="//aworldbridge.com" style="background: #000000;
+    width: 500px;
+    height: 60px;">
+        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 500px;
+    height: 60px;
+    margin-left: 520px;" />
     </a>
-    <ul id="userMenu" class="dropdown-menu dropdown-menu-right">
-    </ul>
-    <div class="container1">
-        <br>
-        <br>
-        <form id="submit" onsubmit="return checkForm()" action="" method="post">
-            <br>
-            <h4><strong>Password Change</strong>:   </h4>
-            <div>
-                <h5>New Password: <input type="password" id="newpassword" name="newpassword" maxlength="2000px" style="margin-left:74px;"> </h5>
-            </div>
-            <div>
-                <h5>Confirm New Password: <input type="password" id="Confirmpassword" name="Confirmpassword" maxlength="2000px" style="margin-left:19px;"> </h5>
-            </div>
-            <div>
-                <h5>Username (email): <input type="email" name="username" maxlength="2000px" value="<%= user.username %>" style="margin-left:54px;" readonly> </h5>
-            </div>
-            <button id="SS" type="submit" class="btn btn-warning btn-sm"> Submit </button>
-            <a href="/login" class="btn btn-warning btn-sm">Cancel</a>
-        </form>
-    </div>
+</ul>
+<body>
+<div class="container" style="width: 500px;
+    margin-top: 10px;
+    padding: 0px;">
+    <h1><span class="fa fa-sign-in"></span> Change Password</h1>
+    <form id="submit" onsubmit="return checkForm()" action="" method="post">
+        <div class="form-group">
+            <label>New Password:</label>
+            <input type="password" id="newpassword" class="form-control" name="newpassword" maxlength="2000px" style="height: 50px;">
+        </div>
+        <div class="form-group">
+            <label>Confirm New Password: </label>
+            <input type="password" class="form-control" id="Confirmpassword" name="Confirmpassword" maxlength="2000px" style="height: 50px;">
+        </div>
+        <div class="form-group">
+            <label>Username (email): </label>
+            <input type="email" name="username" class="form-control" maxlength="2000px" value="<%= user.username %>" readonly style="height: 50px;">
+        </div>
+        <button id="SS" type="submit" class="button1"> Submit </button>
+    </form>
+    <hr>
+    <p style="margin-left: 230px;">
+        <a href="/login">Cancel</a></p>
 </div>
 <script>
-
     function checkForm() {
         var newP=document.getElementById("newpassword").value;
         var confirmP =document.getElementById("Confirmpassword").value;
-
         if (newP === confirmP) {
             return true;
         } else {
@@ -110,11 +122,9 @@
             return false;
         }
     }
-
     $('#SS').submit(function(e) {
         // Prevent form submission
         e.preventDefault();
-
         $.ajax({
             type: "post",
             url: "/reset/:token",
