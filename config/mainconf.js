@@ -17,14 +17,14 @@ module.exports = {
         'port'    :  3306
     },
 
-    'Session_db': 'FAW_PUB',
-    'Login_db': 'FAW_PUB',
+    'Session_db': 'Invasive_Species_Heatmaps',
+    'Login_db': 'Invasive_Species_Heatmaps',
     'Login_table': 'Users',
-    'Upload_db': 'FAW_PUB',
+    'Upload_db': 'Invasive_Species_Heatmaps',
 
     'Server_Port': 9087,
 
-    'Upload_Path': 'http://pub.faw.aworldbridgelabs.com/uploadfiles',
+    'Upload_Path': 'http://ish.aworldbridgelabs.com/uploadfiles',
 
     'cropHealth': {
         'good': 21,
