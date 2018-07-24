@@ -605,7 +605,7 @@ module.exports = function (app, passport) {
                         connection.query(statement, function (err, results) {
                             if (err) {
                                 console.log(err);
-                                res.json({"error": true, "message": "Failed to edit field!"});
+                                res.json({"error": true, "message": "Failed to edit field."});
                             } else {
                                 res.json({"error": false, "message": "Successfully saved edits!"})
                             }
@@ -797,11 +797,11 @@ module.exports = function (app, passport) {
 
                 if (err) {
                     console.log(err);
-                    status[0].errStatus = "fail";
+                    status[0].errStatus = "Failed to apply filter.";
                     res.send(status);
                     res.end();
                 } else if (results.length === 0) {
-                    status[0].errStatus = "no data entry";
+                    status[0].errStatus = "No data entries found.";
                     res.send(status);
                     res.end();
                 } else {
@@ -1031,7 +1031,7 @@ module.exports = function (app, passport) {
 
             if (err) {
                 console.log(err);
-                res.json({"error": true, "message": "Fail"});
+                res.json({"error": true, "message": "Failed to save edit."});
             } else {
                 console.log(results);
                 if (results[0].length > 0) {
@@ -1041,7 +1041,7 @@ module.exports = function (app, passport) {
                     editData = results[1][0];
                     res.json({"error": false, "message": "/editData"});
                 } else {
-                    res.json({"error": true, "message": "Fail"});
+                    res.json({"error": true, "message": "Failed to edit."});
                 }
             }
         });
@@ -1724,11 +1724,11 @@ function dataList(sqlStatement, res) {
 
         if (err) {
             console.log(err);
-            errStatus[0].errMsg = "fail";
+            errStatus[0].errMsg = "Failed to apply filter.";
             res.send(errStatus);
             res.end();
         } else if (results[0].length === 0 && results[1].length === 0) {
-            errStatus[0].errMsg = "no data entry";
+            errStatus[0].errMsg = "No data entries found.";
             res.send(errStatus);
             res.end();
         } else {

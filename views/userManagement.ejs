@@ -280,10 +280,10 @@
     padding: 0px;">
                 <h4 class="floatingBox" id="Role" style="width: 345px;
     margin-bottom: 10px;"><strong>User Role:</strong></h4>
-                <input type="radio" name="userrole" id="Regular" value="Regular">
+                <input class="radio2" type="radio" name="userrole" id="Regular" value="Regular">
                 <h5 class="floatingBox click" style="width: 315px;
     margin-top: 20px;">Regular</h5>
-                <input type="radio" name="userrole" id="Admin" value="Admin">
+                <input class="radio2" type="radio" name="userrole" id="Admin" value="Admin">
                 <h5 class="floatingBox click" style="width: 315px;
     margin-top: 20px;">Admin</h5>
             </div>
@@ -294,6 +294,7 @@
             <input type="submit" onclick="query()" id="Filter" class="button1" value="Filter">
             <button id="editUserButton" class="btn delete-row btn-default button2">Edit User</button>
             <button id="suspendUserButton" class="btn btn-default button2" style="width: 140px;">Suspend User(s)</button>
+            <button id="showButton" class="btn btn-default button2">Show All</button>
         </div>
         <br>
         <h4><strong>Most Recent Records:</strong></h4>
@@ -407,6 +408,16 @@
                             }
                         })
                     } else { return false;}
+                });
+                $("#showButton").on("click", function () {
+                    table.clear();
+                    table.draw();
+                    queryAndDisplay("statusDel=" + "Active");
+                    $(".clearForm input[type='text']").val('');
+                    $(".date").val('');
+                    $("input:radio[class^=radio2]").each(function(i) {
+                        this.checked = false;
+                    })
                 });
             });
             function dropDown() {

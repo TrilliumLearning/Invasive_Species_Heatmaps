@@ -414,7 +414,7 @@
         </div>
     </div>
     <div class="container" style="width: 900px;">
-        <div class="center floating-Box" style="width: 490px;">
+        <div class="center floating-Box clearForm" style="width: 490px;">
             <h4 class="floating-Box" style="width: 220px;"><strong>Date Range:&nbsp;</strong></h4>
             <div style="width: 350px;">
                 <h5 class="floating-Box" style="width: 50px;">From:&nbsp;</h5>&nbsp;
@@ -433,7 +433,7 @@
     border: 1px solid #c8c8c8;">
             </div>
         </div>
-        <div class="floating-Box" style="width: 350px;">
+        <div class="floating-Box clearForm" style="width: 350px;">
             <h4 class="floatingBox" style="width: 220px;"><strong>User Name:&nbsp;</strong></h4>
             <div class="name" style="width: 375px;">
                 <h5 class="floating-Box">First Name:</h5>
@@ -454,7 +454,7 @@
     border: 1px solid #c8c8c8;" value="">
             </div>
         </div>
-        <div class="center" style="width: 900px;">
+        <div class="center clearForm" style="width: 900px;">
             <h4><strong>Other Customized Filters</strong></h4>
             <h5 class="floatingBox3" style="width: 490px;">Category1:&nbsp;&nbsp;<select class="filter" style="width: 260px;
     height: 40px;
@@ -633,9 +633,9 @@
     height: 40px;">
             <button class="button1" type="button" onclick="query()">Filter</button>
             <button id="deleteButton" class="btn btn-primary btn-sm button" type="button" style="height: 40px;
-    width: 110px; float: left">Delete</button>
-            <!--<button id="button" class="btn btn-primary btn-sm" type="button">Edit</button>-->
-            <!--<button class="btn btn-primary btn-sm button" type="button">Delete</button>-->
+    width: 110px; float: left; margin-right: 5px;">Delete</button>
+            <button id="showButton" class="btn btn-primary btn-sm button" type="button" style="height: 40px;
+    width: 110px; float: left">Show All</button>
         </div>
         <br>
         <div class="center" style="width: 850px;">
@@ -873,6 +873,16 @@
                     }
                 })
             } else { return false;}
+        });
+        $("#showButton").on("click", function () {
+            table.clear();
+            table.draw();
+            trapTable.clear();
+            trapTable.draw();
+            queryAndDisplay("statusDel=" + "Active" + "&firstName=" + "<%= user.firstName %>" + "&lastName=" + "<%= user.lastName %>");
+            $(".clearForm input[type='text']").val('');
+            $(".filter").val('');
+            $(".date").val('');
         });
     });
     function dropDown() {
