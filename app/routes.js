@@ -106,9 +106,9 @@ module.exports = function (app, passport) {
         connection.query(statement, function (err, results, fields) {
             if (err) {
                 console.log(err);
-                res.json({"error": true, "message": "An unexpected error occurred !"});
+                res.json({"error": true, "message": "An unexpected error occurred."});
             } else if (results.length === 0) {
-                res.json({"error": true, "message": "Please verify your email address !"});
+                res.json({"error": true, "message": "Please verify your email address."});
             } else {
                 var username = req.body.username;
                 var subject = "Passwprd Reset";
@@ -208,7 +208,7 @@ module.exports = function (app, passport) {
 
             if (err) {
                 console.log(err);
-                res.json({"error": true, "message": "An unexpected error occurred !"});
+                res.json({"error": true, "message": "An unexpected error occurred."});
                 res.end();
             } else {
                 var username = req.body.username;
@@ -254,7 +254,7 @@ module.exports = function (app, passport) {
 
             if (err) {
                 console.log(err);
-                res.json({"error": false, "message": "An unexpected error occurred !"});
+                res.json({"error": false, "message": "An unexpected error occurred."});
                 res.end();
             } else {
                 res.json({"error": false, "message": "Success"});
@@ -283,7 +283,7 @@ module.exports = function (app, passport) {
                 connection.query(myStat, function(err, user) {
                     if (err) {
                         console.log(err);
-                        res.send("An unexpected error occurred !");
+                        res.send("An unexpected error occurred.");
                     } else {
                         var subject = "Account Activated";
                         var text = 'Hello,\n\n' + 'This is a confirmation for your account, ' + changeMail(username) + ' has just been activated.\n';
@@ -318,7 +318,7 @@ module.exports = function (app, passport) {
                         console.log(err);
                         // res.send("Token Insert Fail!");
                         // res.end();
-                        res.json({"error": true, "message": "Token Insert Fail !"});
+                        res.json({"error": true, "message": "Token insert failed."});
                     } else {
                         done(err, token);
                     }
@@ -341,12 +341,12 @@ module.exports = function (app, passport) {
                 smtpTrans.sendMail(message, function(error){
                     if(error){
                         console.log(error.message);
-                        res.json({"error": true, "message": "An unexpected error occurred !"});
+                        res.json({"error": true, "message": "An unexpected error occurred."});
                     } else {
                         // res.send('Message sent successfully! Please check your email inbox.');
                         console.log('Message sent successfully!');
                         // res.redirect('/login');
-                        res.json({"error": false, "message": "Message sent successfully !"});
+                        res.json({"error": false, "message": "Message sent successfully."});
                         // alert('An e-mail has been sent to ' + req.body.username + ' with further instructions.');
                     }
                 });
@@ -354,7 +354,7 @@ module.exports = function (app, passport) {
         ], function(err) {
             if (err) return next(err);
             // res.redirect('/forgot');
-            res.json({"error": true, "message": "An unexpected error occurred !"});
+            res.json({"error": true, "message": "An unexpected error occurred."});
         });
     }
 
@@ -420,7 +420,7 @@ module.exports = function (app, passport) {
         connection.query(myStat, myVal, function (err, rows) {
             if(err){
                 console.log(err);
-                res.json({"error": true, "message": "Fail !"});
+                res.json({"error": true, "message": "Submission failed!"});
             } else {
                 var passComp = bcrypt.compareSync(newPass.currentpassword, user.password);
                 if (!!req.body.newpassword && passComp) {
@@ -430,13 +430,13 @@ module.exports = function (app, passport) {
                         //console.log(result);
                         if (err) {
                             console.log(err);
-                            res.json({"error": true, "message": "Fail !"});
+                            res.json({"error": true, "message": "Passwords don't match."});
                         } else {
-                            res.json({"error": false, "message": "Success !"});
+                            res.json({"error": false, "message": "Successfully changed password!"});
                         }
                     });
                 } else {
-                    res.json({"error": false, "message": "Success !"});
+                    res.json({"error": false, "message": "Changes saved."});
                 }
             }
         });
@@ -450,7 +450,7 @@ module.exports = function (app, passport) {
                 connection.query(statement, function (err, results) {
                     if (err) {
                         console.log(err);
-                        res.json({"error": true, "message": "Fail !"});
+                        res.json({"error": true, "message": "Deletion failed!"});
                     } else {
                         // console.log(results);
                         done(err, results[0].Length);
@@ -474,7 +474,7 @@ module.exports = function (app, passport) {
                         connection.query(statement, function (err, results) {
                             if (err) {
                                 console.log(err);
-                                res.json({"error": true, "message": "Fail !"});
+                                res.json({"error": true, "message": "Deletion failed!"});
                             } else {
                                 done();
                             }
@@ -487,7 +487,7 @@ module.exports = function (app, passport) {
                 connection.query(statement, function (err, results) {
                     if (err) {
                         console.log(err);
-                        res.json({"error": true, "message": "Fail !"});
+                        res.json({"error": true, "message": "Deletion failed!"});
                     } else {
                         done(err, results);
                         // res.json({"error": false, "message": "Success !"})
@@ -503,9 +503,9 @@ module.exports = function (app, passport) {
                         connection.query(statement, function (err, results) {
                             if (err) {
                                 console.log(err);
-                                res.json({"error": true, "message": "Fail !"});
+                                res.json({"error": true, "message": "Deletion failed"});
                             } else {
-                                res.json({"error": false, "message": "Success !"})
+                                res.json({"error": false, "message": "Successfully deleted an entry!"})
                             }
                         });
                     }
@@ -548,9 +548,9 @@ module.exports = function (app, passport) {
                         connection.query(statement, function (err, results) {
                             if (err) {
                                 console.log(err);
-                                res.json({"error": true, "message": "Fail !"});
+                                res.json({"error": true, "message": "Failed to add field."});
                             } else {
-                                res.json({"error": false, "message": "Success !"})
+                                res.json({"error": false, "message": "Successfully added field!"})
                             }
                         });
                     }
@@ -605,9 +605,9 @@ module.exports = function (app, passport) {
                         connection.query(statement, function (err, results) {
                             if (err) {
                                 console.log(err);
-                                res.json({"error": true, "message": "Fail !"});
+                                res.json({"error": true, "message": "Failed to edit field!"});
                             } else {
-                                res.json({"error": false, "message": "Success !"})
+                                res.json({"error": false, "message": "Successfully saved edits!"})
                             }
                         });
                     }
