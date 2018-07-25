@@ -1,8 +1,8 @@
-<!-- views/profile.ejs -->
+<!-- views/form.ejs -->
 <!doctype html>
 <html>
 <head>
-    <title>FAW/Locust Project -  Data Entry</title>
+    <title>Invasive Species Heatmap Project -  Data Entry</title>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/style_final.css" type="text/css">
     <link rel="stylesheet" href="/css/multi-select.css" media="screen" type="text/css">
@@ -102,7 +102,7 @@
         </div>
     </script>
     <style>
-        body      { padding-top:80px; word-wrap:break-word; }
+        body      { padding-bottom:80px; word-wrap:break-word; }
         #detailedFormScouting { display: none; }
         #detailedFormTrap { display: none; }
         #hide { display: none; }
@@ -200,9 +200,18 @@
     </style>
 
 </head>
+<div class="navul" style="height: 60px;
+    background: #000000;">
+    <a class="navul" href="//aworldbridge.com" style="background: #000000;
+    width: 500px;
+    height: 60px;">
+        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 500px;
+    height: 60px;
+    margin: auto; display: block;" />
+    </a>
+</div>
 <body onload="getLocation()">
 <div class="container">
-    <a href="//aworldbridge.com"><img class="banner" src="/pic/NewWBBanner.jpg"/></a>
     <div id="modal" class="modal">
         <!-- Modal content -->
         <div id="modal-content">
@@ -609,7 +618,7 @@
                                     document.getElementById("modal-header").style.backgroundColor = "#5cb85c";
                                     document.getElementById("close").innerHTML = "<a href='/userhome'>&times</a>";
 
-                                    document.getElementById("header").innerHTML = "Congratulations, Your Data Entry is Successfully Complete !";
+                                    document.getElementById("header").innerHTML = "Congratulations, your data entry has been successfully completed!";
                                     document.getElementById("body").innerHTML = "<br>Click X to return to the Home Page.<br>";
 
                                     document.getElementById("modal").style.display = "block";
@@ -647,7 +656,7 @@
                                     document.getElementById("modal-header").style.backgroundColor = "#5cb85c";
                                     document.getElementById("close").innerHTML = "<a href='/userhome'>&times</a>";
 
-                                    document.getElementById("header").innerHTML = "Congratulations, Your Data Entry is Successfully Complete !";
+                                    document.getElementById("header").innerHTML = "Congratulations, your data entry has been successfully completed!";
                                     document.getElementById("body").innerHTML = "<br>Click X to return to the Home Page.<br>";
 
                                     document.getElementById("modal").style.display = "block";
@@ -721,7 +730,7 @@
     //Get geolocation and map preview
     function getLocation() {
 
-        $("#locationDiv").append($("<h4 id='latitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Latitude: </h4><h4 id='latitudeStatus'>Locating......</h4><h4 id='longitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longitude: </h4><h4 id='longitudeStatus'>Locating......</h4>"));
+        $("#locationDiv").append($("<h4 id='latitudeTitle''>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Latitude: &nbsp;&nbsp;&nbsp;</h4><h4 id='latitudeStatus'>Locating......</h4><h4 id='longitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longitude: </h4><h4 id='longitudeStatus'>Locating......</h4>"));
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -811,11 +820,11 @@
         var latitude = [];
         var longitude = [];
         if (lati && long) {
-            document.getElementById("locationNote").innerHTML = "Note: Please Verify Latitude/Longitude and Change if is Incorrect !";
+            document.getElementById("locationNote").innerHTML = "Note: Please verify the Latitude/Longitude and change if it is incorrect.";
             latitude = lati.split(" ");
             longitude = long.split(" ");
         } else {
-            document.getElementById("locationNote").innerHTML = "Note: Please Manually Enter Latitude/Longitude !";
+            document.getElementById("locationNote").innerHTML = "Note: Please manually enter the Latitude/Longitude.";
         }
 
         var latitudeTitle = $("#latitudeTitle");

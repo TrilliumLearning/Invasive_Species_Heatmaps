@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>FAW/Locust Project -  Data Entry</title>
+    <title>Invasive Species Heatmap Project -  Data Entry</title>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/style_final.css" type="text/css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
@@ -408,11 +408,11 @@
         var latitude = [];
         var longitude = [];
         if (lati && long) {
-            document.getElementById("locationNote").innerHTML = "Note: Please Verify Latitude/Longitude and Change if is Incorrect !";
+            document.getElementById("locationNote").innerHTML = "Note: Please verify the Latitude/Longitude and change if it is incorrect.";
             latitude = lati.split(" ");
             longitude = long.split(" ");
         } else {
-            document.getElementById("locationNote").innerHTML = "Note: Please Manually Enter Latitude/Longitude !";
+            document.getElementById("locationNote").innerHTML = "Note: Please manually enter the Latitude/Longitude.";
         }
 
         var latitudeTitle = $("#latitudeTitle");
@@ -630,7 +630,7 @@
                                     document.getElementById("modal-header").style.backgroundColor = "#5cb85c";
                                     document.getElementById("close").innerHTML = "<a href='/userhome'>&times</a>";
 
-                                    document.getElementById("header").innerHTML = "Congratulations, Your Data Entry is Successfully Complete !";
+                                    document.getElementById("header").innerHTML = "Congratulations, your data entry has been successfully completed!";
                                     document.getElementById("body").innerHTML = "<br>Click X to return to the Home Page.<br>";
 
                                     document.getElementById("modal").style.display = "block";

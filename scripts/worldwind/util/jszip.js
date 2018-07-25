@@ -910,7 +910,7 @@ var fileAdd = function(name, data, o) {
         o.binary = true;
 
         if (!dataType && !(data instanceof CompressedObject)) {
-            throw new Error("The data of '" + name + "' is in an unsupported format !");
+            throw new Error("The data of '" + name + "' is in an unsupported format.");
         }
 
         // special case : it's way easier to work with Uint8Array than with ArrayBuffer
@@ -1430,7 +1430,7 @@ var out = {
             var compressionName = file.options.compression || options.compression.toUpperCase();
             var compression = compressions[compressionName];
             if (!compression) {
-                throw new Error(compressionName + " is not a valid compression method !");
+                throw new Error(compressionName + " is not a valid compression method.");
             }
             var compressionOptions = file.options.compressionOptions || options.compressionOptions || {};
 

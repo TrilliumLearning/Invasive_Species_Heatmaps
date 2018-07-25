@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>FAW/Locust Project -  Data Edit</title>
+    <title>Invasive Species Heatmap Project -  Data Edit</title>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/style_final.css" type="text/css">
     <link rel="stylesheet" href="/css/multi-select.css" media="screen" type="text/css">
@@ -102,18 +102,14 @@
     </script>
     <!--<script src="//unpkg.com/flatpickr@4.1.1/dist/flatpickr.js"></script>-->
     <style>
-        body 		{ padding-top:80px; word-wrap:break-word; }
+        body 		{ padding-bottom:80px; word-wrap:break-word; }
         #detailedFormScouting { display: none; }
         #detailedFormTrap { display: none; }
         #hide { display: none; }
         .FAW        { display: none; }
         #stay, #cancel {  position: relative;  width: 20%;  left: 20%;  }
         #leave, #clear {  position: relative;  width: 20%;  left: 60%;  }
-        .banner{
-            position:relative;
-            left:140px;
-            width:75%;
-        }
+
         .column {
             float:right;
             position:relative;
@@ -148,9 +144,18 @@
     </style>
 
 </head>
+<div class="navul" style="height: 60px;
+    background: #000000;">
+    <a class="navul" href="//aworldbridge.com" style="background: #000000;
+    width: 500px;
+    height: 60px;">
+        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 500px;
+    height: 60px;
+    margin: auto; display: block;" />
+    </a>
+</div>
 <body>
 <div class="container">
-    <a href="//aworldbridge.com"><img class="banner" src="/pic/NewWBBanner.jpg"/></a>
     <div id="modal" class="modal">
         <!-- Modal content -->
         <div id="modal-content">
@@ -173,7 +178,7 @@
             <form id = "general" method = "post">
 
                 <h4>Transaction ID: &nbsp;&nbsp;&nbsp;</h4><input id="transactionID" name="transactionID" type="text" value="<%= data.transactionID %>" readonly><br><br>
-                <h4>Your Name: &nbsp;&nbsp;&nbsp;</h4><input id="firstName" type="text" value="<%= user.firstName %>" readonly><input id="lastName" type="text" value="<%= user.lastName %>" readonly><br><br>
+                <h4>Your Name: &nbsp;&nbsp;&nbsp;</h4><input id="firstName" type="text" value="<%= user.firstName %>" readonly><br><br><input id="lastName" type="text" value="<%= user.lastName %>" readonly><br><br>
                 <h4>1 . Date: &nbsp;&nbsp;&nbsp;</h4><input id="DATE1" name="Date" class="date" value="<%= data.Date %>" required><br><br>
                 <h4>What data do you want to collect (select at least one)? &nbsp;&nbsp;&nbsp;</h4>
                 <select class="clearGen" id='entryType' name="Entry_type" required>
@@ -492,7 +497,7 @@
         var latitude = "<%= data.Latitude %>".split(" ");
         var longitude = "<%= data.Longitude %>".split(" ");
 
-        $("#locationDiv").append($("<h4 id='latitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Latitude: </h4><h4 id='longitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longitude: </h4>"));
+        $("#locationDiv").append($("<h4 id='latitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Latitude: &nbsp;&nbsp;&nbsp</h4><h4 id='longitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longitude: </h4>"));
         var latitudeTitle = $("#latitudeTitle");
         var latitudeSelect = $("<select id='latitudeDirection' name='Latitude_direction' required>");
         latitudeTitle.append(latitudeSelect);
@@ -681,7 +686,7 @@
                                     document.getElementById("modal-header").style.backgroundColor = "#5cb85c";
                                     document.getElementById("close").innerHTML = "<a href='/userhome'>&times</a>";
 
-                                    document.getElementById("header").innerHTML = "Congratulations, Your Edit is Successfully Complete !";
+                                    document.getElementById("header").innerHTML = "Congratulations, your edit was successfully submitted!";
                                     document.getElementById("body").innerHTML = "<br>Click X to return to the Home Page.<br>";
 
                                     document.getElementById("modal").style.display = "block";
@@ -719,7 +724,7 @@
                                     document.getElementById("modal-header").style.backgroundColor = "#5cb85c";
                                     document.getElementById("close").innerHTML = "<a href='/userhome'>&times</a>";
 
-                                    document.getElementById("header").innerHTML = "Congratulations, Your Edit is Successfully Complete !";
+                                    document.getElementById("header").innerHTML = "Congratulations, your edit was successfully submitted!";
                                     document.getElementById("body").innerHTML = "<br>Click X to return to the Home Page.<br>";
 
                                     document.getElementById("modal").style.display = "block";
@@ -794,11 +799,11 @@
         var latitude = [];
         var longitude = [];
         if (lati && long) {
-            document.getElementById("locationNote").innerHTML = "Note: Please Verify Latitude/Longitude and Change if is Incorrect !";
+            document.getElementById("locationNote").innerHTML = "Note: Please verify the Latitude/Longitude and change if it is incorrect.";
             latitude = lati.split(" ");
             longitude = long.split(" ");
         } else {
-            document.getElementById("locationNote").innerHTML = "Note: Please Manually Enter Latitude/Longitude !";
+            document.getElementById("locationNote").innerHTML = "Note: Please manually enter the Latitude/Longitude.";
         }
 
         var latitudeTitle = $("#latitudeTitle");
@@ -1217,7 +1222,7 @@
                                     document.getElementById("modal-header").style.backgroundColor = "#5cb85c";
                                     document.getElementById("close").innerHTML = "<a href='/userhome'>&times</a>";
 
-                                    document.getElementById("header").innerHTML = "Congratulations, Your Edit is Successfully Complete !";
+                                    document.getElementById("header").innerHTML = "Congratulations, your edit was successfully submitted!";
                                     document.getElementById("body").innerHTML = "<br>Click X to return to the Home Page.<br>";
 
                                     document.getElementById("modal").style.display = "block";

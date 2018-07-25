@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>FAW/Locust Project - User Management</title>
+    <title>Invasive Species Heatmap Project - User Management</title>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="//cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="//unpkg.com/flatpickr/dist/flatpickr.min.css">
@@ -210,23 +210,23 @@
     </div>
 </div>
 <body>
-<div class="container" style="width: 750px;">
+<div class="container" style="width: 900px;">
     <div class="container" style="width: 700px;">
         <br>
         <div class="page-header text-center header">
-            <h1><span class="fa fa-anchor"></span><strong> FAW/Locust Project -  User Management </strong></h1>
+            <h1><span class="fa fa-anchor"></span><strong> Invasive Species Heatmap Project -  User Management </strong></h1>
             <h4><span class="fa fa-user"></span>&nbsp;<strong>Account Name</strong>: <%= user.username %></h4>&nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;
         </div>
-        <div id="userListForm" style="width: 750px;
+    </div>
+        <div id="userListForm" style="width: 900px;
     padding: 0px 10px;">
-            <div class="container floatingBox" style="width: 325px;
-    padding: 0px;
-    margin: 0px 45px 0px 0px;">
-                <h4 class="floatingBox" style="width: 365px;"><strong style="width: 365px;">Date Created:</strong></h4>
+            <div class="floatingBox" style="width: 500px;
+    padding: 0px;">
+                <h4 class="floatingBox" style="width: 500px;"><strong style="width: 365px;">Date Created:</strong></h4>
                 <h5 class="floatingBox" style="width: 50px;">From:</h5>
                 <input class="inputBoxDate datePicker date" type="text" id="dateCreated" placeholder="Select Date" style="width: 265px;
     height: 40px;
-    margin: 5px 5px 5px 0px;
+    margin: 5px 150px 5px 0px;
     padding-left: 10px;
     border-radius: 5px;
     border: 1px solid #c8c8c8;">
@@ -238,19 +238,19 @@
     border-radius: 5px;
     border: 1px solid #c8c8c8;">
             </div>
-            <div class="container floatingBox" style="width: 330px;
+            <div class="container floatingBox" style="width: 360px;
     margin: 0px;
     padding: 0px;">
                 <h4 class="floatingBox DateModified1" style="width: 325px;"><strong>Date Modified:</strong></h4>
                 <h5 class="floatingBox DateModified2" style="width: 50px;">From:</h5>
-                <input class="inputBoxDate datePicker date DateModified3" type="text" id="dateModified" placeholder="Select Date" style="width: 265px;
+                <input class="inputBoxDate datePicker date DateModified3" type="text" id="dateModified" placeholder="Select Date" style="width: 280px;
     height: 40px;
     margin: 5px 5px 5px 0px;
     padding-left: 10px;
     border-radius: 5px;
     border: 1px solid #c8c8c8;">
                 <h5 class="floatingBox DateModified2" style="width: 50px;">To:</h5>
-                <input class="inputBoxDate datePicker date DateModified3" type="text" id="dateModified" placeholder="Select Date" style="width: 265px;
+                <input class="inputBoxDate datePicker date DateModified3" type="text" id="dateModified" placeholder="Select Date" style="width: 280px;
     height: 40px;
     margin: 5px 5px 5px 0px;
     padding-left: 10px;
@@ -258,14 +258,14 @@
     border: 1px solid #c8c8c8;">
             </div>
             <br>
-            <div class="container floatingBox" style="width: 370px;
+            <div class="container floatingBox" style="width: 500px;
     padding: 0px;">
-                <h4 class="floatingBox" style="width: 355px;"><strong>User Name:</strong></h4>
+                <h4 class="floatingBox" style="width: 500px;"><strong>User Name:</strong></h4>
                 <h5 class="floatingBox">First Name:</h5>
                 <input class="inputBoxDate" type="text" id="firstName" placeholder="Enter First Name" style="width: 235px;
     height: 40px;
     padding-left: 10px;
-    margin: 5px;
+    margin: 5px 150px 5px 5px;
     border-radius: 5px;
     border: 1px solid #c8c8c8;">
                 <h5 id="123" class="floatingBox">Last Name:</h5>
@@ -280,24 +280,25 @@
     padding: 0px;">
                 <h4 class="floatingBox" id="Role" style="width: 345px;
     margin-bottom: 10px;"><strong>User Role:</strong></h4>
-                <input type="radio" name="userrole" id="Regular" value="Regular">
+                <input class="radio2" type="radio" name="userrole" id="Regular" value="Regular">
                 <h5 class="floatingBox click" style="width: 315px;
     margin-top: 20px;">Regular</h5>
-                <input type="radio" name="userrole" id="Admin" value="Admin">
+                <input class="radio2" type="radio" name="userrole" id="Admin" value="Admin">
                 <h5 class="floatingBox click" style="width: 315px;
     margin-top: 20px;">Admin</h5>
             </div>
         </div>
         <br>
         <br>
-        <div style="width: 700px;">
+        <div style="width: 850px;">
             <input type="submit" onclick="query()" id="Filter" class="button1" value="Filter">
             <button id="editUserButton" class="btn delete-row btn-default button2">Edit User</button>
             <button id="suspendUserButton" class="btn btn-default button2" style="width: 140px;">Suspend User(s)</button>
+            <button id="showButton" class="btn btn-default button2">Show All</button>
         </div>
         <br>
         <h4><strong>Most Recent Records:</strong></h4>
-        <div id="dvData" style="width: 700px;">
+        <div id="dvData" style="width: 850px;">
             <table id="dataDisplay" cellspacing="0" width="100%">
                 <thead>
                 <tr>
@@ -408,6 +409,16 @@
                         })
                     } else { return false;}
                 });
+                $("#showButton").on("click", function () {
+                    table.clear();
+                    table.draw();
+                    queryAndDisplay("statusDel=" + "Active");
+                    $(".clearForm input[type='text']").val('');
+                    $(".date").val('');
+                    $("input:radio[class^=radio2]").each(function(i) {
+                        this.checked = false;
+                    })
+                });
             });
             function dropDown() {
                 console.log(UserRole);
@@ -481,7 +492,6 @@
             }
         </script>
     </div>
-</div>
 <!--<a href="/newEntry" class="btn btn-default btn-lg" id="class1">New Entry</a>-->
 <!--<a href="/query" class="btn btn-default btn-lg" id="class2">Data History</a>-->
 </body>

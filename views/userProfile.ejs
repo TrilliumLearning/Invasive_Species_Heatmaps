@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>FAW/Locust Project - User Profile</title>
+    <title>Invasive Species Heatmap Project - User Profile</title>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/Profile.css" type="text/css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
@@ -107,8 +107,8 @@
         }
 
         .button1 {
-            width: 485px;
-            height: 50px;
+            width: 875px;
+            height: 60px;
             border-radius: 15px;
             -webkit-transition-duration: 0.4s;
             transition-duration: 0.4s;
@@ -315,103 +315,107 @@
     </div>
 </div>
 <body>
-<div class="container" style="width: 750px;
+<div class="container" style="width: 900px;
     padding: 0px;">
     <div class="container center" style="width: 700px;
     padding: 0px;">
         <br>
         <div class="page-header text-center header">
-            <h1><span class="fa fa-anchor"></span><strong> FAW/Locust Project -  User Profile </strong></h1>
+            <h1><span class="fa fa-anchor"></span><strong> Invasive Species Heatmap Project -  User Profile </strong></h1>
             <h4><span class="fa fa-user"></span>&nbsp;<strong>Account Name</strong>: <%= user.username %></h4>&nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;
         </div>
+    </div>
         <div class="container1">
-            <div class="container" id="informationDiv" style="width: 700px;
+            <div class="container" id="informationDiv" style="width: 900px;
     padding: 0px;">
-                <form class="container" id="submit" onsubmit="return checkForm()" action="/userProfile" method="post" style="width: 500px;
-    padding: 0px 0px 0px 10px;">
-                    <div class="center floating-Box" style="width: 500px;">
+                <form class="container" id="submit" onsubmit="return checkForm()" action="/userProfile" method="post" style="width: 900px;
+    padding: 0px;">
+                    <div class="center floating-Box" style="width: 350px;">
                         <h4 class="floating-Box" style="width: 500px;"><strong>Username:</strong></h4>
                         <h5 class="floating-Box" style="width: 80px;">First Name:</h5>
-                        <input type="text" id="usernameF" name="usernameF" value="<%= user.firstName %>" style="width: 400px;
-    height: 40px;
+                        <input type="text" id="usernameF" name="usernameF" value="<%= user.firstName %>" style="width: 250px;
+    height: 50px;
     margin: 5px 5px 5px 0px;
     padding-left: 10px;
     border-radius: 5px;
     border: 1px solid #c8c8c8;">
                         <h5 class="floating-Box" style="width: 80px;">Last Name:</h5>
-                        <input type="text" id="usernameL" name="usernameL" value="<%= user.lastName %>" style="width: 400px;
-    height: 40px;
+                        <input type="text" id="usernameL" name="usernameL" value="<%= user.lastName %>" style="width: 250px;
+    height: 50px;
     margin: 5px 5px 5px 0px;
     padding-left: 10px;
     border-radius: 5px;
     border: 1px solid #c8c8c8;">
                     </div>
-                    <div class="center floating-Box" style="width: 500px;">
+                    <div class="center floating-Box" style="width: 530px;">
                         <h4 id="userrole" class="floating-Box" style="width: 125px;"><strong>User Role:</strong></h4>
-                        <input class="input" type="text" style="background: WhiteSmoke;
-    width: 350px;
-    height: 40px;
+                        <input class="input floating-Box" type="text" style="background: WhiteSmoke;
+    width: 395px;
+    height: 50px;
     padding-left: 10px;
     border-radius: 5px;
     border: 1px solid #c8c8c8;
-    margin: 5px;" value="<%= user.userrole%>" readonly>
+    margin: 5px 5px 5px 0px;" value="<%= user.userrole%>" readonly>
                         <h4 class="floating-Box"><strong style="width: 125px;">Date created:&nbsp;&nbsp;</strong></h4>
-                        <input class="change1" type="text" style="background: WhiteSmoke;
-    width: 350px;
-    height: 40px;
+                        <input class="change1 floating-Box" type="text" style="background: WhiteSmoke;
+    width: 395px;
+    height: 50px;
     padding-left: 10px;
     border-radius: 5px;
     border: 1px solid #c8c8c8;
-    margin: 5px;" value="<%= user.dateCreated %>" readonly>
+    margin: 5px 5px 5px 0px;" value="<%= user.dateCreated %>" readonly>
                     </div>
                     <br>
-                    <div style="width: 500px;
-    margin-top: 10px;">
-                        <h4 class="floating-Box" style="width: 190px;"><strong>Last Modification:</strong></h4>
-                        <input class="change1" type="text" style="background: WhiteSmoke;
-    width: 285px;
-    height: 40px;
-    padding-left: 10px;
-    border-radius: 5px;
-    border: 1px solid #c8c8c8;
-    margin: 5px;" value="<%= user.dateModified %>" readonly>
-                        <h4 class="floating-Box" style="width: 190px;"><strong>LoginName/Email:</strong></h4>
+                    <div class="center floating-Box" style="width: 350px;">
+                        <h4 class="floating-Box" style="width: 175px;"><strong>LoginName/Email:</strong></h4>
                         <input class="input" type="text" style="background: WhiteSmoke;
-    width: 285px;
-    height: 40px;
+    width: 150px;
+    height: 50px;
     padding-left: 10px;
     border-radius: 5px;
     border: 1px solid #c8c8c8;
     margin: 5px;" value="<%= user.username%>" readonly>
-                        <h4 class="floating-Box" style="width: 190px;"><strong>Last Modificated by:</strong></h4>
+                        <h4 class="floating-Box" style="width: 175px;"><strong>Last Modificated by:</strong></h4>
                         <input class="input" type="text" style="background: WhiteSmoke;
-    width: 285px;
-    height: 40px;
+    width: 150px;
+    height: 50px;
     padding-left: 10px;
     border-radius: 5px;
     border: 1px solid #c8c8c8;
     margin: 5px;" value="<%= user.username%>" readonly>
                     </div>
+                    <div class="center floating-Box" style="width: 530px;">
+                        <h4 class="floating-Box" style="width: 530px;"><strong>Last Modification:</strong></h4>
+                        <input class="change1" type="text" style="background: WhiteSmoke;
+    width: 520px;
+    height: 50px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;
+    margin-left: 0;
+    margin-top: 15px;" value="<%= user.dateModified %>" readonly>
+                    </div>
+                    <br>
                     <br>
                     <h4 style="width: 500px;"><strong>Password Reset</strong>:   </h4>
                     <div style="width: 500px;">
                         <h5 class="floating-Box" style="width: 190px;">Current Password: </h5>
                         <input class="floating-Box" type="password" id="currentpassword" name="currentpassword" maxlength="2000px" style="width: 285px;
-    height: 40px;
+    height: 50px;
     margin: 5px;
     padding-left: 10px;
     border-radius: 5px;
     border: 1px solid #c8c8c8;">
                         <h5 class="floating-Box" style="width: 190px;">New Password: </h5>
                         <input class="floating-Box" type="password" id="newpassword" name="newpassword" maxlength="2000px" style="width: 285px;
-    height: 40px;
+    height: 50px;
     margin: 5px;
     padding-left: 10px;
     border-radius: 5px;
     border: 1px solid #c8c8c8;">
                         <h5 class="floating-Box" style="width: 190px;">Confirm New Password: </h5>
                         <input class="floating-Box" type="password" id="Confirmpassword" name="Confirmpassword" maxlength="2000px" style="width: 285px;
-    height: 40px;
+    height: 50px;
     margin: 5px;
     padding-left: 10px;
     border-radius: 5px;
@@ -420,7 +424,9 @@
                     <br>
                     <button id="SS" type="submit" class="button1"> Submit </button>
                     <hr style="margin-bottom: 10px;">
-                    <p style="margin-left: 220px;"> <a href="/userHome">Cancel</a></p>
+                    <div style="width: 880px">
+                        <p class="text-center" style="margin: auto; display: block;"> <a href="/userHome">Cancel</a></p>
+                    </div>
                 </form>
             </div>
             <div class="container center" id="fieldManagementDiv" style="display: none;
@@ -481,7 +487,6 @@
             <!--</form>-->
         </div>
     </div>
-</div>
 <script>
     var UserRole = "<%= user.userrole %>";
     var table = $("#field").DataTable();
@@ -692,7 +697,7 @@
                 }
             });
         } else {
-            alert("Please fill out all the required fields !")
+            alert("Please fill out all the required fields!")
             console.log("FALSE");
         }
         // $.ajax({
