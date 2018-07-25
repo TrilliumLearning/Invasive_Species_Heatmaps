@@ -1,0 +1,106 @@
+<!-- views/homepage.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Invasive Species Heatmap Project - Homepage</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <!-- load fontawesome -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!--<link rel="stylesheet" href="//unpkg.com/flatpickr/dist/flatpickr.min.css">-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!--<script src="//unpkg.com/flatpickr"></script>-->
+    <style>.floating-Box {
+            display: inline-block;
+        }
+
+        .banner {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .spCon {
+            width: 800px;
+            border: 1px solid lightgray;
+            padding: 40px;
+            border-radius: 40px 40px 40px 0px;
+            margin-top: 50px;
+        }
+
+        .spCon2 {
+            float: right;
+            width: 800px;
+            border: 1px solid lightgray;
+            padding: 40px;
+            border-radius: 40px 0px 40px 40px;
+            margin-top: 50px;
+        }
+
+        .button1 {
+            width: 250px;
+            height: 90px;
+            border-radius: 10px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            background-color: white;
+            color: #337ab7;
+            border: 1px solid #337ab7;
+            font-size: 25px;
+            margin-left: 50px;
+        }
+
+        .button1:hover {
+            background-color: #337ab7;
+            color: white;
+        }
+    </style>
+</head>
+<div class="navul" style="height: 60px;
+    background: #000000;">
+    <a class="navul" href="//aworldbridge.com" style="background: #000000;
+    width: 500px;
+    height: 60px;">
+        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 500px;
+    height: 60px;
+    margin: auto; display: block;" />
+    </a>
+</div>
+<body>
+<div class="container" style="width: 1000px;
+    padding: 0px;">
+        <br>
+        <div class="page-header text-center header">
+            <h1><span class="fa fa-anchor"></span><strong> Invasive Species Heatmap Project -  Homepage </strong></h1>
+        </div>
+    <div class="spCon">
+        <h2 class="floating-Box">View heatmap: </h2>
+        <a href="/heatmapP" id="heatmap" style="width: 110px;">
+            <button class="button1 floating-Box"><span class="fa fa-angle-double-left"></span> Heatmap </button>
+        </a>
+    </div>
+    <div class="spCon2">
+        <h2 class="floating-Box">Login to your account: </h2>
+        <a href="/login" style="width: 110px;">
+            <button class="button1 floating-Box"> Login <span class="fa fa-angle-double-right"></span></button>
+        </a>
+    </div>
+</div>
+<script>
+    $(function () {
+        flatpickr(".date", {
+            dateFormat: "Y-m-d",
+            time_24hr: true
+        });
+    });
+    var today = new Date();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    var time2 = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date + ' ' + time2;
+    document.getElementById("date").value = dateTime;
+</script>
+</body>
+</html>

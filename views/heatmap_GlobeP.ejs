@@ -19,7 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script data-main="../scripts/heatmap/Main.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.17/require.min.js"></script>
+    <script data-main="../scripts/heatmap/Main2.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.17/require.min.js"></script>
     <!--<script worldwind="../scripts/heatmap/Main.js"></script>-->
     <style>
         body {
@@ -143,28 +143,13 @@
 </head>
 <div class="navul" style="height: 60px;
     background: #000000;">
-    <a class="navul" href="//aworldbridge.com" style="background: #000000;">
-        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 400px;
-    height: 60px;" />
+    <a class="navul" href="//aworldbridge.com" style="background: #000000;
+    width: 500px;
+    height: 60px;">
+        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 500px;
+    height: 60px;
+    margin: auto; display: block;" />
     </a>
-    <a href="/userHome" style="width: 110px;">
-        <button class="navbutton1"> User Home </button>
-    </a>
-    <div class="dropdown" style="height: 60px; width: 200px; float: right; margin: 0;">
-        <button onclick="dropDown()" class="dropbutton" id="Username">
-            <%= user.firstName%>
-            <span class="caret"></span>
-        </button>
-        <div id="userMenuAdmin" class="dropdown-content">
-            <a href="/userProfile"> User Profile </a>
-            <a href="/userManagement"> User Management </a>
-            <a href="/signout"> Sign Out </a>
-        </div>
-        <div id="userMenuRegular" class="dropdown-content">
-            <a href="/userProfile"> User Profile </a>
-            <a href="/signout"> Sign Out </a>
-        </div>
-    </div>
 </div>
 <body>
 <div class="container" style="width: 900px;
@@ -174,7 +159,6 @@
         <br>
         <div class="page-header text-center header">
             <h1><span class="fa fa-anchor"></span><strong> Invasive Species Heatmap Project -  Heat Map </strong></h1>
-            <h4><span class="fa fa-user"></span>&nbsp;<strong>Account Name</strong>: <%= user.username %></h4>&nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;
         </div>
     </div>
     <div style="border-style: solid;
@@ -210,7 +194,10 @@
             <button type="button" id="loadHeatmap" class="button1">Load Heat Map</button>
             <!--<button type="button" id="return">Return</button>-->
         </div>
+
     </div>
+    <br>
+        <p style="margin-left: 550px">Go back to <a href="/homepage">Homepage >></a></p>
     <br>
     <div class="container" id="globe" style="width: 900px;
     height: 900px;
@@ -249,7 +236,6 @@
     </div>
 </div>
 <script>
-    var UserRole = "<%= user.userrole %>";
     $(document).ready(function() {
         $(function () {
             flatpickr(".date", {
@@ -258,25 +244,6 @@
             });
         });
     });
-    function dropDown() {
-        console.log(UserRole);
-        if (UserRole === "Admin") {
-            document.getElementById("userMenuAdmin").classList.toggle("show");
-        } else if (UserRole === "Regular") {
-            document.getElementById("userMenuRegular").classList.toggle("show");
-        }
-    }
-    window.onclick = function(event) {
-        if (!event.target.matches('.dropbutton')) {
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            for (var i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
-        }
-    }
 </script>
 </body>
 </html>
