@@ -278,7 +278,7 @@ requirejs(['./worldwind.min',
         $("#loadHeatmap").on("click", function () {
             var data = {'startDate': document.getElementById("startDate").value, 'endDate': document.getElementById("endDate").value};
             $.ajax({
-                url: 'http://localhost:9087/heatmapData',
+                url: 'heatmapData',
                 type: 'GET',
                 dataType: 'json',
                 data: data,

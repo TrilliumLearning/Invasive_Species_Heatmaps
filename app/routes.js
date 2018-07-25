@@ -957,7 +957,7 @@ module.exports = function (app, passport) {
 
         var keyword = "cropHealth";
 
-        var myStat = "SELECT latitude, longitude, " + keyword + ", _id, date, country, cropMain, cropIrrigation, cropStage, cropSystem, cropFieldSize, cropFieldSizeUnit, rainAmount, totalFAW FROM FAW_PUB.Historical_heatmap_DataTable";
+        var myStat = "SELECT latitude, longitude, " + keyword + ", _id, date, country, cropMain, cropIrrigation, cropStage, cropSystem, cropFieldSize, cropFieldSizeUnit, rainAmount, totalFAW FROM Historical_heatmap_DataTable";
         // var myStat = "SELECT latitude, longitude, temperature FROM FAWv4.testData;";
 
         if (!!req.query.startDate && !!req.query.endDate) {
