@@ -1,5 +1,5 @@
 // config/database.js
-module.exports = {
+var configGlobal = {
     'commondb_connection': {
         'multipleStatements': true,
         'connectionLimit' : 100,
@@ -26,10 +26,28 @@ module.exports = {
 
     'Upload_Path': 'http://ish.aworldbridgelabs.com/uploadfiles',
 
-    'cropHealth': {
-        'good': 21,
-        'medium': 27,
-        'poor': 31
-    }
+    // 'cropHealth': {
+    //     'good': 21,
+    //     'medium': 27,
+    //     'poor': 31
+    // }
 
+    'General_health': {
+        'GOOD': 21,
+        'MEDIUM': 27,
+        'POOR': 31
+    },
+
+
+    // ish eye distance for switch placemark to heatmap until eyeDistance_Heatmap less than 4500 (km)
+    'eyeDistance_switch': 4500,
+
+    // ish initial eye distance (m)
+    'eyeDistance_initial': 8000000
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = configGlobal;
+} else {
+    window.config = configGlobal;
+}

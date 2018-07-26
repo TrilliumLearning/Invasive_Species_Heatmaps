@@ -53,22 +53,22 @@
             padding: 0;
         }
 
-        .button1 {
-            height: 40px;
-            width: 455px;
-            border-radius: 15px;
-            -webkit-transition-duration: 0.4s;
-            transition-duration: 0.4s;
-            cursor: pointer;
-            background-color: white;
-            color: #337ab7;
-            border: 1px solid #337ab7;
-        }
+        /*.button1 {*/
+            /*height: 40px;*/
+            /*width: 455px;*/
+            /*border-radius: 15px;*/
+            /*-webkit-transition-duration: 0.4s;*/
+            /*transition-duration: 0.4s;*/
+            /*cursor: pointer;*/
+            /*background-color: white;*/
+            /*color: #337ab7;*/
+            /*border: 1px solid #337ab7;*/
+        /*}*/
 
-        .button1:hover {
-            background-color: #337ab7;
-            color: white;
-        }
+        /*.button1:hover {*/
+            /*background-color: #337ab7;*/
+            /*color: white;*/
+        /*}*/
 
         table {
             overflow-x: auto;
@@ -136,8 +136,66 @@
         .dropdown a:hover {
             background-color: #ddd;
         }
+
         .show {
             display: block;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 30px;
+            height: 17px;
+            top: 10px;
+        }
+
+        .switch input {display:none;}
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #2196F3;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 13px;
+            width: 13px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(13px);
+            -ms-transform: translateX(13px);
+            transform: translateX(13px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 17px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
         }
     </style>
 </head>
@@ -207,7 +265,14 @@
         </div>
         <br>
         <div id="buttons">
-            <button type="button" id="loadHeatmap" class="button1">Load Heat Map</button>
+            <!--<button type="button" id="loadHeatmap" class="button1">Load Heat Map</button>-->
+            <button type="button" id="loadHeatmap"></button>
+            Heatmap Layer
+            <label class="switch">
+                <input type="checkbox" id="switchLayer" checked>
+                <span class="slider round"></span>
+            </label>
+            Placemark Layer
             <!--<button type="button" id="return">Return</button>-->
         </div>
     </div>
@@ -228,19 +293,32 @@
         <table id="dataDisplay" style="width: 100%;">
             <thead>
             <tr>
-                <th>ID</th>
-                <!--<th>Latitude</th>-->
-                <!--<th>Longitude</th>-->
+                <!--<th>ID</th>-->
+                <!--&lt;!&ndash;<th>Latitude</th>&ndash;&gt;-->
+                <!--&lt;!&ndash;<th>Longitude</th>&ndash;&gt;-->
+                <!--<th>Date</th>-->
+                <!--<th>Country</th>-->
+                <!--<th>Main_Crop</th>-->
+                <!--<th>Irrigation</th>-->
+                <!--<th>Crop_Stage</th>-->
+                <!--<th>Crop_System</th>-->
+                <!--<th>Crop_Field_Size</th>-->
+                <!--<th>Crop_Field_Size_Unit</th>-->
+                <!--<th>Rain_Amount</th>-->
+                <!--<th>Total_FAW</th>-->
+
+                <th>Transaction_ID</th>
+                <th>Field Owner</th>
+                <th>Field Name</th>
                 <th>Date</th>
-                <th>Country</th>
+                <th>Crop_Health</th>
                 <th>Main_Crop</th>
                 <th>Irrigation</th>
                 <th>Crop_Stage</th>
-                <th>Crop_System</th>
+                <th>Farming_System</th>
                 <th>Crop_Field_Size</th>
                 <th>Crop_Field_Size_Unit</th>
                 <th>Rain_Amount</th>
-                <th>Total_FAW</th>
             </tr>
             </thead>
             <tbody>
@@ -254,6 +332,7 @@
         $(function () {
             flatpickr(".date", {
                 dateFormat: "Y-m-d",
+                // defaultDate: "2018-07-26",
                 time_24hr: true
             });
         });
