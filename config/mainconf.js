@@ -1,5 +1,5 @@
 // config/database.js
-module.exports = {
+var configGlobal = {
     'commondb_connection': {
         'multipleStatements': true,
         'connectionLimit' : 100,
@@ -17,19 +17,37 @@ module.exports = {
         'port'    :  3306
     },
 
-    'Session_db': 'FAW_PUB',
-    'Login_db': 'FAW_PUB',
+    'Session_db': 'Invasive_Species_Heatmaps',
+    'Login_db': 'Invasive_Species_Heatmaps',
     'Login_table': 'Users',
-    'Upload_db': 'FAW_PUB',
+    'Upload_db': 'Invasive_Species_Heatmaps',
 
     'Server_Port': 9087,
 
     'Upload_Path': 'http://pub.faw.aworldbridgelabs.com/uploadfiles',
 
-    'cropHealth': {
-        'good': 21,
-        'medium': 27,
-        'poor': 31
-    }
+    // 'cropHealth': {
+    //     'good': 21,
+    //     'medium': 27,
+    //     'poor': 31
+    // }
 
+    'General_health': {
+        'GOOD': 21,
+        'MEDIUM': 27,
+        'POOR': 31
+    },
+
+
+    // ish eye distance for switch placemark to heatmap until eyeDistance_Heatmap less than 4500 (km)
+    'eyeDistance_switch': 4500,
+
+    // ish initial eye distance (m)
+    'eyeDistance_initial': 8000000
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = configGlobal;
+} else {
+    window.config = configGlobal;
+}

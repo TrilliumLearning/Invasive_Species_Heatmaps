@@ -959,25 +959,28 @@ module.exports = function (app, passport) {
     });
 
     app.get('/heatmapData', isLoggedIn, function (req, res) {
-        // console.log(req.query);
+        console.log(req.query);
         res.setHeader("Access-Control-Allow-Origin", "*"); // Allow cross domain header
 
-        var keyword = "cropHealth";
+        var keyword = "General_health";
 
-        var myStat = "SELECT latitude, longitude, " + keyword + ", _id, date, country, cropMain, cropIrrigation, cropStage, cropSystem, cropFieldSize, cropFieldSizeUnit, rainAmount, totalFAW FROM FAW_PUB.Historical_heatmap_DataTable";
+        var myStat = "SELECT Users.firstName, Users.lastName, General_Form.Latitude, General_Form.Longitude, General_Form.Location_name, " + keyword + ", General_Form.transactionID, General_Form.Date, General_Form.Main_crop, General_Form.Irrigation, General_Form.Crop_stage, General_Form.Farming_system, General_Form.Field_size, General_Form.Field_size_unit, General_Form.Rain_amount FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Scouting ON Detailed_Scouting.transactionID = Transaction.transactionID";
+        // var myStat = "SELECT latitude, longitude, " + keyword + ", _id, date, country, cropMain, cropIrrigation, cropStage, cropSystem, cropFieldSize, cropFieldSizeUnit, rainAmount, totalFAW FROM FAW_PUB.Historical_heatmap_DataTable";
         // var myStat = "SELECT latitude, longitude, temperature FROM FAWv4.testData;";
 
-        if (!!req.query.startDate && !!req.query.endDate) {
-            myStat += " WHERE date >= '" + req.query.startDate + "' AND date <= '" + req.query.endDate + "';";
-        } else if (!req.query.startDate || !req.query.endDate) {
-            if (!!req.query.startDate) {
-                myStat += " WHERE date >= '" + req.query.startDate + "';";
-            } else if (!!req.query.endDate) {
-                myStat += " WHERE date <= '" + req.query.endDate + "';";
-            }
-        } else {
-            myStat += "';";
-        }
+        // if (!!req.query.startDate && !!req.query.endDate) {
+        //     myStat += " WHERE date >= '" + req.query.startDate + "' AND date <= '" + req.query.endDate + "';";
+        // } else if (!req.query.startDate || !req.query.endDate) {
+        //     if (!!req.query.startDate) {
+        //         myStat += " WHERE date >= '" + req.query.startDate + "';";
+        //     } else if (!!req.query.endDate) {
+        //         myStat += " WHERE date <= '" + req.query.endDate + "';";
+        //     }
+        // } else {
+        //     myStat += "';";
+        // }
+
+        myStat += " WHERE General_Form.transactionID LIKE '2018-07-26%' ORDER BY General_Form.Location_name;";
 
         // console.log(myStat);
 
@@ -987,7 +990,7 @@ module.exports = function (app, passport) {
                 res.json({"error": true});
                 res.end();
             } else {
-                // console.log(results);
+                console.log(results);
                 if (!!config[keyword]) {
                     // console.log(config[keyword]);
                     // console.log(config[keyword]["good"]);
@@ -996,13 +999,13 @@ module.exports = function (app, passport) {
                         results[i].intensity = config[keyword][results[i][keyword]];
 
                         if (i === results.length - 1) {
-                            // console.log(results);
-                            res.json({"error": false, "message": results});
+                            console.log(results[5]);
+                            // res.json({"error": false, "data": results});
                         }
                     }
                 } else {
                     // console.log("!");
-                    res.json({"error": false, "message": results});
+                    res.json({"error": false, "data": results});
                 }
             }
         });
