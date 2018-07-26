@@ -90,7 +90,7 @@
         .navbutton1 {
             width: 110px;
             font-size: 16px;
-            height: 60px;
+            height: 80px;
             margin: 0;
             padding: 0px;
             border-radius: 0px 0 0;
@@ -108,7 +108,7 @@
 
         .button1 {
             width: 875px;
-            height: 60px;
+            height: 80px;
             border-radius: 15px;
             -webkit-transition-duration: 0.4s;
             transition-duration: 0.4s;
@@ -166,7 +166,7 @@
         .dropbutton {
             float: right;
             width: 150px;
-            height: 60px;
+            height: 80px;
             padding: 16px;
             color: white;
             background-color: #337ab7;
@@ -283,11 +283,14 @@
             }
         }*/</style>
 </head>
-<div class="navul" style="height: 60px;
+<div class="navul" style="height: 80px;
     background: #000000;">
     <a class="navul" href="//aworldbridge.com" style="background: #000000;">
-        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 400px;
-    height: 60px;" />
+        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 520px;
+    height: 80px;" />
+    </a>
+    <a href="/homepageL" style="width: 110px;">
+        <button class="navbutton1"> Homepage </button>
     </a>
     <a href="/userHome" style="width: 110px;">
         <button class="navbutton1"> User Home </button>
@@ -298,7 +301,7 @@
     <a style="width: 110px;">
         <button id="fieldManagement" class="navbutton1 refresh" onclick="refresh(this.id)" style="width: 160px;"> Field Management </button>
     </a>
-    <div class="dropdown" style="height: 60px; width: 200px; float: right; margin: 0;">
+    <div class="dropdown" style="height: 80px; width: 200px; float: right; margin: 0;">
         <button onclick="dropDown()" class="dropbutton" id="Username">
             <%= user.firstName%>
             <span class="caret"></span>
@@ -321,7 +324,7 @@
     padding: 0px;">
         <br>
         <div class="page-header text-center header">
-            <h1><span class="fa fa-anchor"></span><strong> Invasive Species Heatmap Project -  User Profile </strong></h1>
+            <h1><span class="fa fa-pencil"></span><strong> Invasive Species Heatmap Project -  User Profile </strong></h1>
             <h4><span class="fa fa-user"></span>&nbsp;<strong>Account Name</strong>: <%= user.username %></h4>&nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;
         </div>
     </div>
@@ -429,9 +432,9 @@
                     </div>
                 </form>
             </div>
-            <div class="container center" id="fieldManagementDiv" style="display: none;
-    width: 700px;">
-                <table id="field">
+            <div class="center" id="fieldManagementDiv" style="display: none;
+    width: 900px;">
+                <table id="field" style="width: 900px">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -450,7 +453,7 @@
                     <tbody>
                     </tbody>
                 </table>
-                <div>
+                <div style="width: 900px">
                     <button class="btn btn-warning btn-sm button buttons button3" id="add">Add</button>
                     <button class="btn btn-warning btn-sm button buttons button2" id="edit">Edit</button>
                     <button class="btn btn-warning btn-sm button buttons button2" id="delete">Delete</button>

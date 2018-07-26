@@ -1,0 +1,193 @@
+<!-- views/homepage.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Invasive Species Heatmap Project - Homepage</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <!-- load fontawesome -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!--<link rel="stylesheet" href="//unpkg.com/flatpickr/dist/flatpickr.min.css">-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!--<script src="//unpkg.com/flatpickr"></script>-->
+    <style>.floating-Box {
+            display: inline-block;
+        }
+
+        .spCon {
+            width: 1000px;
+            border: 1px solid lightgray;
+            padding: 40px;
+            border-radius: 40px 40px 40px 0px;
+            margin-top: 50px;
+        }
+
+        .spCon2 {
+            float: right;
+            width: 800px;
+            border: 1px solid lightgray;
+            padding: 40px;
+            border-radius: 40px 0px 40px 40px;
+            margin-top: 50px;
+        }
+
+        .button1 {
+            width: 250px;
+            height: 90px;
+            border-radius: 10px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            background-color: white;
+            color: #337ab7;
+            border: 1px solid #337ab7;
+            font-size: 25px;
+            margin-left: 50px;
+        }
+
+        .button1:hover {
+            background-color: #337ab7;
+            color: white;
+        }
+
+        .navul {
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbutton1 {
+            width: 110px;
+            font-size: 16px;
+            height: 80px;
+            margin: 0;
+            border-radius: 0px 0 0;
+            background-color: #000000;
+            border: 0 solid;
+            color: #ffffff;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+        }
+
+        .navbutton1:hover {
+            background-color: #333;
+            color: white;
+        }
+
+        .dropbutton {
+            float: right;
+            width: 150px;
+            height: 80px;
+            padding: 16px;
+            color: white;
+            background-color: #337ab7;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+        }
+        .dropbutton:hover, .dropbutton:focus {
+            background-color: #2b6699;
+        }
+        .dropdown-content {
+            display: none;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            right: 0;
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 20px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown a:hover {
+            background-color: #ddd;
+        }
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<div class="navul" style="height: 80px;
+    background: #000000;">
+    <a class="navul" href="//aworldbridge.com" style="background: #000000;">
+        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 520px;
+    height: 80px;" />
+    </a>
+    <a href="/userHome" style="width: 110px;">
+        <button class="navbutton1"> User Home </button>
+    </a>
+    <a href="/dataHistory" style="width: 110px;">
+        <button class="navbutton1"> Data History </button>
+    </a>
+    <div class="dropdown" style="height: 80px; width: 200px; float: right; margin: 0;">
+        <button onclick="dropDown()" class="dropbutton" id="Username">
+            <%= user.firstName%>
+            <span class="caret"></span>
+        </button>
+        <div id="userMenuAdmin" class="dropdown-content">
+            <a href="/userProfile"> User Profile </a>
+            <a href="/userManagement"> User Management </a>
+            <a href="/signout"> Sign Out </a>
+        </div>
+        <div id="userMenuRegular" class="dropdown-content">
+            <a href="/userProfile"> User Profile </a>
+            <a href="/signout"> Sign Out </a>
+        </div>
+    </div>
+</div>
+<body>
+<div class="container" style="width: 1000px;
+    padding: 0px;">
+        <br>
+        <div class="page-header text-center header">
+            <h1><span class="fa fa-home"></span><strong> Invasive Species Heatmap Project -  Homepage </strong></h1>
+        </div>
+    <div class="spCon">
+        <h2 class="floating-Box">Go directly to heatmap: </h2>
+        <a href="/heatmap" id="heatmap" style="width: 110px;">
+            <button class="button1 floating-Box"><span class="fa fa-angle-double-left"></span> Heatmap </button>
+        </a>
+    </div>
+</div>
+<script>
+    var UserRole = "<%= user.userrole %>";
+
+    $(function () {
+        flatpickr(".date", {
+            dateFormat: "Y-m-d",
+            time_24hr: true
+        });
+    });
+    function dropDown() {
+        console.log(UserRole);
+        if (UserRole === "Admin") {
+            document.getElementById("userMenuAdmin").classList.toggle("show");
+        } else if (UserRole === "Regular") {
+            document.getElementById("userMenuRegular").classList.toggle("show");
+        }
+    }
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbutton')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+    var today = new Date();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    var time2 = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date + ' ' + time2;
+    document.getElementById("date").value = dateTime;
+</script>
+</body>
+</html>

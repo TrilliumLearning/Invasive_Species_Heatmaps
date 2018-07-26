@@ -66,6 +66,21 @@ module.exports = function (app, passport) {
     app.get('/homepage', function (req, res){
         res.render('homepage.ejs', {message: req.flash('homepageMessage')})
     });
+    app.get('/homepageL', isLoggedIn, function (req, res) {
+        var myStat = "SELECT userrole FROM Users WHERE username = '" + req.user.username + "';";
+
+        connection.query(myStat, function (err, results, fields) {
+            //console.log(results);
+
+            if (!results[0].userrole) {
+                console.log("Error");
+            } else {
+                res.render('homepageL.ejs', {
+                    user: req.user // get the user out of session and pass to template
+                });
+            }
+        });
+    });
     app.get('/login', function (req, res) {
 
         // render the page and pass in any flash data if it exists

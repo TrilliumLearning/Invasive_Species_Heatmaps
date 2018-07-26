@@ -111,7 +111,7 @@
         .navbutton1 {
             width: 110px;
             font-size: 16px;
-            height: 60px;
+            height: 80px;
             margin: 0;
             border-radius: 0px 0 0;
             background-color: #000000;
@@ -129,7 +129,7 @@
         .dropbutton {
             float: right;
             width: 150px;
-            height: 60px;
+            height: 80px;
             padding: 16px;
             color: white;
             background-color: #337ab7;
@@ -344,11 +344,14 @@
                 */
     </style>
 </head>
-<div class="navul" style="height: 60px;
+<div class="navul" style="height: 80px;
     background: #000000;">
     <a class="navul" href="//aworldbridge.com" style="background: #000000;">
-        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 400px;
-    height: 60px;" />
+        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 520px;
+    height: 80px;" />
+    </a>
+    <a href="/homepageL" style="width: 110px;">
+        <button class="navbutton1"> Homepage </button>
     </a>
     <a href="/newEntry" style="width: 110px;">
         <button class="navbutton1"> New Entry </button>
@@ -370,7 +373,7 @@
 
         </ul>
     </div> -->
-    <div class="dropdown" style="height: 60px; width: 200px; float: right; margin: 0;">
+    <div class="dropdown" style="height: 80px; width: 200px; float: right; margin: 0;">
         <button onclick="dropDown()" class="dropbutton" id="Username">
             <%= user.firstName%>
             <span class="caret"></span>
@@ -391,7 +394,7 @@
     <div class="container center" style="width: 700px;">
         <br>
         <div class="page-header text-center header">
-            <h1><span class="fa fa-anchor"></span><strong> Invasive Species Heatmap Project -  User Home </strong></h1>
+            <h1><span class="fa fa-home"></span><strong> Invasive Species Heatmap Project -  User Home </strong></h1>
             <h4><span class="fa fa-user"></span>&nbsp;<strong>Account Name</strong>: <%= user.username %></h4>&nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;
         </div>
     </div>
