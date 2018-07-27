@@ -243,7 +243,7 @@
                     <option>PHEROMONE TRAP</option>
                 </select><br><br>
                 <h3>LOCATION</h3>
-                <h4>1 . Location Name: &nbsp;&nbsp;&nbsp;</h4><input class="clearGen" id="locationName" name="Location_Name" type="text" placeholder="Enter Location Here"><br><br>
+                <h4>1 . Location Name: &nbsp;&nbsp;&nbsp;</h4><input class="clearGen" id="locationName" name="Location_Name" type="text" placeholder="Enter Location Here" required><br><br>
                 <h4 id="GPSLocationTitle">E. GPS Location: &nbsp;&nbsp;&nbsp;</h4>
                 <h4 style="color:red" id="errorMessage"></h4>
                 <h5 style="color:#9d9d9d;" id="locationNote"></h5>
@@ -556,6 +556,7 @@
         var today = new Date();
         var todayDate = today.getFullYear()+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
         var todayDateV = document.getElementsByClassName("date");
+
         for (var i = 0; i < todayDateV.length; i++) {
             todayDateV[i].value = todayDate;
         }
@@ -675,7 +676,8 @@
         $('#general').submit(function(e) {
             // Prevent form submission
             e.preventDefault();
-            //alert("X");
+            // alert("X");
+            console.log($("#DATE1").val());
             var entryType = document.getElementById("entryType").value;
             if (entryType === "FIELD SCOUTING") {
                 document.getElementById("title").innerHTML = "Step 2/2: Detailed Form";
@@ -847,8 +849,8 @@
         }
         longitudeTitle.append($("</select>"));
 
-        latitudeTitle.append($("<input id='latitudeDegree' name='Latitude_degree' type='number' value='" + latitude[1] + "' required>°" + " <input id='latitudeMinute' name='Latitude_minute' type='number' value='" + latitude[2] + "' required>'" + " <input id='latitudeSecond' name='Latitude_second' type='number' value='" + Math.round(latitude[3] * 1000) / 1000 + "' required>''" + "<p></p>"));
-        longitudeTitle.append($("<input id='longitudeDegree' name='Longitude_degree' type='number' value='" + longitude[1] + "' required>°" + " <input id='longitudeMinute' name='Longitude_minute' type='number' value='" + longitude[2] + "' required>'" + " <input id='longitudeSecond' name='Longitude_second' type='number' value='" + Math.round(longitude[3] * 1000) / 1000 + "' required>''" + "<p></p>"));
+        latitudeTitle.append($("<input id='latitudeDegree' name='Latitude_degree' type='number' value='" + latitude[1] + "' required>°" + " <input id='latitudeMinute' name='Latitude_minute' type='number' value='" + latitude[2] + "' required>'" + " <input id='latitudeSecond' name='Latitude_second' type='number' value='" + Math.round(latitude[3] * 1000) / 1000 + "' step='any' required>''" + "<p></p>"));
+        longitudeTitle.append($("<input id='longitudeDegree' name='Longitude_degree' type='number' value='" + longitude[1] + "' required>°" + " <input id='longitudeMinute' name='Longitude_minute' type='number' value='" + longitude[2] + "' required>'" + " <input id='longitudeSecond' name='Longitude_second' type='number' value='" + Math.round(longitude[3] * 1000) / 1000 + "' step='any' required>''" + "<p></p>"));
 
         $("#locationDiv").append($("<input type='button' onclick='refresh()' value='Click here to refresh the map'>"));
     }

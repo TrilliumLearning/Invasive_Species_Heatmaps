@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="87d195b7-ac23-4e32-a6dd-db2c4653863d" name="ish" url="http://localhost:9087">
+        <fileTransfer host="ish.aworldbridgelabs.com" port="5532" rootFolder="/var/www/ish" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="5532" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
