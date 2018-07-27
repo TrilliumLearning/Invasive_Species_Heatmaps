@@ -276,7 +276,7 @@
                 <span class="slider round"></span>
             </label>
             Placemark Layer
-            <!--<button type="button" id="return">Return</button>-->
+            <!--<button type="button" id="testButton"></button>-->
         </div>
     </div>
     <br>
@@ -290,7 +290,7 @@
         </canvas>
     </div>
     <br>
-    <div id="popover" style="border-style: solid;" hidden></div>
+    <div id="popover" style="border-style: solid; opacity: 0;" hidden></div>
     <!--<div style="border-style: solid; position: absolute; left: 749px; top: 775px"></div>-->
     <div id="dvData" style="width: 900px;">
         <table id="dataDisplay" style="width: 100%;">
@@ -336,6 +336,7 @@
             flatpickr(".date", {
                 dateFormat: "Y-m-d",
                 // defaultDate: "2018-07-26",
+                minDate: '2017-11-30',
                 time_24hr: true
             });
         });

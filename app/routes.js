@@ -983,39 +983,46 @@ module.exports = function (app, passport) {
         // var myStat = "SELECT latitude, longitude, " + keyword + ", _id, date, country, cropMain, cropIrrigation, cropStage, cropSystem, cropFieldSize, cropFieldSizeUnit, rainAmount, totalFAW FROM FAW_PUB.Historical_heatmap_DataTable";
         // var myStat = "SELECT latitude, longitude, temperature FROM FAWv4.testData;";
 
-        // if (!!req.query.startDate && !!req.query.endDate) {
-        //     myStat += " WHERE date >= '" + req.query.startDate + "' AND date <= '" + req.query.endDate + "';";
-        // } else if (!req.query.startDate || !req.query.endDate) {
-        //     if (!!req.query.startDate) {
-        //         myStat += " WHERE date >= '" + req.query.startDate + "';";
-        //     } else if (!!req.query.endDate) {
-        //         myStat += " WHERE date <= '" + req.query.endDate + "';";
-        //     }
-        // } else {
-        //     myStat += "';";
-        // }
+        if (!!req.query.startDate && !!req.query.endDate) {
+            myStat += " WHERE Date >= '" + req.query.startDate + "' AND Date <= '" + req.query.endDate + "'";
+        } else if (!req.query.startDate || !req.query.endDate) {
+            if (!!req.query.startDate) {
+                myStat += " WHERE Date >= '" + req.query.startDate + "'";
+            } else if (!!req.query.endDate) {
+                myStat += " WHERE Date <= '" + req.query.endDate + "'";
+            }
+        } else {
+            myStat += "";
+        }
 
-        myStat += " WHERE General_Form.transactionID LIKE '2018-07-26%' ORDER BY General_Form.Location_name;";
+        // myStat += " WHERE General_Form.transactionID LIKE '2018-07-26%' ORDER BY General_Form.Location_name;";
+        // myStat += " WHERE Date >= '2018-08-26' AND Date <= '2018-09-26'";
+        myStat += " ORDER BY General_Form.Location_name;";
 
-        // console.log(myStat);
+        console.log(myStat);
 
         connection.query(myStat, function(err, results, fields) {
+            console.log(results);
             if (err) {
                 console.log(err);
                 res.json({"error": true});
                 res.end();
             } else {
-                // console.log(results);
+                console.log("a");
                 if (!!config[keyword]) {
                     // console.log(config[keyword]);
                     // console.log(config[keyword]["good"]);
                     // console.log(results);
-                    for (var i = 0; i < results.length; i++) {
-                        results[i].intensity = config[keyword][results[i][keyword]];
+                    if (results.length === 0) {
+                        res.json({"error": false, "data": results});
+                    } else {
+                        for (var i = 0; i < results.length; i++) {
+                            results[i].intensity = config[keyword][results[i][keyword]];
 
-                        if (i === results.length - 1) {
-                            // console.log(results);
-                            res.json({"error": false, "data": results});
+                            if (i === results.length - 1) {
+                                console.log(results);
+                                res.json({"error": false, "data": results});
+                            }
                         }
                     }
                 } else {
@@ -1809,7 +1816,7 @@ function dataList(sqlStatement, res) {
         } else {
             var result = results[0].concat(results[1]);
             var JSONresult = JSON.stringify(result, null, "\t");
-            // console.log(JSONresult);
+            console.log(JSONresult);
             res.send(JSONresult);
             res.end();
         }

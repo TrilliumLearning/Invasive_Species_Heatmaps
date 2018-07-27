@@ -9,6 +9,7 @@ requirejs(['./worldwind.min',
 
         var table = $("#dataDisplay").DataTable();
         table.columns([0, 1]).visible(false);
+        table.order(2, 'asc');
         var latilong;
         var idFilter;
 
@@ -65,18 +66,22 @@ requirejs(['./worldwind.min',
                 }
 
                 for (var z = 0; z < data.length; z++) {
-                    if (layers[i].renderables[0].userProperties === data[z][0]) {
+                    if (layers[i].renderables[0].userProperties === data[z][2]) {
                         if (layers[i].renderables[0].attributes.imageScale === 0.5) {
-                            console.log(layers[i].renderables[0].userProperties + " A");
+                            // console.log(layers[i].renderables[0].userProperties + " A");
                             changeScale(layers[i].renderables[0], 1.0, 1.2);
                             wwd.goTo(new WorldWind.Position(layers[i].renderables[0].position.latitude, layers[i].renderables[0].position.longitude, 10000000));
+
+                            if (!$("#switchLayer").is(':checked')) {
+                                $("#switchLayer").click();
+                            }
                         }
                         originalSize = false;
                         break;
                     } else {
                         if (z === data.length - 1) {
                             if (originalSize && layers[i].renderables[0].attributes.imageScale === 1.0) {
-                                console.log(layers[i].renderables[0].userProperties + " C");
+                                // console.log(layers[i].renderables[0].userProperties + " C");
                                 changeScale(layers[i].renderables[0], 0.5, 0.6);
                             }
 
@@ -141,10 +146,48 @@ requirejs(['./worldwind.min',
                     wwd.layers[i].enabled = !this.checked;
                     // console.log(wwd.layers);
                 } else {
-                    wwd.layers[i].enabled = this.checked;
+                    // wwd.layers[i].enabled = this.checked;
+                    hidePlacemark(wwd.layers[i], this.checked);
                 }
             }
+
+            function hidePlacemark(layer, status) {
+                var circle = document.createElement("canvas"),
+                    ctx = circle.getContext('2d'),
+                    radius = 15,
+                    r2 = radius + radius;
+
+                circle.width = circle.height = r2;
+
+                var gradient = ctx.createRadialGradient(radius, radius, 0, radius, radius, radius);
+
+                if (status) {
+                    console.log("A");
+                    gradient.addColorStop(0, 'rgb(204, 255, 255)');
+                    gradient.addColorStop(0.5, 'rgb(102, 153, 255)');
+                    gradient.addColorStop(1, 'rgb(102, 0, 255)');
+                } else {
+                    console.log("B");
+                    gradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
+                }
+
+                ctx.beginPath();
+                ctx.arc(radius, radius, radius, 0, Math.PI * 2, true);
+
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                ctx.closePath();
+
+                layer.renderables[0].updateImage = true;
+                layer.renderables[0].attributes.imageSource.image = circle;
+            }
         });
+
+        // $("#testButton").on('click', function() {
+        //     console.log(wwd.layers);
+        //     $("#buttons").append(wwd.layers[7].renderables[0].attributes.imageSource.image);
+        // });
 
         wwd.worldWindowController.__proto__.handleWheelEvent = function (event) {
             var navigator = this.wwd.navigator;
@@ -169,6 +212,7 @@ requirejs(['./worldwind.min',
             this.applyLimits();
             this.wwd.redraw();
 
+            refreshTable();
             autoSwitch();
         };
 
@@ -179,7 +223,23 @@ requirejs(['./worldwind.min',
                 $("#switchLayer").click();
             } else if (altitude > mainconfig.eyeDistance_switch && !$("#switchLayer").is(':checked')) {
                 $("#switchLayer").click();
-                table.search("").columns().search("").draw();
+                // table.search("").columns().search("").draw();
+            }
+        }
+
+        function refreshTable() {
+            var layerNames = "";
+            for (var i = 7; i < wwd.layers.length - 1; i++) {
+                if (wwd.layers[i].inCurrentFrame === true) {
+                    layerNames += "" + wwd.layers[i].displayName + "|";
+                }
+
+                if (i === wwd.layers.length - 2) {
+                    // console.log(layerNames.substring(0, layerNames.length - 1).split('|'));
+                    // var test = "Layer|bluegrass|blugrass|Boma example|Building C|Dar es Salaam ";
+                    // table.column(2).search("^" + test + "$", true, false, false).draw();
+                    table.column(2).search("^" + layerNames.substring(0, layerNames.length - 1) + "$", true, false, false).draw();
+                }
             }
         }
 
@@ -211,7 +271,7 @@ requirejs(['./worldwind.min',
                     popover.style.top = (y + yOffset) + 'px';
 
                     var indexes = table.rows().eq(0).filter( function (rowIdx) {
-                        return table.cell(rowIdx, 0).data() === pickedPL.userProperties ? true : false;
+                        return table.cell(rowIdx, 2).data() === pickedPL.userProperties ? true : false;
                     });
 
                     var data = table.rows(indexes).data()[0];
@@ -251,7 +311,7 @@ requirejs(['./worldwind.min',
             for (var q = 0; q < pickList.objects.length; q++) {
                 var pickedPL = pickList.objects[q].userObject;
                 if (pickedPL instanceof WorldWind.Placemark) {
-                    console.log("A");
+                    // console.log("A");
                     autoZoom(pickedPL.position, pickedPL.userProperties);
                 }
             }
@@ -261,7 +321,7 @@ requirejs(['./worldwind.min',
         function autoZoom(position, id) {
             wwd.goTo(new WorldWind.Position(position.latitude, position.longitude, 5000));
 
-            table.columns(0).search(id).draw();
+            table.columns(2).search("^" + id + "$", true, false, false).draw();
 
             $("#switchLayer").click()
 
@@ -416,7 +476,6 @@ requirejs(['./worldwind.min',
                     //     }
                     // }
 
-                    console.log(resp.data);
 
                     function convert(dms) {
                         var parts = dms.replace(/°|'/g, '').split(' ');
@@ -444,6 +503,7 @@ requirejs(['./worldwind.min',
                         gradient.addColorStop(0, 'rgb(204, 255, 255)');
                         gradient.addColorStop(0.5, 'rgb(102, 153, 255)');
                         gradient.addColorStop(1, 'rgb(102, 0, 255)');
+                        // gradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
 
                         ctx.beginPath();
                         ctx.arc(radius, radius, radius, 0, Math.PI * 2, true);
@@ -452,6 +512,8 @@ requirejs(['./worldwind.min',
                         ctx.fill();
 
                         ctx.closePath();
+
+                        // console.log(wwd.layers);
 
                         for (var i = 0; i < resp.data.length; i++) {
                             resp.data[i].Latitude = convert(resp.data[i].Latitude);
@@ -506,14 +568,15 @@ requirejs(['./worldwind.min',
                                 var placemark = new WorldWind.Placemark(placemarkPosition, false, placemarkAttributes);
                                 placemark.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
                                 placemark.highlightAttributes = highlightAttributes;
-                                placemark.userProperties = resp.data[i].transactionID;
+                                // placemark.userProperties = resp.data[i].transactionID;
+                                placemark.userProperties = resp.data[i].Location_name;
 
                                 wwd.layers[wwd.layers.length - 1].addRenderable(placemark);
                             }
 
                             if (i === resp.data.length - 1) {
 
-                                console.log(data);
+                                // console.log(data);
                                 var HeatMapLayer = new WorldWind.HeatMapLayer("Heatmap", data, {
                                     tile: RadiantCircleTile,
                                     incrementPerIntensity: 1/50,
@@ -526,7 +589,7 @@ requirejs(['./worldwind.min',
 
                                 // wwd.goTo(new WorldWind.Position(0, 0, 10000000));
                                 wwd.goTo(new WorldWind.Position(0, 0, mainconfig.eyeDistance_initial));
-                                console.log(wwd.layers);
+                                // console.log(wwd.layers);
                             }
                         }
                     }
