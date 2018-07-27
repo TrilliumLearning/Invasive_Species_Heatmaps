@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--NOTE: Most Web WorldWind home use jquery, Bootstrap and requirejs but those technologies are NOT-->
+    <!--required by Web WorldWind. See SimplestExample.html for an example of using Web WorldWind without them.-->
+    <title>Invasive Species Heatmap Project - Heat Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!--<link rel="stylesheet" href="../css/menu.css"/>-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script data-main="../scripts/heatmap/Main2.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.17/require.min.js"></script>
+    <!--<script worldwind="../scripts/heatmap/Main.js"></script>-->
+    <style>
+        body {
+            padding-bottom: 80px;
+        }
+
+        .floating-Box {
+            display: inline-block;
+        }
+
+        .navbutton1 {
+            width: 110px;
+            font-size: 16px;
+            height: 80px;
+            margin: 0;
+            border-radius: 0px 0 0;
+            background-color: #000000;
+            border: 0 solid;
+            color: #ffffff;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+        }
+
+        .navbutton1:hover {
+            background-color: #333;
+            color: white;
+        }
+
+        .navul {
+            margin: 0;
+            padding: 0;
+        }
+
+        .button1 {
+            height: 40px;
+            width: 455px;
+            border-radius: 15px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            background-color: white;
+            color: #337ab7;
+            border: 1px solid #337ab7;
+        }
+
+        .button1:hover {
+            background-color: #337ab7;
+            color: white;
+        }
+
+        table {
+            overflow-x: auto;
+            width: 100%;
+            display: block;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #cdcdcd;
+            text-align: center;
+        }
+
+        table th,
+        table td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        table::-webkit-scrollbar-thumb {
+            border-radius: 2px;
+            background-color: rgba(0, 0, 0, .5);
+            -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+        }
+
+        table::-webkit-scrollbar {
+            -webkit-appearance: none;
+            height: 7px;
+        }
+
+        .dropbutton {
+            float: right;
+            width: 150px;
+            height: 80px;
+            padding: 16px;
+            color: white;
+            background-color: #337ab7;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+        }
+        .dropbutton:hover, .dropbutton:focus {
+            background-color: #2b6699;
+        }
+        .dropdown-content {
+            display: none;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            right: 0;
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 20px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown a:hover {
+            background-color: #ddd;
+        }
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<div class="navul" style="height: 80px;
+    background: #000000;">
+    <a class="navul" href="//aworldbridge.com" style="background: #000000;
+    width: 500px;
+    height: 80px;">
+        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 520px;
+    height: 80px;
+    margin: auto; display: block;" />
+    </a>
+</div>
+<body>
+<div class="container" style="width: 900px;
+    padding: 0px;">
+    <div class="container center" style="width: 650px;
+    padding: 0px;">
+        <br>
+        <div class="page-header text-center header">
+            <h1><span class="fa fa-anchor"></span><strong> Invasive Species Heatmap Project -  Heat Map </strong></h1>
+        </div>
+    </div>
+    <div style="border-style: solid;
+    width: 500px;
+    padding: 20px;" class="container">
+        <!--<div>-->
+        <!--<h4>Type: *</h4>-->
+        <!--<select id="type">-->
+        <!--<option></option>-->
+        <!--<option value="temperature">Temperature</option>-->
+        <!--<option value="humidity">Humidity</option>-->
+        <!--</select>-->
+        <!--</div>-->
+        <div>
+            <h4 style="width: 460px;
+    margin-top: 0px;"><strong>Heatmap Time Range: </strong></h4>
+            <h5 class="floating-Box" style="width: 50px;">From:</h5>
+            <input id="startDate" class="date" type="text" placeholder="Select Date" style="width: 155px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;
+    margin-right: 45px;
+    padding-left: 10px;">
+            <h5 class="floating-Box" style="width: 35px;">To:</h5>
+            <input id="endDate" class="date" type="text" placeholder="Select Date" style="width: 155px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;
+    padding-left: 10px;">
+        </div>
+        <br>
+        <div id="buttons">
+            <button type="button" id="loadHeatmap" class="button1">Load Heatmap</button>
+            <!--<button type="button" id="return">Return</button>-->
+        </div>
+
+    </div>
+    <br>
+        <p style="margin-left: 550px">Go back to <a href="/homepage">Homepage >></a></p>
+    <br>
+    <div class="container" id="globe" style="width: 900px;
+    height: 900px;
+    margin: 0px;
+    padding: 0px;">
+        <canvas style="width: 900px;
+    height: 900px;" id="canvasOne">
+            Your browser does not support HTML5 Canvas.
+        </canvas>
+    </div>
+    <br>
+    <div id="popover" style="border-style: solid;" hidden></div>
+    <!--<div style="border-style: solid; position: absolute; left: 749px; top: 775px"></div>-->
+    <div id="dvData" style="width: 900px;">
+        <table id="dataDisplay" style="width: 100%;">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <!--<th>Latitude</th>-->
+                <!--<th>Longitude</th>-->
+                <th>Date</th>
+                <th>Country</th>
+                <th>Main_Crop</th>
+                <th>Irrigation</th>
+                <th>Crop_Stage</th>
+                <th>Crop_System</th>
+                <th>Crop_Field_Size</th>
+                <th>Crop_Field_Size_Unit</th>
+                <th>Rain_Amount</th>
+                <th>Total_FAW</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $(function () {
+            flatpickr(".date", {
+                dateFormat: "Y-m-d",
+                time_24hr: true
+            });
+        });
+    });
+</script>
+</body>
+</html>
