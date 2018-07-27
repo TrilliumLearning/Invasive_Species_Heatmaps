@@ -969,10 +969,6 @@ module.exports = function (app, passport) {
         });
     });
 
-    app.get('/heatmapP', function (req, res) {
-        res.render('heatmap_GlobeP.ejs');
-    });
-
     app.get('/heatmapData', isLoggedIn, function (req, res) {
         // console.log(req.query);
         res.setHeader("Access-Control-Allow-Origin", "*"); // Allow cross domain header
