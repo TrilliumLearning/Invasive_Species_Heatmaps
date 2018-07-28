@@ -42,7 +42,7 @@ define([
             this.displayName = "Blue Marble & Landsat";
             this.pickEnabled = false;
 
-            this.urlBuilder = new WmsUrlBuilder("https://worldwind25.arc.nasa.gov/wms",
+            this.urlBuilder = new WmsUrlBuilder("https://cors.aworldbridgelabs.com/https://worldwind25.arc.nasa.gov/wms",
                 "BlueMarble-200405,esat", "", "1.3.0");
         };
 
