@@ -25,8 +25,8 @@ requirejs(['./worldwind.min',
         // Create and add layers to the WorldWindow.
         var layers = [
             // Imagery layers.
-            {layer: new WorldWind.BMNGLayer(), enabled: true},
-            {layer: new WorldWind.BMNGLandsatLayer(), enabled: true},
+            // {layer: new WorldWind.BMNGLayer(), enabled: true},
+            // {layer: new WorldWind.BMNGLandsatLayer(), enabled: true},
             // {layer: new WorldWind.BingAerialLayer(null), enabled: false},
             {layer: new WorldWind.BingAerialWithLabelsLayer(null), enabled: true},
             // {layer: new WorldWind.BingRoadsLayer(null), enabled: false},
