@@ -221,8 +221,16 @@ requirejs(['./worldwind.min',
 
             if (altitude <= mainconfig.eyeDistance_switch && $("#switchLayer").is(':checked')) {
                 $("#switchLayer").click();
+                $("#switchNote").html("");
+                $("#switchNote").append("NOTE: Toggled switch to temporarily view placemarks.");
+                $("#globeNote").html("");
+                $("#globeNote").append("NOTE: Zoom in to an eye distance of more than 4,500 km to view placemarks.");
             } else if (altitude > mainconfig.eyeDistance_switch && !$("#switchLayer").is(':checked')) {
                 $("#switchLayer").click();
+                $("#switchNote").html("");
+                $("#switchNote").append("NOTE: Toggled switch to temporarily view heatmap.");
+                $("#globeNote").html("");
+                $("#globeNote").append("NOTE: Zoom in to an eye distance of more than 4,500 km to view heatmap.");
                 // table.search("").columns().search("").draw();
             }
         }

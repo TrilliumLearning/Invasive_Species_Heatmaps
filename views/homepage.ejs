@@ -3,10 +3,11 @@
 <head>
     <!--NOTE: Most Web WorldWind home use jquery, Bootstrap and requirejs but those technologies are NOT-->
     <!--required by Web WorldWind. See SimplestExample.html for an example of using Web WorldWind without them.-->
-    <title>Invasive Species Heatmap Project - Heat Map</title>
+    <title>Invasive Species Heatmap Project - Homepage</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
@@ -30,22 +31,15 @@
             display: inline-block;
         }
 
-        .navbutton1 {
-            width: 110px;
-            font-size: 16px;
-            height: 80px;
-            margin: 0;
-            border-radius: 0px 0 0;
-            background-color: #000000;
-            border: 0 solid;
-            color: #ffffff;
-            -webkit-transition-duration: 0.4s;
-            transition-duration: 0.4s;
+        .note {
+            color: #959595;
         }
 
-        .navbutton1:hover {
-            background-color: #333;
-            color: white;
+        .box1 {
+            margin-left: 100px;
+            position: absolute;
+            width: 250px;
+            height: 900px;
         }
 
         .navul {
@@ -55,7 +49,7 @@
 
         .button1 {
             height: 40px;
-            width: 455px;
+            width: 195px;
             border-radius: 15px;
             -webkit-transition-duration: 0.4s;
             transition-duration: 0.4s;
@@ -209,76 +203,85 @@
     </a>
 </div>
 <body>
-<div class="container" style="width: 900px;
-    padding: 0px;">
-    <div class="container center" style="width: 850px;
+<div class="container" style="width: 1400px;">
+    <div class="container center" style="width: 900px;
     padding: 0px;">
         <br>
         <div class="page-header text-center header">
-            <h1><span class="fa fa-anchor"></span><strong> Invasive Species Heatmap Project -  Homepage - Heatmap </strong></h1>
+            <h1><span class="fa fa-home"></span><strong> Invasive Species Heatmap Project -  Homepage - Heatmap </strong></h1>
         </div>
     </div>
-    <h4 style="margin-left: 275px">Have an account? <a href="/login">Login >></a>  or <a href="/signup"> Sign Up >></a></h4>
+
     <br>
-    <div class="container" id="globe" style="width: 900px;
-    height: 900px;
-    margin: 0px;
+    <div class="container" style="width: 100%; height: 1000px; overflow: hidden;
     padding: 0px;">
-        <canvas style="width: 900px;
+        <div class="floating-Box box1">
+            <h5 class="note text-center" id="switchNote">NOTE: Toggled switch to temporarily view heatmap.</h5>
+            <div class="text-center">
+                Heatmap Layer
+                <label class="switch">
+                    <input type="checkbox" id="switchLayer" checked>
+                    <span class="slider round"></span>
+                </label>
+                Placemark Layer
+            </div>
+            <br>
+            <div style="border-style: solid;
+        width: 250px;
+        padding: 20px;" class="container">
+                <!--<div>-->
+                <!--<h4>Type: *</h4>-->
+                <!--<select id="type">-->
+                <!--<option></option>-->
+                <!--<option value="temperature">Temperature</option>-->
+                <!--<option value="humidity">Humidity</option>-->
+                <!--</select>-->
+                <!--</div>-->
+                <div>
+                    <h4 style="width: 460px;
+        margin-top: 0px;"><strong>Heatmap Time Range: </strong></h4>
+                    <h5 class="floating-Box" style="width: 50px;">From:</h5>
+                    <input id="startDate" class="date" type="text" placeholder="Select Date" style="width: 195px;
+        height: 40px;
+        border-radius: 5px;
+        border: 1px solid #c8c8c8;
+        margin-right: 45px;
+        padding-left: 10px;">
+                    <h5 class="floating-Box" style="width: 35px;">To:</h5>
+                    <input id="endDate" class="date" type="text" placeholder="Select Date" style="width: 195px;
+        height: 40px;
+        border-radius: 5px;
+        border: 1px solid #c8c8c8;
+        padding-left: 10px;">
+                </div>
+
+                <br>
+                <div id="buttons">
+                    <!--<button type="button" id="loadHeatmap" class="button1">Load Heat Map</button>-->
+                    <button class="button1" type="button" id="loadHeatmap"> Load Heatmap </button>
+
+                    <!--<button type="button" id="testButton"></button>-->
+                </div>
+                <h5 class="note" id="loadNote">NOTE: Select the time range for the heatmap/placemarks that you would like to see.</h5>
+            </div>
+            <h4><a href="/login"><< Login </a> to your account Don't have one? <a href="/signup"> Sign Up >></a></h4>
+        </div>
+        <div class="container floating-Box" id="globe" style="width: 900px;
+    height: 900px;
+    margin-left: 375px;
+    padding: 0px;">
+            <h4 class="note text-center" id="globeNote">NOTE: Zoom in to an eye distance of less than 4,500 km to view the heatmap.</h4>
+            <canvas class="floating-Box" style="width: 900px;
     height: 900px;" id="canvasOne">
-            Your browser does not support HTML5 Canvas.
-        </canvas>
-    </div>
-    <br>
-    <div style="border-style: solid;
-    width: 500px;
-    padding: 20px;" class="container">
-        <!--<div>-->
-        <!--<h4>Type: *</h4>-->
-        <!--<select id="type">-->
-        <!--<option></option>-->
-        <!--<option value="temperature">Temperature</option>-->
-        <!--<option value="humidity">Humidity</option>-->
-        <!--</select>-->
-        <!--</div>-->
-        <div>
-            <h4 style="width: 460px;
-    margin-top: 0px;"><strong>Heatmap Time Range: </strong></h4>
-            <h5 class="floating-Box" style="width: 50px;">From:</h5>
-            <input id="startDate" class="date" type="text" placeholder="Select Date" style="width: 155px;
-    height: 40px;
-    border-radius: 5px;
-    border: 1px solid #c8c8c8;
-    margin-right: 45px;
-    padding-left: 10px;">
-            <h5 class="floating-Box" style="width: 35px;">To:</h5>
-            <input id="endDate" class="date" type="text" placeholder="Select Date" style="width: 155px;
-    height: 40px;
-    border-radius: 5px;
-    border: 1px solid #c8c8c8;
-    padding-left: 10px;">
-        </div>
-        <br>
-        <div id="buttons">
-            <!--<button type="button" id="loadHeatmap" class="button1">Load Heat Map</button>-->
-            <button class="button1" type="button" id="loadHeatmap"> Load Heatmap </button>
-
-            <!--<button type="button" id="testButton"></button>-->
+                Your browser does not support HTML5 Canvas.
+            </canvas>
         </div>
 
+        <div id="popover" style="border-style: solid;" hidden></div>
     </div>
-    <br><div style="margin-left: 335px">
-        Heatmap Layer
-        <label class="switch">
-            <input type="checkbox" id="switchLayer" checked>
-            <span class="slider round"></span>
-        </label>
-        Placemark Layer
-    </div>
-    <br>
-    <div id="popover" style="border-style: solid;" hidden></div>
     <!--<div style="border-style: solid; position: absolute; left: 749px; top: 775px"></div>-->
-    <div id="dvData" style="width: 900px;">
+    <div id="dvData" style="width: 1150px; margin-left: 100px">
+        <h4 class="note text-center">NOTE: The data table displays the entries that are within your viewing range. Seecting one will highlight the placemark.</h4>
         <table id="dataDisplay" style="width: 100%;">
             <thead>
             <tr>
