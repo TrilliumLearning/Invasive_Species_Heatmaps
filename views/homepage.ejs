@@ -211,14 +211,15 @@
 <body>
 <div class="container" style="width: 900px;
     padding: 0px;">
-    <div class="container center" style="width: 650px;
+    <div class="container center" style="width: 850px;
     padding: 0px;">
         <br>
         <div class="page-header text-center header">
             <h1><span class="fa fa-anchor"></span><strong> Invasive Species Heatmap Project -  Homepage - Heatmap </strong></h1>
         </div>
     </div>
-    <h4 style="margin-left: 300px">Have an account? <a href="/login">Login >></a></h4>
+    <h4 style="margin-left: 275px">Have an account? <a href="/login">Login >></a>  or <a href="/signup"> Sign Up >></a></h4>
+    <br>
     <div class="container" id="globe" style="width: 900px;
     height: 900px;
     margin: 0px;
@@ -228,6 +229,7 @@
             Your browser does not support HTML5 Canvas.
         </canvas>
     </div>
+    <br>
     <div style="border-style: solid;
     width: 500px;
     padding: 20px;" class="container">
@@ -259,16 +261,19 @@
         <br>
         <div id="buttons">
             <!--<button type="button" id="loadHeatmap" class="button1">Load Heat Map</button>-->
-            <button type="button" id="loadHeatmap"></button>
-            Heatmap Layer
-            <label class="switch">
-                <input type="checkbox" id="switchLayer" checked>
-                <span class="slider round"></span>
-            </label>
-            Placemark Layer
+            <button class="button1" type="button" id="loadHeatmap"> Load Heatmap </button>
+
             <!--<button type="button" id="testButton"></button>-->
         </div>
 
+    </div>
+    <br><div style="margin-left: 335px">
+        Heatmap Layer
+        <label class="switch">
+            <input type="checkbox" id="switchLayer" checked>
+            <span class="slider round"></span>
+        </label>
+        Placemark Layer
     </div>
     <br>
     <div id="popover" style="border-style: solid;" hidden></div>
