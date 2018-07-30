@@ -508,10 +508,10 @@ requirejs(['./worldwind.min',
                         circle.width = circle.height = r2;
 
                         var gradient = ctx.createRadialGradient(radius, radius, 0, radius, radius, radius);
-                        gradient.addColorStop(0, 'rgb(204, 255, 255)');
-                        gradient.addColorStop(0.5, 'rgb(102, 153, 255)');
-                        gradient.addColorStop(1, 'rgb(102, 0, 255)');
-                        // gradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
+                        // gradient.addColorStop(0, 'rgb(204, 255, 255)');
+                        // gradient.addColorStop(0.5, 'rgb(102, 153, 255)');
+                        // gradient.addColorStop(1, 'rgb(102, 0, 255)');
+                        gradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
 
                         ctx.beginPath();
                         ctx.arc(radius, radius, radius, 0, Math.PI * 2, true);
@@ -592,7 +592,7 @@ requirejs(['./worldwind.min',
                                     scale: ['#000000', '#ffffff', '#00ff00', '#ffff00', '#ff0000']
                                 });
 
-                                HeatMapLayer.enabled = false;
+                                HeatMapLayer.enabled = true;
                                 wwd.addLayer(HeatMapLayer);
 
                                 // wwd.goTo(new WorldWind.Position(0, 0, 10000000));
