@@ -25,6 +25,8 @@ requirejs(['./worldwind.min',
         // Create and add layers to the WorldWindow.
         var layers = [
             // Imagery layers.
+            // coordinates layer always top
+            {layer: new WorldWind.CoordinatesDisplayLayer(wwd), enabled: true},
             // {layer: new WorldWind.BMNGLayer(), enabled: true},
             // {layer: new WorldWind.BMNGLandsatLayer(), enabled: true},
             // {layer: new WorldWind.BingAerialLayer(null), enabled: false},
@@ -35,7 +37,6 @@ requirejs(['./worldwind.min',
             {layer: new WorldWind.AtmosphereLayer(), enabled: true},
             // WorldWindow UI layers.
             {layer: new WorldWind.CompassLayer(), enabled: true},
-            {layer: new WorldWind.CoordinatesDisplayLayer(wwd), enabled: true},
             {layer: new WorldWind.ViewControlsLayer(wwd), enabled: true}
         ];
 
@@ -58,7 +59,7 @@ requirejs(['./worldwind.min',
             var layers = wwd.layers;
             var originalSize = true;
 
-            for (var i = 7; i < layers.length - 1; i++) {
+            for (var i = layers.length; i < layers.length - 1; i++) {
 
                 if (data.length === 0 && layers[i].renderables[0].attributes.imageScale === 1.0) {
                     changeScale(layers[i].renderables[0], 0.5, 0.6);
@@ -141,7 +142,7 @@ requirejs(['./worldwind.min',
             // 7 basis layers
             // console.log(this.checked + "   " + !this.checked);
 
-            for (var i = 7; i < wwd.layers.length; i++) {
+            for (var i = layers.length; i < wwd.layers.length; i++) {
                 if (i === wwd.layers.length - 1) {
                     wwd.layers[i].enabled = !this.checked;
                     // console.log(wwd.layers);
@@ -217,7 +218,7 @@ requirejs(['./worldwind.min',
         };
 
         function autoSwitch() {
-            var altitude = wwd.layers[5].eyeText.text.replace(/Eye  |,| km/g, '');
+            var altitude = wwd.layers[0].eyeText.text.replace(/Eye  |,| km/g, '');
 
             if (altitude <= mainconfig.eyeDistance_switch && $("#switchLayer").is(':checked')) {
                 $("#switchLayer").click();
@@ -237,7 +238,7 @@ requirejs(['./worldwind.min',
 
         function refreshTable() {
             var layerNames = "";
-            for (var i = 7; i < wwd.layers.length - 1; i++) {
+            for (var i = layers.length; i < wwd.layers.length - 1; i++) {
                 if (wwd.layers[i].inCurrentFrame === true) {
                     layerNames += "" + wwd.layers[i].displayName + "|";
                 }
@@ -349,7 +350,7 @@ requirejs(['./worldwind.min',
         }
 
         $("#loadHeatmap").on("click", function () {
-            wwd.layers.splice(7, wwd.layers.length - 7);
+            wwd.layers.splice(layers.length, wwd.layers.length - layers.length);
             table.clear().draw();
 
             var data = 'startDate=' + document.getElementById("startDate").value + '&endDate=' + document.getElementById("endDate").value;
@@ -596,7 +597,7 @@ requirejs(['./worldwind.min',
                                 wwd.addLayer(HeatMapLayer);
 
                                 // wwd.goTo(new WorldWind.Position(0, 0, 10000000));
-                                wwd.goTo(new WorldWind.Position(0, 0, mainconfig.eyeDistance_initial));
+                                wwd.goTo(new WorldWind.Position(6.6111, 20.9394, mainconfig.eyeDistance_initial));
                                 // console.log(wwd.layers);
                             }
                         }
