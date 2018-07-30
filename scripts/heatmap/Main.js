@@ -230,7 +230,7 @@ requirejs(['./worldwind.min',
                 $("#switchNote").html("");
                 $("#switchNote").append("NOTE: Toggled switch to temporarily view heatmap.");
                 $("#globeNote").html("");
-                $("#globeNote").append("NOTE: Zoom in to an eye distance of more than 4,500 km to view heatmap.");
+                $("#globeNote").append("NOTE: Zoom in to an eye distance of less than 4,500 km to view heatmap.");
                 // table.search("").columns().search("").draw();
             }
         }
