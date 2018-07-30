@@ -597,6 +597,8 @@ requirejs(['./worldwind.min',
                                 wwd.addLayer(HeatMapLayer);
 
                                 // wwd.goTo(new WorldWind.Position(0, 0, 10000000));
+
+                                // Center of Africa
                                 wwd.goTo(new WorldWind.Position(6.6111, 20.9394, mainconfig.eyeDistance_initial));
                                 // console.log(wwd.layers);
                             }
