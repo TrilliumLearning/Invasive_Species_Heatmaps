@@ -213,10 +213,10 @@ requirejs(['./worldwind.min',
             this.wwd.redraw();
 
             refreshTable();
-            autoSwitch();
+            //autoSwitch();
         };
 
-        function autoSwitch() {
+        /*function autoSwitch() {
             var altitude = wwd.layers[5].eyeText.text.replace(/Eye  |,| km/g, '');
 
             if (altitude <= mainconfig.eyeDistance_switch && $("#switchLayer").is(':checked')) {
@@ -233,7 +233,7 @@ requirejs(['./worldwind.min',
                 $("#globeNote").append("NOTE: Zoom in to an eye distance of less than 4,500 km to view heatmap.");
                 // table.search("").columns().search("").draw();
             }
-        }
+        }*/
 
         function refreshTable() {
             var layerNames = "";

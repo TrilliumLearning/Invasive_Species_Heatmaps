@@ -43,7 +43,7 @@ var configGlobal = {
     'eyeDistance_switch': 4500,
 
     // ish initial eye distance (m)
-    'eyeDistance_initial': 8000000
+    'eyeDistance_initial': 9000000
 };
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
