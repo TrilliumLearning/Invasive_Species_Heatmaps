@@ -190,6 +190,9 @@
         .slider.round:before {
             border-radius: 50%;
         }
+        #manualSwitch {
+            display: none;
+        }
     </style>
 </head>
 <div class="navul" style="height: 150px;
@@ -207,7 +210,7 @@
     <div class="container center" style="width: 1500px;
     padding: 0px;">
         <div class="page-header text-center header">
-            <h1><span class="fa fa-home"></span><strong> Invasive Species Heatmap Project -  Homepage - Heatmap </strong></h1>
+            <h1><strong> Invasive Species Heatmap Project </strong></h1>
         </div>
     </div>
 
@@ -215,23 +218,24 @@
     <div class="container" style="width: 100%; height: 1000px; overflow: hidden;
     padding: 0px;">
         <div class="floating-Box box1">
-            <h5 class="note text-center" id="switchNote">NOTE: Click the switch to toggle between heatmap and placemarks.</h5>
+            <div style="margin-left: -15px; width: 285px">
+            <h5 class="note text-center" id="switchNote">NOTE: Zoom in to an eye distance of less than 4,500 km or more than 200 km to view placemarks.</h5>
             <div class="text-center">
-                Heatmap Layer
+                Manual Layer Switch
                 <label class="switch">
                     <input type="checkbox" id="switchMethod" checked>
                     <span class="slider round"></span>
                 </label>
-                Auto Switch
+                Auto Layer Switch
             </div>
-            <div class="text-center">
+            <div id="manualSwitch" class="text-center">
                 Heatmap Layer
                 <label class="switch" style="pointer-events: none;">
                     <input type="checkbox" id="switchLayer">
                     <span class="slider round"></span>
                 </label>
                 Placemark Layer
-            </div>
+            </div></div>
             <br>
             <div style="border-style: solid;
         width: 250px;
