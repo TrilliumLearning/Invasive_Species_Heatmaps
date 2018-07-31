@@ -984,13 +984,13 @@ module.exports = function (app, passport) {
         console.log(myStat);
 
         connection.query(myStat, function(err, results, fields) {
-            console.log(results);
+            // console.log(results);
             if (err) {
                 console.log(err);
                 res.json({"error": true});
                 res.end();
             } else {
-                console.log("a");
+                console.log(results.length);
                 if (!!config[keyword]) {
                     // console.log(config[keyword]);
                     // console.log(config[keyword]["good"]);
@@ -1002,7 +1002,7 @@ module.exports = function (app, passport) {
                             results[i].intensity = config[keyword][results[i][keyword]];
 
                             if (i === results.length - 1) {
-                                console.log(results);
+                                // console.log(results);
                                 res.json({"error": false, "data": results});
                             }
                         }

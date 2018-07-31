@@ -217,7 +217,7 @@
         <div class="floating-Box box1">
             <h5 class="note text-center" id="switchNote">NOTE: Click the switch to toggle between heatmap and placemarks.</h5>
             <div class="text-center">
-                Heatmap Layer
+                Manual Switch
                 <label class="switch">
                     <input type="checkbox" id="switchMethod" checked>
                     <span class="slider round"></span>
@@ -330,6 +330,7 @@
         $(function () {
             flatpickr(".date", {
                 dateFormat: "Y-m-d",
+                minDate: '2017-11-30',
                 time_24hr: true
             });
         });
