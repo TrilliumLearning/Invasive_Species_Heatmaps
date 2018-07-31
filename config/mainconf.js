@@ -39,8 +39,14 @@ var configGlobal = {
     },
 
 
-    // ish eye distance for switch placemark to heatmap until eyeDistance_Heatmap less than 4500 (km)
-    'eyeDistance_switch': 4500,
+    // ish eye distance for switch heatmap to placemark until eyeDistance less than 4500 (km)
+    'eyeDistance_switch_high': 4500,
+
+    // ish eye distance for switch placemark to heatmap until eyeDistance less than 200 (km)
+    'eyeDistance_switch_low': 200,
+
+    // ish eye distance for auto zoom when clicking a placemark (m)
+    'eyeDistance_autozoom': 50000,
 
     // ish initial eye distance (m)
     'eyeDistance_initial': 9000000

@@ -56,22 +56,22 @@ requirejs(['./worldwind.min',
 
             var data = table.rows('.selected').data();
             // var placemark = wwd.layers[11].renderables;
-            var layers = wwd.layers;
+            var layer = wwd.layers;
             var originalSize = true;
 
-            for (var i = layers.length; i < layers.length - 1; i++) {
+            for (var i = layers.length; i < layer.length - 1; i++) {
 
-                if (data.length === 0 && layers[i].renderables[0].attributes.imageScale === 1.0) {
-                    changeScale(layers[i].renderables[0], 0.5, 0.6);
+                if (data.length === 0 && layer[i].renderables[0].attributes.imageScale === 1.0) {
+                    changeScale(layer[i].renderables[0], 0.5, 0.6);
                     break;
                 }
 
                 for (var z = 0; z < data.length; z++) {
-                    if (layers[i].renderables[0].userProperties === data[z][2]) {
-                        if (layers[i].renderables[0].attributes.imageScale === 0.5) {
+                    if (layer[i].renderables[0].userProperties === data[z][2]) {
+                        if (layer[i].renderables[0].attributes.imageScale === 0.5) {
                             // console.log(layers[i].renderables[0].userProperties + " A");
-                            changeScale(layers[i].renderables[0], 1.0, 1.2);
-                            wwd.goTo(new WorldWind.Position(layers[i].renderables[0].position.latitude, layers[i].renderables[0].position.longitude, 10000000));
+                            changeScale(layer[i].renderables[0], 1.0, 1.2);
+                            wwd.goTo(new WorldWind.Position(layer[i].renderables[0].position.latitude, layer[i].renderables[0].position.longitude, 10000000));
 
                             if (!$("#switchLayer").is(':checked')) {
                                 $("#switchLayer").click();
@@ -81,9 +81,9 @@ requirejs(['./worldwind.min',
                         break;
                     } else {
                         if (z === data.length - 1) {
-                            if (originalSize && layers[i].renderables[0].attributes.imageScale === 1.0) {
+                            if (originalSize && layer[i].renderables[0].attributes.imageScale === 1.0) {
                                 // console.log(layers[i].renderables[0].userProperties + " C");
-                                changeScale(layers[i].renderables[0], 0.5, 0.6);
+                                changeScale(layer[i].renderables[0], 0.5, 0.6);
                             }
 
                             originalSize = true;
@@ -135,6 +135,13 @@ requirejs(['./worldwind.min',
                 // placemark.splice(placemark.length - 1, 1);
             }
 
+        });
+
+        $("#switchMethod").on('click', function() {
+            // $("#switchLayer").css('pointer-events', (this.checked === true) ? 'auto' : 'none');
+            // console.log($($("#switchLayer")[0].parentElement));
+            var switchLayer = $($("#switchLayer")[0].parentElement);
+            switchLayer.css('pointer-events', (this.checked === true) ? 'none' : 'auto');
         });
 
         $("#switchLayer").on("click", function () {
@@ -214,25 +221,42 @@ requirejs(['./worldwind.min',
             this.wwd.redraw();
 
             refreshTable();
-            //autoSwitch();
+            autoSwitch();
         };
 
         function autoSwitch() {
-            var altitude = wwd.layers[0].eyeText.text.replace(/Eye  |,| km/g, '');
+            if ($("#switchMethod").is(':checked')) {
+                var altitude = wwd.layers[0].eyeText.text.replace(/Eye  |,| km/g, '');
 
-            if (altitude <= mainconfig.eyeDistance_switch && $("#switchLayer").is(':checked')) {
-                $("#switchLayer").click();
-                $("#switchNote").html("");
-                $("#switchNote").append("NOTE: Toggled switch to temporarily view placemarks.");
-                $("#globeNote").html("");
-                $("#globeNote").append("NOTE: Zoom in to an eye distance of more than 4,500 km to view placemarks.");
-            } else if (altitude > mainconfig.eyeDistance_switch && !$("#switchLayer").is(':checked')) {
-                $("#switchLayer").click();
-                $("#switchNote").html("");
-                $("#switchNote").append("NOTE: Toggled switch to temporarily view heatmap.");
-                $("#globeNote").html("");
-                $("#globeNote").append("NOTE: Zoom in to an eye distance of less than 4,500 km to view heatmap.");
-                // table.search("").columns().search("").draw();
+                // if (altitude <= mainconfig.eyeDistance_switch && $("#switchLayer").is(':checked')) {
+                //     $("#switchLayer").click();
+                //     $("#switchNote").html("");
+                //     $("#switchNote").append("NOTE: Toggled switch to temporarily view placemarks.");
+                //     $("#globeNote").html("");
+                //     $("#globeNote").append("NOTE: Zoom in to an eye distance of more than 4,500 km to view placemarks.");
+                // } else if (altitude > mainconfig.eyeDistance_switch && !$("#switchLayer").is(':checked')) {
+                //     $("#switchLayer").click();
+                //     $("#switchNote").html("");
+                //     $("#switchNote").append("NOTE: Toggled switch to temporarily view heatmap.");
+                //     $("#globeNote").html("");
+                //     $("#globeNote").append("NOTE: Zoom in to an eye distance of less than 4,500 km to view heatmap.");
+                //     // table.search("").columns().search("").draw();
+                // }
+
+                if ((altitude <= mainconfig.eyeDistance_switch_low || altitude >= mainconfig.eyeDistance_switch_high) && $("#switchLayer").is(':checked')) {
+                    $("#switchLayer").click();
+                    $("#switchNote").html("");
+                    $("#switchNote").append("NOTE: Toggled switch to temporarily view placemarks.");
+                    $("#globeNote").html("");
+                    $("#globeNote").append("NOTE: Zoom in to an eye distance of more than 4,500 km to view placemarks.");
+                } else if ((altitude > mainconfig.eyeDistance_switch_low && altitude < mainconfig.eyeDistance_switch_high) && !$("#switchLayer").is(':checked')) {
+                    $("#switchLayer").click();
+                    $("#switchNote").html("");
+                    $("#switchNote").append("NOTE: Toggled switch to temporarily view heatmap.");
+                    $("#globeNote").html("");
+                    $("#globeNote").append("NOTE: Zoom in to an eye distance of less than 4,500 km to view heatmap.");
+                    // table.search("").columns().search("").draw();
+                }
             }
         }
 
@@ -328,7 +352,7 @@ requirejs(['./worldwind.min',
         }
 
         function autoZoom(position, id) {
-            wwd.goTo(new WorldWind.Position(position.latitude, position.longitude, 5000));
+            wwd.goTo(new WorldWind.Position(position.latitude, position.longitude, mainconfig.eyeDistance_autozoom));
 
             table.columns(2).search("^" + id + "$", true, false, false).draw();
 
@@ -597,6 +621,8 @@ requirejs(['./worldwind.min',
                                 wwd.addLayer(HeatMapLayer);
 
                                 // wwd.goTo(new WorldWind.Position(0, 0, 10000000));
+
+                                // Center of Africa
                                 wwd.goTo(new WorldWind.Position(6.6111, 20.9394, mainconfig.eyeDistance_initial));
                                 // console.log(wwd.layers);
                             }

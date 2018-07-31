@@ -219,6 +219,14 @@
             <div class="text-center">
                 Heatmap Layer
                 <label class="switch">
+                    <input type="checkbox" id="switchMethod" checked>
+                    <span class="slider round"></span>
+                </label>
+                Auto Switch
+            </div>
+            <div class="text-center">
+                Heatmap Layer
+                <label class="switch" style="pointer-events: none;">
                     <input type="checkbox" id="switchLayer">
                     <span class="slider round"></span>
                 </label>
@@ -284,19 +292,32 @@
         <table id="dataDisplay" style="width: 100%;">
             <thead>
             <tr>
-                <th>ID</th>
-                <!--<th>Latitude</th>-->
-                <!--<th>Longitude</th>-->
+                <!--<th>ID</th>-->
+                <!--&lt;!&ndash;<th>Latitude</th>&ndash;&gt;-->
+                <!--&lt;!&ndash;<th>Longitude</th>&ndash;&gt;-->
+                <!--<th>Date</th>-->
+                <!--<th>Country</th>-->
+                <!--<th>Main_Crop</th>-->
+                <!--<th>Irrigation</th>-->
+                <!--<th>Crop_Stage</th>-->
+                <!--<th>Crop_System</th>-->
+                <!--<th>Crop_Field_Size</th>-->
+                <!--<th>Crop_Field_Size_Unit</th>-->
+                <!--<th>Rain_Amount</th>-->
+                <!--<th>Total_FAW</th>-->
+
+                <th>Transaction_ID</th>
+                <th>Field Owner</th>
+                <th>Field Name</th>
                 <th>Date</th>
-                <th>Country</th>
+                <th>Crop_Health</th>
                 <th>Main_Crop</th>
                 <th>Irrigation</th>
                 <th>Crop_Stage</th>
-                <th>Crop_System</th>
+                <th>Farming_System</th>
                 <th>Crop_Field_Size</th>
                 <th>Crop_Field_Size_Unit</th>
                 <th>Rain_Amount</th>
-                <th>Total_FAW</th>
             </tr>
             </thead>
             <tbody>
