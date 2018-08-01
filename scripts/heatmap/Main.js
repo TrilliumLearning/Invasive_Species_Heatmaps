@@ -323,7 +323,7 @@ requirejs(['./worldwind.min',
                     var data = table.rows(indexes).data()[0];
 
                     var content = "<p><strong>Field Name :</strong> " + data[2] +
-                        "<br>" + "<strong>Field Owner :</strong> " + data[1] +
+                        // "<br>" + "<strong>Field Owner :</strong> " + data[1] +
                         "<br>" + "<strong>Date :</strong> " + data[3] +
                         "<br>" + "<strong>Crop Size :</strong> " + data[9] + " " + data[10] +
                         "<br>" + "<strong>Farming System :</strong> " + data[8] + "</p>";
