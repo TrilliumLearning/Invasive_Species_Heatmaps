@@ -110,6 +110,7 @@
             width: 875px;
             height: 80px;
             border-radius: 15px;
+            font-size: 16px;
             -webkit-transition-duration: 0.4s;
             transition-duration: 0.4s;
             cursor: pointer;
@@ -201,87 +202,7 @@
             display: block;
         }
 
-        /*@media only screen and (max-width: 320px){
-            .input {
-                font-size: 10px;
-                width: 22%;
-            }
-
-            .container1 {
-                margin-left: 10px;
-            }
-
-            #currentpassword,
-            #newpassword,
-            #Confirmpassword {
-                width: 35%;
-            }
-
-            .change1 {
-                font-size: 10px;
-                width: 50%;
-            }
-
-            h5 {
-                margin-left: 1px;
-            }
-
-            #userrole {
-                margin-top: -20px;
-            }
-        }
-
-        @media screen and (max-width:375px) {
-            .container1 {
-                margin-left: 10px;
-            }
-
-            .input {
-                font-size: 14px;
-                width: 22%;
-            }
-
-            #userrole {
-                margin-top: -20px;
-            }
-
-            .change1 {
-                font-size: 13px;
-                width: 50%;
-            }
-
-            #currentpassword,
-            #newpassword,
-            #Confirmpassword {
-                width: 40%;
-            }
-        }
-
-        @media screen and (max-width:414px) {
-            .container1 {
-                margin-left: 10px;
-            }
-
-            .input {
-                font-size: 15px;
-                width: 22%;
-            }
-
-            #userrole {
-                margin-top: -20px;
-            }
-
-            .change1 {
-                font-size: 14px;
-                width: 60%;
-            }
-
-            #currentpassword,
-            #newpassword,
-            #Confirmpassword {
-                width: 40%;
-            }
-        }*/</style>
+        </style>
 </head>
 <div class="navul" style="height: 80px;
     background: #000000;">
@@ -397,24 +318,29 @@
                     </div>
                     <br>
                     <br>
-                    <h4 style="width: 500px;"><strong>Password Reset</strong>:   </h4>
-                    <div style="width: 500px;">
+                    <p style="font-size:15px">
+                        <label for="password" >Do you want to change your password?</label>
+                        <input type="checkbox" id="password" name="password" onclick="myFunction()">
+                    </p>
+                    <div id="pswchange" style="width: 700px; margin-left: 100px; display: none">
+                        <h4 style="width: 500px;"><strong>Password Reset</strong>:   </h4>
+
                         <h5 class="floating-Box" style="width: 190px;">Current Password: </h5>
-                        <input class="floating-Box" type="password" id="currentpassword" name="currentpassword" maxlength="2000px" style="width: 285px;
+                        <input class="floating-Box" type="password" id="currentpassword" name="currentpassword" maxlength="2000px" style="width: 450px;
     height: 50px;
     margin: 5px;
     padding-left: 10px;
     border-radius: 5px;
     border: 1px solid #c8c8c8;">
                         <h5 class="floating-Box" style="width: 190px;">New Password: </h5>
-                        <input class="floating-Box" type="password" id="newpassword" name="newpassword" maxlength="2000px" style="width: 285px;
+                        <input class="floating-Box" type="password" id="newpassword" name="newpassword" maxlength="2000px" style="width: 450px;
     height: 50px;
     margin: 5px;
     padding-left: 10px;
     border-radius: 5px;
     border: 1px solid #c8c8c8;">
                         <h5 class="floating-Box" style="width: 190px;">Confirm New Password: </h5>
-                        <input class="floating-Box" type="password" id="Confirmpassword" name="Confirmpassword" maxlength="2000px" style="width: 285px;
+                        <input class="floating-Box" type="password" id="Confirmpassword" name="Confirmpassword" maxlength="2000px" style="width: 450px;
     height: 50px;
     margin: 5px;
     padding-left: 10px;
@@ -422,10 +348,10 @@
     border: 1px solid #c8c8c8;">
                     </div>
                     <br>
-                    <button id="SS" type="submit" class="button1"> Submit </button>
+                    <button id="SS" type="submit" class="button1"> Save Changes </button>
                     <hr style="margin-bottom: 10px;">
                     <div style="width: 880px">
-                        <p class="text-center" style="margin: auto; display: block;"> <a href="/userHome">Cancel</a></p>
+                        <p class="text-center" style="margin: auto; display: block;"> <a onclick="userHome()">Cancel</a></p>
                     </div>
                 </form>
             </div>
@@ -529,6 +455,11 @@
             // }
         });
     });
+    function userHome() {
+        if (confirm("Are you sure you want to leave this page? Changes will not be saved.") === true) {
+            window.location.replace('/userHome')
+        }
+    }
     function dropDown() {
         console.log(UserRole);
         if (UserRole === "Admin") {
@@ -546,6 +477,19 @@
                     openDropdown.classList.remove('show');
                 }
             }
+        }
+    }
+    function myFunction(){
+        var checkbox = document.getElementById("password");
+        var text = document.getElementById("pswchange");
+        if (checkbox.checked == true){
+            text.style.display = "block";
+            document.getElementById("checkit").style.display = "block";
+            document.getElementById("checkit").style.backgroundColor =  "#4183c4";
+        } else{
+            text.style.display = "none";
+            document.getElementById("checkit").style.display = "none";
+            document.getElementById("checkit").style.backgroundColor =  "lightgray";
         }
     }
     function refresh(id) {
@@ -853,11 +797,11 @@
                         alert ("V");
                         return true;
                     } else {
-                        alert("New password are not matched!");
+                        alert("New passwords do not match!");
                         return false;
                     }
                 } else {
-                    alert("Please try your new password different from old one!");
+                    alert("Please make sure your new password is different from old one.");
                     return false;
                 }
             } else {
@@ -897,7 +841,7 @@
             data: $(this).serialize(),
             success: function (result) {
                 if (!result.error) {
-                    alert("SUCCESS");
+                    alert("Changes were saved!");
                     window.location.replace('/userHome')
                 } else {
                     alert(result.message);
