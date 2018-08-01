@@ -1,10 +1,16 @@
 requirejs(['./worldwind.min',
         './LayerManager',
         './RadiantCircleTile',
+        '../src/util/WWMath',
+        '../src/geom/Angle',
+        '../src/geom/Location',
         '../../config/mainconf'],
     function (WorldWind,
               LayerManager,
-              RadiantCircleTile) {
+              RadiantCircleTile,
+              WWMath,
+              Angle,
+              Location) {
         "use strict";
 
         var table = $("#dataDisplay").DataTable();
@@ -147,7 +153,13 @@ requirejs(['./worldwind.min',
             if ($("#manualSwitch").css('display') === 'block') {
                 $("#switchNote").html("NOTE: Click the switch to toggle between the plackemarks and the heatmap.");
             } else if ($("#manualSwitch").css('display') === 'none') {
-                var altitude = wwd.layers[0].eyeText.text.replace(/Eye  |,| km/g, '');
+                var altitude = wwd.layers[0].eyeText.text;
+
+                if (altitude.substring(altitude.length - 2, altitude.length) === "km") {
+                    altitude = altitude.replace(/Eye  |,| km/g, '');
+                } else {
+                    altitude = (altitude.replace(/Eye  |,| m/g, '')) / 1000;
+                }
 
                 if ((altitude <= mainconfig.eyeDistance_switch_low || altitude >= mainconfig.eyeDistance_switch_high)) {
                     $("#switchNote").html("NOTE: Zoom in to an eye distance of less than 4,500 km or more than 200 km to view placemarks.");
@@ -189,12 +201,12 @@ requirejs(['./worldwind.min',
                 var gradient = ctx.createRadialGradient(radius, radius, 0, radius, radius, radius);
 
                 if (status) {
-                    console.log("A");
+                    // console.log("A");
                     gradient.addColorStop(0, 'rgb(204, 255, 255)');
                     gradient.addColorStop(0.5, 'rgb(102, 153, 255)');
                     gradient.addColorStop(1, 'rgb(102, 0, 255)');
                 } else {
-                    console.log("B");
+                    // console.log("B");
                     gradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
                 }
 
@@ -239,13 +251,143 @@ requirejs(['./worldwind.min',
             this.applyLimits();
             this.wwd.redraw();
 
-            refreshTable();
             autoSwitch();
+            refreshTable();
+        };
+
+        wwd.worldWindowController.__proto__.handlePanOrDrag3D = function (recognizer) {
+            var state = recognizer.state,
+                tx = recognizer.translationX,
+                ty = recognizer.translationY;
+
+            var navigator = this.wwd.navigator;
+
+            // this.lastPoint or navigator.lastPoint
+
+            if (state === WorldWind.BEGAN) {
+                navigator.lastPoint.set(0, 0);
+            } else if (state === WorldWind.CHANGED) {
+                // Convert the translation from screen coordinates to arc degrees. Use this navigator's range as a
+                // metric for converting screen pixels to meters, and use the globe's radius for converting from meters
+                // to arc degrees.
+                var canvas = this.wwd.canvas,
+                    globe = this.wwd.globe,
+                    globeRadius = WWMath.max(globe.equatorialRadius, globe.polarRadius),
+                    distance = WWMath.max(1, navigator.range),
+                    metersPerPixel = WWMath.perspectivePixelSize(canvas.clientWidth, canvas.clientHeight, distance),
+                    forwardMeters = (ty - navigator.lastPoint[1]) * metersPerPixel,
+                    sideMeters = -(tx - navigator.lastPoint[0]) * metersPerPixel,
+                    forwardDegrees = (forwardMeters / globeRadius) * Angle.RADIANS_TO_DEGREES,
+                    sideDegrees = (sideMeters / globeRadius) * Angle.RADIANS_TO_DEGREES;
+
+                // Apply the change in latitude and longitude to this navigator, relative to the current heading.
+                var sinHeading = Math.sin(navigator.heading * Angle.DEGREES_TO_RADIANS),
+                    cosHeading = Math.cos(navigator.heading * Angle.DEGREES_TO_RADIANS);
+
+                navigator.lookAtLocation.latitude += forwardDegrees * cosHeading - sideDegrees * sinHeading;
+                navigator.lookAtLocation.longitude += forwardDegrees * sinHeading + sideDegrees * cosHeading;
+                navigator.lastPoint.set(tx, ty);
+                this.applyLimits();
+                this.wwd.redraw();
+
+                refreshTable();
+            }
+        };
+
+        wwd.worldWindowController.allGestureListeners[0].__proto__.handleZoom = function(e, control) {
+            var handled = false;
+            // Start an operation on left button down or touch start.
+            if (this.isPointerDown(e) || this.isTouchStart(e)) {
+                this.activeControl = control;
+                this.activeOperation = this.handleZoom;
+                e.preventDefault();
+                if (this.isTouchStart(e)) {
+                    this.currentTouchId = e.changedTouches.item(0).identifier; // capture the touch identifier
+                }
+                // This function is called by the timer to perform the operation.
+                var thisLayer = this; // capture 'this' for use in the function
+                var setRange = function () {
+                    if (thisLayer.activeControl) {
+                        if (thisLayer.activeControl === thisLayer.zoomInControl) {
+                            thisLayer.wwd.navigator.range *= (1 - thisLayer.zoomIncrement);
+                        } else if (thisLayer.activeControl === thisLayer.zoomOutControl) {
+                            thisLayer.wwd.navigator.range *= (1 + thisLayer.zoomIncrement);
+                        }
+                        thisLayer.wwd.redraw();
+
+                        // autoSwitch();
+                        // console.log(wwd.layers[0].eyeText.text);
+                        setTimeout(function() {autoSwitch(); refreshTable();}, 25);
+
+                        setTimeout(setRange, 50);
+                    }
+                };
+
+                setTimeout(setRange, 50);
+                handled = true;
+            }
+            return handled;
+        };
+
+        wwd.worldWindowController.allGestureListeners[0].__proto__.handlePan = function(e, control) {
+            var handled = false;
+            // Capture the current position.
+            if (this.isPointerDown(e) || this.isPointerMove(e)) {
+                this.currentEventPoint = this.wwd.canvasCoordinates(e.clientX, e.clientY);
+            } else if (this.isTouchStart(e) || this.isTouchMove(e)) {
+                var touch = e.changedTouches.item(0);
+                this.currentEventPoint = this.wwd.canvasCoordinates(touch.clientX, touch.clientY);
+            }
+            // Start an operation on left button down or touch start.
+            if (this.isPointerDown(e) || this.isTouchStart(e)) {
+                this.activeControl = control;
+                this.activeOperation = this.handlePan;
+                e.preventDefault();
+                if (this.isTouchStart(e)) {
+                    this.currentTouchId = e.changedTouches.item(0).identifier; // capture the touch identifier
+                }
+                // This function is called by the timer to perform the operation.
+                var thisLayer = this; // capture 'this' for use in the function
+                var setLookAtLocation = function () {
+                    if (thisLayer.activeControl) {
+                        var dx = thisLayer.panControlCenter[0] - thisLayer.currentEventPoint[0],
+                            dy = thisLayer.panControlCenter[1]
+                                - (thisLayer.wwd.viewport.height - thisLayer.currentEventPoint[1]),
+                            oldLat = thisLayer.wwd.navigator.lookAtLocation.latitude,
+                            oldLon = thisLayer.wwd.navigator.lookAtLocation.longitude,
+                            // Scale the increment by a constant and the relative distance of the eye to the surface.
+                            scale = thisLayer.panIncrement
+                                * (thisLayer.wwd.navigator.range / thisLayer.wwd.globe.radiusAt(oldLat, oldLon)),
+                            heading = thisLayer.wwd.navigator.heading + (Math.atan2(dx, dy) * Angle.RADIANS_TO_DEGREES),
+                            distance = scale * Math.sqrt(dx * dx + dy * dy);
+                        Location.greatCircleLocation(thisLayer.wwd.navigator.lookAtLocation, heading, -distance,
+                            thisLayer.wwd.navigator.lookAtLocation);
+                        thisLayer.wwd.redraw();
+
+                        // console.log(wwd.navigator.lookAtLocation);
+                        // layerMenu();
+                        // clearHighlight(true, true);
+                        setTimeout(function() {refreshTable();}, 25);
+
+                        setTimeout(setLookAtLocation, 50);
+                    }
+                };
+                setTimeout(setLookAtLocation, 50);
+                handled = true;
+            }
+            return handled;
+
         };
 
         function autoSwitch() {
             if ($("#switchMethod").is(':checked')) {
-                var altitude = wwd.layers[0].eyeText.text.replace(/Eye  |,| km/g, '');
+                var altitude = wwd.layers[0].eyeText.text;
+
+                if (altitude.substring(altitude.length - 2, altitude.length) === "km") {
+                    altitude = altitude.replace(/Eye  |,| km/g, '');
+                } else {
+                    altitude = (altitude.replace(/Eye  |,| m/g, '')) / 1000;
+                }
 
                 // if (altitude <= mainconfig.eyeDistance_switch && $("#switchLayer").is(':checked')) {
                 //     $("#switchLayer").click();
@@ -313,8 +455,8 @@ requirejs(['./worldwind.min',
 
                     var popover = document.getElementById('popover');
                     popover.style.position = "absolute";
-                    popover.style.left = (x + xOffset) + 'px';
-                    popover.style.top = (y + yOffset) + 'px';
+                    popover.style.left = (x + xOffset - 3) + 'px';
+                    popover.style.top = (y + yOffset - 3) + 'px';
 
                     var indexes = table.rows().eq(0).filter( function (rowIdx) {
                         return table.cell(rowIdx, 2).data() === pickedPL.userProperties ? true : false;
