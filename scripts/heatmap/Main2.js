@@ -142,6 +142,26 @@ requirejs(['./worldwind.min',
             // console.log($($("#switchLayer")[0].parentElement));
             var switchLayer = $($("#switchLayer")[0].parentElement);
             switchLayer.css('pointer-events', (this.checked === true) ? 'none' : 'auto');
+            $("#manualSwitch").css('display', (this.checked === true) ? 'none' : 'block');
+
+            if ($("#manualSwitch").css('display') === 'block') {
+                $("#switchNote").html("NOTE: Click the switch to toggle between the plackemarks and the heatmap.");
+            } else if ($("#manualSwitch").css('display') === 'none') {
+
+                var altitude = wwd.layers[0].eyeText.text.replace(/Eye  |,| km/g, '');
+
+                if ((altitude <= mainconfig.eyeDistance_switch_low || altitude >= mainconfig.eyeDistance_switch_high)) {
+                    $("#switchNote").html("NOTE: Zoom in to an eye distance of less than 4,500 km or more than 200 km to view placemarks.");
+                    if ($("#switchLayer").is(':checked')) {
+                        $("#switchLayer").click();
+                    }
+                } else if ((altitude > mainconfig.eyeDistance_switch_low && altitude < mainconfig.eyeDistance_switch_high)) {
+                    $("#switchNote").html("NOTE: Zoom in to an eye distance of more than 4,500 km or less than 200 km to view heatmap.");
+                    if (!$("#switchLayer").is(':checked')) {
+                        $("#switchLayer").click();
+                    }
+                }
+            }
         });
 
         $("#switchLayer").on("click", function () {
@@ -245,16 +265,10 @@ requirejs(['./worldwind.min',
 
                 if ((altitude <= mainconfig.eyeDistance_switch_low || altitude >= mainconfig.eyeDistance_switch_high) && $("#switchLayer").is(':checked')) {
                     $("#switchLayer").click();
-                    $("#switchNote").html("");
-                    $("#switchNote").append("NOTE: Toggled switch to temporarily view placemarks.");
-                    $("#globeNote").html("");
-                    $("#globeNote").append("NOTE: Zoom in to an eye distance of more than 4,500 km to view placemarks.");
+                    $("#switchNote").html("NOTE: Zoom in to an eye distance of less than 4,500 km or more than 200 km to view placemarks.");
                 } else if ((altitude > mainconfig.eyeDistance_switch_low && altitude < mainconfig.eyeDistance_switch_high) && !$("#switchLayer").is(':checked')) {
                     $("#switchLayer").click();
-                    $("#switchNote").html("");
-                    $("#switchNote").append("NOTE: Toggled switch to temporarily view heatmap.");
-                    $("#globeNote").html("");
-                    $("#globeNote").append("NOTE: Zoom in to an eye distance of less than 4,500 km to view heatmap.");
+                    $("#switchNote").html("NOTE: Zoom in to an eye distance of more than 4,500 km or less than 200 km to view heatmap.");
                     // table.search("").columns().search("").draw();
                 }
             }
