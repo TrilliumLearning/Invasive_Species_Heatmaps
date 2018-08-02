@@ -478,7 +478,7 @@
             table.draw();
             trapTable.clear();
             trapTable.draw();
-            queryAndDisplay("statusDel=" + "Deleted" + "&firstName=" + "<%= user.firstName %>" + "&lastName=" + "<%= user.lastName %>");
+            queryAndDisplay("statusDel=" + "Deleted");
         });
         $('#dataDisplay tbody').on('click', 'tr', function () {
             if ($(this).hasClass('selected')) {
