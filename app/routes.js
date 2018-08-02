@@ -786,6 +786,12 @@ module.exports = function (app, passport) {
                 dbCol: "userrole",
                 op: " = '",
                 adj: req.query.userrole
+            },
+            {
+                fieldVal: req.query.status,
+                dbCol: "Status",
+                op: " = '",
+                adj: req.query.status
             }
         ];
 
