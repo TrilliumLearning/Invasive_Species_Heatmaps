@@ -276,16 +276,35 @@
     border-radius: 5px;
     border: 1px solid #c8c8c8;">
             </div>
-            <div class="container floatingBox" style="width: 345px;
+            <div class="container floatingBox" style="width: 100px;
     padding: 0px;">
-                <h4 class="floatingBox" id="Role" style="width: 345px;
+                <h4 class="floatingBox" style="width: 100px;
+    margin-bottom: 10px;"><strong>Status:</strong></h4>
+                <select class="select" id="status" style="width: 335px;
+    height: 40px;
+    background-color: white;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;">
+                    <option value=""> SELECT THE STATUS </option>
+                    <option value="Active">Active</option>
+                    <option value="Never Logged In">Never Logged In</option>
+                    <option value="Suspended">Suspended</option>
+                </select>
+
+                <h4 class="floatingBox" style="width: 100px;
     margin-bottom: 10px;"><strong>User Role:</strong></h4>
-                <input class="radio2" type="radio" name="userrole" id="Regular" value="Regular">
-                <h5 class="floatingBox click" style="width: 315px;
-    margin-top: 20px;">Regular</h5>
-                <input class="radio2" type="radio" name="userrole" id="Admin" value="Admin">
-                <h5 class="floatingBox click" style="width: 315px;
-    margin-top: 20px;">Admin</h5>
+                <select class="select" id="userrole" style="width: 335px;
+    height: 40px;
+    background-color: white;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;">
+                    <option value=""> SELECT THE USER ROLE </option>
+                    <option value="Admin">Admin</option>
+                    <option value="Regular">Regular</option>
+                </select>
             </div>
         </div>
         <br>
@@ -415,9 +434,7 @@
                     queryAndDisplay("statusDel=" + "Active");
                     $(".clearForm input[type='text']").val('');
                     $(".date").val('');
-                    $("input:radio[class^=radio2]").each(function(i) {
-                        this.checked = false;
-                    })
+                    $(".select").val('');
                 });
             });
             function dropDown() {
@@ -446,16 +463,14 @@
                 var dateModifiedTo = document.getElementsByClassName("datePicker")[3].value;
                 var firstName = document.getElementById("firstName").value;
                 var lastName = document.getElementById("lastName").value;
-                if ($("input[name='userrole']").is(":checked")) {
-                    userrole = $("input[name='userrole']:checked").val();
-                } else {
-                    userrole = "";
-                }
+                var status = document.getElementById("status").value;
+                var userrole = document.getElementById("userrole").value;
+
                 queryString1 = "dateCreatedFrom=" + dateCreatedFrom + "&dateCreatedTo=" + dateCreatedTo + "&dateModifiedFrom=" + dateModifiedFrom + "&dateModifiedTo=" + dateModifiedTo;
-                queryString2 = "&firstName=" + firstName + "&lastName=" + lastName + "&userrole=" + userrole;
+                queryString2 = "&firstName=" + firstName + "&lastName=" + lastName + "&userrole=" + userrole + "&status=" + status;
                 querystr = queryString1 + queryString2;
                 // alert(querystr);
-                if (dateCreatedFrom || dateCreatedTo || dateModifiedFrom || dateModifiedTo || firstName || lastName || userrole) {
+                if (dateCreatedFrom || dateCreatedTo || dateModifiedFrom || dateModifiedTo || firstName || lastName || userrole || status) {
                     table.clear();
                     queryAndDisplay(querystr);
                 } else {
