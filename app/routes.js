@@ -986,9 +986,6 @@ module.exports = function (app, passport) {
         // myStat += " WHERE General_Form.transactionID LIKE '2018-07-26%' ORDER BY General_Form.Location_name;";
         // myStat += " WHERE Date >= '2018-08-26' AND Date <= '2018-09-26'";
         myStat += " ORDER BY General_Form.Location_name;";
-
-        console.log(myStat);
-
         connection.query(myStat, function(err, results, fields) {
             // console.log(results);
             if (err) {
@@ -1046,9 +1043,6 @@ module.exports = function (app, passport) {
         // myStat += " WHERE General_Form.transactionID LIKE '2018-07-26%' ORDER BY General_Form.Location_name;";
         // myStat += " WHERE Date >= '2018-08-26' AND Date <= '2018-09-26'";
         myStat += " ORDER BY General_Form.Location_name;";
-
-        console.log(myStat);
-
         connection.query(myStat, function(err, results, fields) {
             console.log(results);
             if (err) {
@@ -1102,8 +1096,6 @@ module.exports = function (app, passport) {
     var editData;
     app.get('/sendEditData', isLoggedIn, function(req, res) {
         editTransactionID = req.query.transactionIDStr;
-        console.log(editTransactionID);
-
         var scoutingStat = "SELECT Users.firstName, Users.lastName, General_Form.*, Detailed_Scouting.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Scouting ON Detailed_Scouting.transactionID = Transaction.transactionID WHERE Transaction.transactionID = '" + editTransactionID +"';";
         var trapStat = "SELECT Users.firstName, Users.lastName, General_Form.*, Detailed_Trap.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Trap ON Detailed_Trap.transactionID = Transaction.transactionID WHERE Transaction.transactionID = '" + editTransactionID + "';";
 
