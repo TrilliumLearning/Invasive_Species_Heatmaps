@@ -419,7 +419,6 @@ module.exports = function (app, passport) {
                     if (err) {
                         console.log(err);
                     } else {
-                        //locData = req.body.locationNameD;
                         myStat = "SELECT * FROM Field WHERE status = 'Active' AND username = '" + req.user.username + "';";
                         connection.query(myStat, function (err, results) {
                             if (err) {
