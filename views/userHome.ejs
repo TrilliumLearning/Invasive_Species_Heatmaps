@@ -171,8 +171,8 @@
         <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 520px;
     height: 76px;" />
     </a>
-    <a href="/newEntry" style="width: 110px;">
-        <button class="navbutton1"> New Entry </button>
+    <a href="/formT" style="width: 110px;">
+        <button class="navbutton1" id="newEntry"> New Entry </button>
     </a>
     <a href="/dataHistory" style="width: 110px;">
         <button class="navbutton1"> Data History </button>
@@ -661,6 +661,7 @@
                 trapTransactionID.push(trapRowSelected[i][0]);
             }
         });
+
         $("#editButton").on("click", function () {
             var transactionID = scoutingTransactionID.concat(trapTransactionID);
             if (transactionID.length >= 2) {

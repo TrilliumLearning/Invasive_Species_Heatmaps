@@ -404,6 +404,48 @@ module.exports = function (app, passport) {
         });
     });
 
+    app.get('/formT', isLoggedIn, function (req, res) {
+        var d = new Date();
+        var utcDateTime = d.getUTCFullYear() + "-" + ('0' + (d.getUTCMonth() + 1)).slice(-2) + "-" + ('0' + d.getUTCDate()).slice(-2);
+        var queryTransID = "SELECT COUNT(transactionID) AS number FROM Transaction WHERE transactionID LIKE '" + utcDateTime + "%';";
+
+        connection.query(queryTransID, function (err, results, fields) {
+            transactionID = utcDateTime + "_" + ('0000' + (results[0].number + 1)).slice(-5);
+            if (err) {
+                console.log(err);
+            } else {
+                var insertTransID = "INSERT INTO Transaction (transactionID, Cr_UN) VALUE (" + "'" + transactionID + "', '" + req.user.username + "');";
+                connection.query(insertTransID, function (err, results, fields) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        //locData = req.body.locationNameD;
+                        myStat = "SELECT * FROM Field WHERE status = 'Active' AND username = '" + req.user.username + "';";
+                        connection.query(myStat, function (err, results) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                //var result = JSON.stringify(results);
+                                console.log(results);
+                                console.log(req.user);
+                                res.render('formT.ejs', {
+                                    user: req.user,
+                                    //data: locData,
+                                    fieldInfo: results,
+                                    message: req.flash('Data Entry Message'),
+                                    firstname: req.user.firstName,
+                                    lastname: req.user.lastName,
+                                    transactionID: transactionID
+                               });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+    });
+
     // Update user profile page
     app.post('/userProfile', isLoggedIn, function (req, res) {
         res.setHeader("Access-Control-Allow-Origin", "*"); // Allow cross domain header
@@ -1100,6 +1142,8 @@ module.exports = function (app, passport) {
     // edit on homepage
     var editTransactionID;
     var editData;
+    var locDataQ;
+    var locData;
     app.get('/sendEditData', isLoggedIn, function(req, res) {
         editTransactionID = req.query.transactionIDStr;
         console.log(editTransactionID);
@@ -1122,6 +1166,27 @@ module.exports = function (app, passport) {
                     res.json({"error": false, "message": "/editData"});
                 } else {
                     res.json({"error": true, "message": "Failed to edit."});
+                }
+            }
+        });
+    });
+    app.get('/sendFieldData', isLoggedIn, function(req, res) {
+        locDataQ = req.query.locationName;
+        console.log(locDataQ);
+
+        var fieldStat = "SELECT * FROM Field WHERE status = 'Active' AND username = '" + req.user.username + "' AND locationName = '" + locDataQ + "';";
+
+        connection.query(fieldStat, function (err, results, fields) {
+
+            if (err) {
+                console.log(err);
+                res.json({"error": true, "message": "Failed to save edit."});
+            } else {
+                console.log(results);
+                if (results.length === 0) {
+                    res.json({"error": true, "message": "fail"});
+                } else {
+                    res.json({"error": false, "data": results[0]});
                 }
             }
         });
