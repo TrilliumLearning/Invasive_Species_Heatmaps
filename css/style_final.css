@@ -208,7 +208,7 @@ input[type='text'], select, .inputNumber {
 
 #container {
     border: solid 3px #474544;
-    max-width: 80%;
+    width: 920px;
     margin: 60px auto;
     position: relative;
     padding: 50px;
