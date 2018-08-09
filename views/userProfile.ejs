@@ -369,6 +369,7 @@
                         <th>Irrigation</th>
                         <th>Fertilized Used</th>
                         <th>Farming System</th>
+                        <th>Rotation\Intercropping\Push-Pull</th>
                         <th>Field Size</th>
                         <th>Field Size Unit</th>
                     </tr>
@@ -440,6 +441,7 @@
                     field[i].irrigation,
                     field[i].fertilizedUsed,
                     field[i].farmingSystem,
+                    field[i].rotationIntercropping,
                     field[i].fieldSize,
                     field[i].fieldSizeUnit
                 ]).draw(false);
@@ -541,11 +543,24 @@
         } else { return false;}
     });
     $("#add").on("click", function () {
-        $(".buttons").css("display", "none");
-        $("#addField, #addRow, #deleteRow, #cancel").css("display", "inline");
-        $("#field tbody").off("click");
-        $("tr").removeClass("selected");
-        row();
+        //$(".buttons").css("display", "none");
+        //$("#addField, #addRow, #deleteRow, #cancel").css("display", "inline");
+        //$("#field tbody").off("click");
+        //$("tr").removeClass("selected");
+        CurLength++;
+        var CurLengthD = "id=" + CurLength;
+        $.ajax({
+            url: '/formV',
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            data: CurLengthD,
+            success: function (result) {
+                window.location.replace("/formP");
+                console.log(CurLength);
+            }
+        })
+        //row();
     });
     $("#addRow").on("click", function () {
         row();

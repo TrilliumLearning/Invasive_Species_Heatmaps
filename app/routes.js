@@ -435,13 +435,50 @@ module.exports = function (app, passport) {
                                     firstname: req.user.firstName,
                                     lastname: req.user.lastName,
                                     transactionID: transactionID
-                               });
+                                });
                             }
                         });
                     }
                 });
             }
         });
+
+    });
+    var CurLength;
+    app.get('/formV', isLoggedIn, function (req, res) {
+        CurLength = req.user.username + "_" + req.query.id;
+
+        res.json({'error': false});
+    });
+
+    app.get('/formP', isLoggedIn, function (req, res) {
+        /*var d = new Date();
+        var utcDateTime = d.getUTCFullYear() + "-" + ('0' + (d.getUTCMonth() + 1)).slice(-2) + "-" + ('0' + d.getUTCDate()).slice(-2);
+        var queryTransID = "SELECT COUNT(transactionID) AS number FROM Transaction WHERE transactionID LIKE '" + utcDateTime + "%';";
+
+        connection.query(queryTransID, function (err, results, fields) {
+            transactionID = utcDateTime + "_" + ('0000' + (results[0].number + 1)).slice(-5);
+            if (err) {
+                console.log(err);
+            } else {*/
+
+                /*var insertID = "INSERT INTO Field (id, username) VALUE ('" + CurLength + "', '" + req.user.username + "');";
+                connection.query(insertID, function (err, results, fields) {
+                    if (err) {
+                        console.log(err);
+                    } else {*/
+                        // Show general form
+                        res.render('formP.ejs', {
+                            user: req.user, // get the user out of session and pass to template
+                            message: req.flash('Data Entry Message'),
+                            firstname: req.user.firstName,
+                            lastname: req.user.lastName,
+                            CurLength: CurLength
+                        });
+                 //   }
+               // });
+            //}
+        //});
 
     });
 
@@ -1659,6 +1696,57 @@ module.exports = function (app, passport) {
             }
         });
     });
+
+    app.post('/formPP', isLoggedIn, function (req, res) {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        //console.log(req.body);
+
+        var result = Object.keys(req.body).map(function (key) {
+            return [String(key), req.body[key]];
+        });
+
+        var name = "";
+        var value = "";
+
+        for (var i = 0; i < result.length; i++) {
+            if (result[i][0] === "Field_size_integer") {
+                // field size
+                name += "fieldSize" + ", ";
+                // one decimal place = divide by 10
+                value += '"' + (parseFloat(result[i][1]) + (result[i + 1][1] / 10)) + '"' + ", ";
+                i = i + 1;
+            } else if (result[i][0] === "rotationIntercropping") {
+                name += "rotationIntercropping" + ", ";
+                var str = result[i][1].toString();
+                str = str.replace(/,/g, "/");
+                value += '"' + str + '"' + ", ";
+            } else {
+                // normal
+                if (result[i][1] !== "") {
+                    name += result[i][0] + ", ";
+                    value += '"' + result[i][1] + '"' + ", ";
+                }
+            }
+        }
+        name = name.substring(0, name.length - 2);
+        value = value.substring(0, value.length - 2);
+
+        // console.log(name);
+        // console.log(value);
+        var deleteStatement = "DELETE FROM Field WHERE id = '" + req.body.id + "'; ";
+        var insertStatement = "INSERT INTO Field (" + name + ") VALUES (" + value + ");";
+        console.log(insertStatement);
+
+        connection.query(deleteStatement + insertStatement, function (err, results, fields) {
+            if (err) {
+                console.log(err);
+                res.json({"error": true, "message": "Insert Error! Check your entry."});
+            } else {
+                res.json({"error": false, "message": "/userProfile"});
+            }
+        });
+    });
+
 
     // =====================================
     // SIGNOUT =============================

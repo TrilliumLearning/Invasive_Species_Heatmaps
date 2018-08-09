@@ -107,18 +107,9 @@
         #detailedFormTrap { display: none; }
         #hide { display: none; }
         .FAW        { display: none; }
-        #stay, #cancel {  position: relative;  width: 20%;  left: 20%;  }
-        #leave, #clear {  position: relative;  width: 20%;  left: 60%;  }
         .banner{
             position:relative;
             width:100%;
-        }
-        .column {
-            float:right;
-            position:relative;
-            right:80px;
-            width:11%;
-            padding:10px 40px;
         }
     </style>
 
@@ -168,7 +159,7 @@
                     </select><br><br>
                     <h3>LOCATION</h3>
                     <h4>1 . Location Name: &nbsp;&nbsp;&nbsp;</h4>
-                    <h5 style="color:#9d9d9d;">NOTE: Location name options are based on the records filled in USER PROFILE > FIELD MANAGEMENT. Specific categories are automatically filled in when the option is selected, information pulled from what was saved under that location name.</h5>
+                    <h5 style="color:#9d9d9d;">NOTE: Location name options are based on the records filled in <a href="/userProfile">USER PROFILE > FIELD MANAGEMENT</a>. Specific categories are automatically filled in when the option is selected, information pulled from what was saved under that location name.</h5>
                     <select id="locationName" name="Location_name">
                         <option value="">PLEASE SELECT LOCATION NAME</option>
                     </select><br><br>
@@ -176,31 +167,9 @@
                     <h4 style="color:red" id="errorMessage"></h4>
                     <h5 style="color:#9d9d9d;" id="locationNote"></h5>
                     <div id="locationDiv"></div>
-                    <div id="map"></div><br>
-                    <!--<h4>1F. Country: &nbsp;&nbsp;&nbsp;</h4>-->
-                    <!--<select class="clearGen" id='country' name='country' required>-->
-                    <!--<option>SELECT THE COUNTRY</option>-->
-                    <!--<option>COUNTRYA</option>-->
-                    <!--<option>COUNTRYB</option>-->
-                    <!--<option>COUNTRYC</option>-->
-                    <!--</select><br><br>-->
-                    <!--<h4>1G. Province: &nbsp;&nbsp;&nbsp;</h4>-->
-                    <!--<select class="clearGen" id='province' name='province' required>-->
-                    <!--<option value=''>SELECT THE PROVINCE</option>-->
-                    <!--<option>PROVINCEA</option>-->
-                    <!--<option>PROVINCEB</option>-->
-                    <!--<option>PROVINCEC</option>-->
-                    <!--</select><br><br>-->
-                    <!--<h4>1H. District: &nbsp;&nbsp;&nbsp;</h4>-->
-                    <!--<select class="clearGen" id='district' name='district' required>-->
-                    <!--<option value=''>SELECT THE DISTRICT</option>-->
-                    <!--<option>DISTRICT1</option>-->
-                    <!--<option>DISTRICT2</option>-->
-                    <!--<option>DISTRICT3</option>-->
-                    <!--</select><br><br>-->
                     <h3>TRAINING</h3>
                     <h4>1 . Training of assistance received: &nbsp;&nbsp;&nbsp;</h4>
-                    <button type='button' id='Training-select_all' onclick='selectAndUnselect()'>Select all</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type='button' id='Training-deselect_all' onclick='selectAndUnselect()'>Deselect all</button>
+                    <button type='button' class="selectMultiple" id='Training-select_all' onclick='selectAndUnselect()'>Select all</button><button type='button' class="selectMultiple"  id='Training-deselect_all' onclick='selectAndUnselect()'>Deselect all</button>
                     <select multiple = 'multiple' class="clearGen" id='Training' name="Training" required>
                         <option>COMMUNITY FOCAL PERSON</option>
                         <option>EXTENSION SERVICE</option>
@@ -211,8 +180,31 @@
                         <option>NONE</option>
                     </select><br><br>
                     <h3>CROP INFORMATION</h3>
-                    <h4>1 . Main Crop: &nbsp;&nbsp;&nbsp;</h4>
-                    <select class="clearGen" id='mainCrop' name="Main_crop" required>
+                    <h4>1 . Main Crop (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
+                    <select class="clearGen mainCrop" disabled="disabled" id='mainCrop' required>
+                        <option value=''>SELECT THE MAIN CROP</option>
+                        <option>ALFALFA</option>
+                        <option>BARLEY</option>
+                        <option>COTTON</option>
+                        <option>FLOWERS</option>
+                        <option>MAIZE</option>
+                        <option>MILLET</option>
+                        <option>PEANUT</option>
+                        <option>RICE</option>
+                        <option>SORGHUM</option>
+                        <option>SOYBEAN</option>
+                        <option>SUGARBEET</option>
+                        <option>SUGARCANE</option>
+                        <option>TEFF</option>
+                        <option>TOBACCO</option>
+                        <option>WEEDS</option>
+                        <option>WHEAT</option>
+                        <option>OTHER CEREALS</option>
+                        <option>OTHER FRUITS</option>
+                        <option>OTHER GRASSES</option>
+                        <option>OTHER VEGETABLES</option>
+                    </select>
+                    <select class="clearGen mainCrop" id='mainCrop' name="Main_crop" required hidden>
                         <option value=''>SELECT THE MAIN CROP</option>
                         <option>ALFALFA</option>
                         <option>BARLEY</option>
@@ -235,15 +227,15 @@
                         <option>OTHER GRASSES</option>
                         <option>OTHER VEGETABLES</option>
                     </select><br><br>
-                    <h4>1 . Main Crop Variety: &nbsp;&nbsp;&nbsp;</h4><input class="clearGen" id="mainCropVariety" name="Main_crop_variety" type="text" placeholder="Enter Main Crop Variety Here"><br><br>
-                    <h4>1 . Irrigation: &nbsp;&nbsp;&nbsp;</h4>
-                    <input type="radio" name="Irrigation" value="Irrigated" required> IRRIGATED
-                    <input type="radio" name="Irrigation" value="Rain-Fed" required> RAIN-FED
-                    <input type="radio" name="Irrigation" value="Unknown" required> UNKNOWN <br><br>
-                    <h4>1 . Fertilized Used: &nbsp;&nbsp;&nbsp;</h4>
-                    <input type="radio" name="Fertilized_used" value="YES" required> YES
-                    <input type="radio" name="Fertilized_used" value="NO" required> NO
-                    <input type="radio" name="Fertilized_used" value="UNKNOWN" required> UNKNOWN <br><br>
+                    <h4>1 . Main Crop Variety (auto-filled): &nbsp;&nbsp;&nbsp;</h4><input class="clearGen" id="mainCropVariety" name="Main_crop_variety" type="text" readonly placeholder="Enter Main Crop Variety Here"><br><br>
+                    <h4>1 . Irrigation (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
+                    <input class="generalRadio" type="radio" name="Irrigation" value="Irrigated" required> IRRIGATED
+                    <input class="generalRadio" type="radio" name="Irrigation" value="Rain-Fed" required> RAIN-FED
+                    <input class="generalRadio" type="radio" name="Irrigation" value="Unknown" required> UNKNOWN <br><br>
+                    <h4>1 . Fertilized Used (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
+                    <input class="generalRadio" type="radio" name="Fertilized_used" value="YES" required> YES
+                    <input class="generalRadio" type="radio" name="Fertilized_used" value="NO" required> NO
+                    <input class="generalRadio" type="radio" name="Fertilized_used" value="UNKNOWN" required> UNKNOWN <br><br>
                     <h4>1 . Crop Stage: &nbsp;&nbsp;&nbsp;</h4>
                     <select class="clearGen" id='cropStage' name="Crop_stage" required>
                         <option value=''>SELECT THE CROP STAGE</option>
@@ -261,8 +253,16 @@
                         <option>GOOD</option>
                     </select><br><br>
 
-                    <h4>1 . Farming System: &nbsp;&nbsp;&nbsp;</h4>
-                    <select class="clearGen" id='cropSystem' name='Farming_system' onchange='rotationInterCropSystem();' required>
+                    <h4>1 . Farming System (auto-filled: &nbsp;&nbsp;&nbsp;</h4>
+                    <select class="clearGen cropSystem" id='cropSystem' onchange='rotationInterCropSystem();' disabled>
+                        <option value=''>SELECT THE FARMING SYSTEM</option>
+                        <option>SEASONAL</option>
+                        <option>ROTATION</option>
+                        <option>INTERCROPPING</option>
+                        <option>PUSH-PULL</option>
+                        <option>UNKNOWN</option>
+                    </select>
+                    <select class="clearGen cropSystem" id='cropSystem' name='Farming_system' onchange='rotationInterCropSystem();' required hidden>
                         <option value=''>SELECT THE FARMING SYSTEM</option>
                         <option>SEASONAL</option>
                         <option>ROTATION</option>
@@ -271,12 +271,19 @@
                         <option>UNKNOWN</option>
                     </select><br><br>
                     <div id="rotationIntercropping"></div>
-                    <h4>1 . Field Size: &nbsp;&nbsp;&nbsp;</h4>
+                    <h4>1 . Field Size (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
                     <h5 style="color:#9d9d9d;">NOTE: There is no need to enter the decimals, etc. Please enter the number ONLY.</h5>
-                    <input class="clearGen" id="fieldSizeInteger" name="Field_size_integer" type="number" min="0" max="999999" placeholder="0000" onkeyup="limit()" required>.
-                    <input class="clearGen" id="fieldSizeDecimal" name="Field_size_decimal" type="number" min="0" max="9" placeholder="0" onkeyup="limit()" required>
-                    <h4 id="unitTitle">Unit: &nbsp;&nbsp;&nbsp;</h4>
-                    <select class="clearGen floating-Box" id="fieldSizeUnit" name="Field_size_unit" required>
+                    <input class="clearGen" id="fieldSizeInteger" name="Field_size_integer" type="number" min="0" max="999999" readonly placeholder="0000" onkeyup="limit()" required>.
+                    <input class="clearGen" id="fieldSizeDecimal" name="Field_size_decimal" type="number" min="0" max="9" readonly placeholder="0" onkeyup="limit()">
+                    <h4 id="unitTitle">Unit (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
+                    <select class="clearGen floating-Box fieldSizeUnit" id="fieldSizeUnit" disabled>
+                        <option value=''>SELECT THE FIELD SIZE UNIT</option>
+                        <option>ACRE (acre)</option>
+                        <option>HECTARE (ha)</option>
+                        <option>SQUARE METER (m2)</option>
+                        <option>SQUARE YARD (yd2)</option>
+                    </select>
+                    <select class="clearGen floating-Box fieldSizeUnit" id="fieldSizeUnit" name="Field_size_unit" required hidden>
                         <option value=''>SELECT THE FIELD SIZE UNIT</option>
                         <option>ACRE (acre)</option>
                         <option>HECTARE (ha)</option>
@@ -292,14 +299,14 @@
                     </div>
 
                     <div class="row">
-                        <div class="column">
+                        <div class="floating-Box">
                             <input id="continue" type="submit" value="Continue"/>
                         </div>
-                        <div class="column">
+                        <div class="floating-Box">
                             <input class="cancel" type="button" onclick="goBack()"value=" Cancel  "/>
                         </div>
 
-                        <div class="column">
+                        <div class="floating-Box">
                             <input  class="clear" type="button" onclick="clearGeneral()" value="   Clear   "/>
                         </div>
                     </div>
@@ -371,16 +378,16 @@
 
 
                         <div class="row">
-                            <div class="column">
+                            <div class="floating-Box">
                                 <input id="submit" type="submit" value="Complete">
                             </div>
-                            <div class="column">
+                            <div class="floating-Box">
                                 <input id="previous" type="button" onclick="previousForm()" value=" Previous ">
                             </div>
-                            <div class="column">
+                            <div class="floating-Box">
                                 <input class="cancel" type="button" onclick="goBack()" value="  Cancel   ">
                             </div>
-                            <div class="column">
+                            <div class="floating-Box">
                                 <input class="clear" type="button" onclick="clearDetSailed()" value="    Clear    ">
                             </div>
                         </div>
@@ -445,16 +452,16 @@
                     <!--<h4>2 . Trap Serviced Date: &nbsp;&nbsp;&nbsp;</h4><input id="DATE4" name="Trap_serviced_date" class="date" value="" required><br><br>-->
 
                     <div class="row">
-                        <div class="column">
+                        <div class="floating-Box">
                             <input id="submitTrap" type="submit" value="Complete">
                         </div>
-                        <div class="column">
+                        <div class="floating-Box">
                             <input id="previous" type="button" onclick="previousForm()" value=" Previous ">
                         </div>
-                        <div class="column">
+                        <div class="floating-Box">
                             <input class="cancel" type="button" onclick="goBack()" value="  Cancel   ">
                         </div>
-                        <div class="column">
+                        <div class="floating-Box">
                             <input class="clear" type="button" value="    Clear    ">
                             <!--<input class="clear" type="button" onclick="clearDetSailed()" value="    Clear    ">-->
                         </div>
@@ -471,6 +478,7 @@
     var longitude = "";
 
     $(document).ready(function () {
+
         var locationOptions = "";
 
         for (var i = 0; i < field.length; i++) {
@@ -496,19 +504,25 @@
                 success: function (result) {
                     if (!result.error) {
                         console.log(result.data);
-                        $("#mainCrop").val(result.data.mainCrop);
+
+                        $(".mainCrop").val(result.data.mainCrop);
+                        $("#mainCropVariety").val(result.data.mainCropVariety);
                         $("[name='Irrigation'][value='" + result.data.irrigation + "']").prop("checked", true);
                         $("[name='Fertilized_used'][value='" + result.data.fertilizedUsed + "']").prop("checked", true);
-                        $("#cropSystem").val(result.data.farmingSystem);
+                        $("[name='Irrigation']").not(':checked').attr('disabled', true);
+                        $("[name='Fertilized_used']").not(':checked').attr('disabled', true);
+                        $(".cropSystem").val(result.data.farmingSystem);
+                        rotationInterCropSystem(result.data.farmingSystem);
+                        $('.rotationMultiple').multiSelect("select", result.data.rotationIntercropping.split("/"));
                         var fieldSizeD = result.data.fieldSize.split(".");
                         $("#fieldSizeInteger").val(fieldSizeD[0]);
                         $("#fieldSizeDecimal").val(fieldSizeD[1]);
-                        $("#fieldSizeUnit").val(result.data.fieldSizeUnit);
+                        $(".fieldSizeUnit").val(result.data.fieldSizeUnit);
 
                         $("#locationDiv").empty();
 
-                        latitude = result.data.latitude.split(" ");
-                        longitude = result.data.longitude.split(" ");
+                        latitude = result.data.latitude;
+                        longitude = result.data.longitude;
 
                         $("#locationDiv").append($("<h4 id='latitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Latitude: &nbsp;&nbsp;&nbsp</h4><h4 id='longitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longitude: </h4>"));
                         var latitudeTitle = $("#latitudeTitle");
@@ -534,11 +548,11 @@
                         /*latitudeTitle.append($("<input id='latitudeDegree' name='latitudeDegree' type='number' value='" + latitude[1].substring(0,latitude[1].length - 1) + "' required>°" + " <input id='latitudeMinute' name='latitudeMinute' type='number' value='" + latitude[2].substring(0,latitude[2].length - 5) + "' required>'" + " <input id='latitudeSecond' name='latitudeSecond' type='number' value='" + latitude[3].substring(0,latitude[3].length - 10) + "' required>''" + "<p></p>"));
                         longitudeTitle.append($("<input id='longitudeDegree' name='longitudeDegree' type='number' value='" + longitude[1].substring(0,longitude[1].length - 1) + "' required>°" + " <input id='longitudeMinute' name='longitudeMinute' type='number' value='" + longitude[2].substring(0,longitude[2].length - 5) + "' required>'" + " <input id='longitudeSecond' name='longitudeSecond' type='number' value='" + longitude[3].substring(0,longitude[3].length - 10) + "' required>''" + "<p></p>"));*/
 
-                        latitudeTitle.append($("<input id='latitudeDecimal' name='Latitude_decimal' type='number' value='" + latitude +"' required>"));
-                        longitudeTitle.append($("<input id='logitudeDecimal' name='Longitude_decimal' type='number' value='" + longitude +"' required>"));
+                        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' name='Latitude' readonly type='number' value='" + latitude +"' required>"));
+                        longitudeTitle.append($("<input id='logitudeDecimal' class='locInput' name='Longitude' readonly type='number' value='" + longitude +"' required>"));
 
-                        $("#locationDiv").append($("<input id='refreshMap' type='button' onclick='refresh()' value='Click here to refresh the map'>"));
-                        $("#refreshMap").click();
+                        //$("#locationDiv").append($("<input id='refreshMap' type='button' onclick='refresh()' value='Click here to refresh the map'>"));
+                        //$("#refreshMap").click();
                     }
                 }
             })
@@ -742,7 +756,12 @@
     //Get geolocation and map preview
     function getLocation() {
 
-        $("#locationDiv").append($("<h4 id='latitudeTitle''>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Latitude: &nbsp;&nbsp;&nbsp;</h4><h4 id='latitudeStatus'>Locating......</h4><h4 id='longitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longitude: </h4><h4 id='longitudeStatus'>Locating......</h4>"));
+        $("#locationDiv").append($("<h4 id='latitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Latitude: &nbsp;&nbsp;&nbsp</h4><h4 id='longitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longitude: </h4>"));
+        var latitudeTitle = $("#latitudeTitle");
+        var longitudeTitle = $("#longitudeTitle");
+
+        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' name='Latitude' readonly type='number' value='" + latitude +"' required>"));
+        longitudeTitle.append($("<input id='logitudeDecimal' class='locInput' name='Longitude' readonly type='number' value='" + longitude +"' required>"));
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -756,7 +775,7 @@
         }
     }
 
-    function showPosition(position) {
+    /*function showPosition(position) {
         $("#latitudeStatus").remove();
         $("#longitudeStatus").remove();
 
@@ -781,7 +800,7 @@
         var latiDD = position.coords.latitude;
         var longDD = position.coords.longitude;
 
-        /*var latiDirection;
+        var latiDirection;
         var longDirection;
         // check direction
         if (latiDD >= 0) {
@@ -806,10 +825,10 @@
         var longSeconds = ((longDD - longDegrees) * 60 - longMinutes) * 60;
 
         var latitude = latiDirection + " " + latiDegrees + " " + latiMinutes + " " + latiSeconds;
-        var longitude = longDirection + " " + longDegrees + " " + longMinutes + " " + longSeconds;*/
+        var longitude = longDirection + " " + longDegrees + " " + longMinutes + " " + longSeconds;
 
         createInputBox(latiDD, longDD);
-    }
+    }*/
 
     function showError(error) {
 
@@ -871,13 +890,13 @@
         longitudeTitle.append($("<input id='longitudeDegree' name='Longitude_degree' type='number' value='" + longitude[1] + "' required>°" + " <input id='longitudeMinute' name='Longitude_minute' type='number' value='" + longitude[2] + "' required>'" + " <input id='longitudeSecond' name='Longitude_second' type='number' value='" + Math.round(longitude[3] * 1000) / 1000 + "' step='any' required>''" + "<p></p>"));
         */
 
-        latitudeTitle.append($("<input id='latitudeDecimal' name='Latitude_decimal' type='number' value='" + latitude +"' required>"));
-        longitudeTitle.append($("<input id='longitudeDecimal' name='Longitude_decimal' type='number' value='" + longitude +"' required>"));
+        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' name='Latitude_decimal' type='number' value='" + latitude +"' required>"));
+        longitudeTitle.append($("<input id='longitudeDecimal' class='locInput' name='Longitude_decimal' type='number' value='" + longitude +"' required>"));
 
-        $("#locationDiv").append($("<input type='button' onclick='refresh()' value='Click here to refresh the map'>"));
+        //$("#locationDiv").append($("<input type='button' onclick='refresh()' value='Click here to refresh the map'>"));
     }
 
-    function refresh() {
+    /*function refresh() {
         var latiDecimal = document.getElementById("latitudeDecimal").value;
         var longDecimal = document.getElementById("longitudeDecimal").value;
 
@@ -888,7 +907,7 @@
         var latiMinute = document.getElementById("latitudeMinute").value;
         var longMinute = document.getElementById("longitudeMinute").value;
         var latiSecond = document.getElementById("latitudeSecond").value;
-        var longSecond = document.getElementById("longitudeSecond").value;*/
+        var longSecond = document.getElementById("longitudeSecond").value;
 
         if (latiDecimal && longDecimal) {
             var newPosition = new google.maps.LatLng(latiDecimal, longDecimal);
@@ -902,12 +921,18 @@
 
             var marker = new google.maps.Marker({
                 position: newPosition,
-                map: map
+                map: map,
+                draggable: true
             });
+
+            google.maps.event.addListener(marker, 'dragend', function (event) {
+                document.getElementById("latitudeDecimal").value = this.getPosition().lat();
+                document.getElementById("longitudeDecimal").value = this.getPosition().lng();
+            })
 
         }
 
-        /*if (latiDirection && longDirection && latiDegree && longDegree && latiMinute && longMinute && latiSecond && longSecond) {
+        if (latiDirection && longDirection && latiDegree && longDegree && latiMinute && longMinute && latiSecond && longSecond) {
             // convert latitude & longitude from Degrees Minutes Seconds to Decimal Degree
             var latiDD = parseFloat(latiDegree) + (parseFloat(latiMinute) / 60) + (parseFloat(latiSecond) / 3600);
             var longDD = parseFloat(longDegree) + (parseFloat(longMinute) / 60) + (parseFloat(longSecond) / 3600);
@@ -933,8 +958,8 @@
             });
         } else {
 
-        }*/
-    }
+        }
+    }*/
 
     function rotationInterCropSystem() {
         $("#rotationIntercropping").empty();
@@ -942,8 +967,8 @@
             //var mainCropList = ["ALFALFA", "BARLEY", "COTTON", "FLOWERS", "MAIZE", "MILLET", "PEANUT", "RICE", "SORGHUM", "SOYBEAN", "SUGARBEET", "SUGARCANE", "TEFF", "TOBACCO", "WEEDS", "WHEAT", "OTHER CEREALS", "OTHER FRUITS", "OTHER GRASSES", "OTHER VEGETABLES"];
             var mainCropList = document.getElementById("mainCrop").options;
             var mainCropDiv = $("#rotationIntercropping");
-            mainCropDiv.append($("<h4>1 . Rotation/Intercropping/Push-Pull Crop: &nbsp;&nbsp;&nbsp;</h4><button type='button' id='rotationIntercroppingCrop-select_all' onclick='selectAndUnselect()'>Select all</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type='button' id='rotationIntercroppingCrop-deselect_all' onclick='selectAndUnselect()'>Deselect all</button>"));
-            var mainCropSelect = $("<select multiple='multiple' class='clearGen' id='rotationIntercroppingCrop' name='Rotation_intercropping_crop'>");
+            mainCropDiv.append($("<h4>1 . Rotation/Intercropping/Push-Pull Crop (auto-filled): &nbsp;&nbsp;&nbsp;</h4><button type='button' id='rotationIntercroppingCrop-select_all' class='selectMultiple'  onclick='selectAndUnselect()'>Select all</button><button type='button' id='rotationIntercroppingCrop-deselect_all'  class='selectMultiple'  onclick='selectAndUnselect()'>Deselect all</button>"));
+            var mainCropSelect = $("<select multiple='multiple' class='clearGen rotationMultiple' id='rotationIntercroppingCrop' name='Rotation_intercropping_crop'>");
             mainCropDiv.append(mainCropSelect);
             for (var i = 1; i < mainCropList.length; i++) {
                 var mainCropOption = $("<option>" + mainCropList[i].value + "</option>");
@@ -1088,7 +1113,7 @@
             //     var mainCropOption = $("<option>" + mainCropList[i].value + "</option>");
             //     mainCropSelect.append(mainCropOption);
             // }
-            var title = [$("<h4>2 . Crop Damage: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Pest Stage: &nbsp;&nbsp;&nbsp;</h4><a href='javascript:void(0);' id='pestStage-select_all' onclick='selectAndUnselect()'>Select all</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:void(0);' id='pestStage-deselect_all' onclick='selectAndUnselect()'>Deselect all</a>"), $("<br<br><h4>2 . Current Damage level (on young leaves; fresh grass in whorl): &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Crop Infested: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Control Undertaken: &nbsp;&nbsp;&nbsp;</h4><a href='javascript:void(0);' id='controlUndertaken-select_all' onclick='selectAndUnselect()'>Select all</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:void(0);' id='controlUndertaken-deselect_all' onclick='selectAndUnselect()'>Deselect all</a>"), $("<h4>Photos of pest at different stages: &nbsp;&nbsp;&nbsp;</h4>")];
+            var title = [$("<h4>2 . Crop Damage: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Pest Stage: &nbsp;&nbsp;&nbsp;</h4><a href='javascript:void(0);' id='pestStage-select_all'  class='selectMultiple'  onclick='selectAndUnselect()'>Select all</a><a href='javascript:void(0);' id='pestStage-deselect_all' class='selectMultiple' onclick='selectAndUnselect()'>Deselect all</a>"), $("<br<br><h4>2 . Current Damage level (on young leaves; fresh grass in whorl): &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Crop Infested: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Control Undertaken: &nbsp;&nbsp;&nbsp;</h4><a href='javascript:void(0);' id='controlUndertaken-select_all'  class='selectMultiple' onclick='selectAndUnselect()'>Select all</a><a href='javascript:void(0);' id='controlUndertaken-deselect_all'  class='selectMultiple' onclick='selectAndUnselect()'>Deselect all</a>"), $("<h4>Photos of pest at different stages: &nbsp;&nbsp;&nbsp;</h4>")];
             var select = [$("<select class='clearGen' id='cropDamage' name='Crop_damage' required></select><br><br>"), $("<select multiple='multiple' class='clearGen' id='pestStage' name='Pest_stage' required></select>"), $("<select class='clearGen' id='currentDamage' name='Current_damage' required></select><br><br>"), $("<input class='clearGen inputNumber' id='cropInfested' name='Crop_infested' type='text' placeholder='Enter The Percentage of Crop Infested Here' required><br><br>"), $("<select multiple='multiple' class='clearGen' id='controlUndertaken' name='Control_undertaken' onchange='controlType(this)'></select>"), $("<div class='clearGen' id='uploaderPest'></div><br><br>")];
 
 
@@ -1209,6 +1234,8 @@
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
     }
+
+
 
     function showRequest(formData, jqForm, options) {
         var queryString = $.param(formData);
