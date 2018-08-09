@@ -148,7 +148,7 @@
         <div id="container">
             <div style="display: block;" id="generalForm">
                 <form id = "general" method = "post">
-                    <h4>Transaction ID: &nbsp;&nbsp;&nbsp;</h4><input  id='id' type="text" name='id' value="<%= CurLength %>" readonly><br><br>
+                    <h4>ID: &nbsp;&nbsp;&nbsp;</h4><input  id='id' type="text" name='id' value="<%= CurLength %>" readonly><br><br>
                     <input type="text" name="username" value="<%= user.username %>" hidden>
                     <h4>Your Name: &nbsp;&nbsp;&nbsp;</h4><input id="firstName" type="text" value="<%= firstname %>" readonly><br><br><input id="lastName" type="text" value="<%= lastname %>" readonly><br><br>
 
@@ -219,6 +219,7 @@
                         <option>SQUARE METER (m2)</option>
                         <option>SQUARE YARD (yd2)</option>
                     </select><br><br>
+                    <input type="text" name="fieldId" value="<%= newFieldId %>" hidden>
 
                     <div class="row">
                         <div class="floating-Box">
@@ -417,8 +418,8 @@
         var longitudeTitle = $("#longitudeTitle");
 
 
-        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' name='latitude' type='number' value='" + latitude +"' onkeyup='limitLoc()' required>"));
-        longitudeTitle.append($("<input id='longitudeDecimal' class='locInput' name='longitude' type='number' value='" + longitude +"' onkeyup='limitLoc()' required>"));
+        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' name='latitude' type='number' step='any' value='" + latitude +"' onkeyup='limitLoc()' required>"));
+        longitudeTitle.append($("<input id='longitudeDecimal' class='locInput' name='longitude' type='number' step='any' value='" + longitude +"' onkeyup='limitLoc()' required>"));
 
         $("#locationDiv").append($("<input class='floating-Box mapButton' type='button' onclick='refresh()' value='Click here to refresh the map'>"));
     }

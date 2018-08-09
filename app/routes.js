@@ -445,8 +445,10 @@ module.exports = function (app, passport) {
 
     });
     var CurLength;
+    var newFieldId;
     app.get('/formV', isLoggedIn, function (req, res) {
         CurLength = req.user.username + "_" + req.query.id;
+        newFieldId = req.user.username + "_";
 
         res.json({'error': false});
     });
@@ -473,7 +475,8 @@ module.exports = function (app, passport) {
                             message: req.flash('Data Entry Message'),
                             firstname: req.user.firstName,
                             lastname: req.user.lastName,
-                            CurLength: CurLength
+                            CurLength: CurLength,
+                            newFieldId: newFieldId
                         });
                  //   }
                // });
@@ -1707,9 +1710,22 @@ module.exports = function (app, passport) {
 
         var name = "";
         var value = "";
+        var locationId = "";
 
         for (var i = 0; i < result.length; i++) {
-            if (result[i][0] === "Field_size_integer") {
+            if (result[i][0] === "locationName") {
+                name += result[i][0] + ", ";
+                var string = result[i][1].toString();
+                string = string.replace(/ /g, "_");
+                value += '"' + string + '"' + ", ";
+                locationId = string + '"';
+                console.log(string);
+                console.log(locationId);
+            } else if (result[i][0] === "fieldId") {
+                name += result[i][0] + ", ";
+                value += '"' + result[i][1] + locationId + ", ";
+                console.log("fieldId: " + locationId);
+            } else if (result[i][0] === "Field_size_integer") {
                 // field size
                 name += "fieldSize" + ", ";
                 // one decimal place = divide by 10
