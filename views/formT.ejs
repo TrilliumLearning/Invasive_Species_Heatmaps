@@ -149,6 +149,7 @@
                 <form id = "general" method = "post">
 
                     <h4>Transaction ID: &nbsp;&nbsp;&nbsp;</h4><input id="transactionID" name="transactionID" type="text" value="<%= transactionID %>" readonly><br><br>
+                    <input type="text" id="fieldId" name="fieldId" value="" hidden>
                     <h4>Your Name: &nbsp;&nbsp;&nbsp;</h4><input id="firstName" type="text" value="<%= firstname %>" readonly><br><br><input id="lastName" type="text" value="<%= lastname %>" readonly><br><br>
                     <h4>1 . Date: &nbsp;&nbsp;&nbsp;</h4><input id="DATE1" name="Date" class="date" value="" required><br><br>
                     <h4>What data do you want to collect (select at least one)? &nbsp;&nbsp;&nbsp;</h4>
@@ -160,7 +161,7 @@
                     <h3>LOCATION</h3>
                     <h4>1 . Location Name: &nbsp;&nbsp;&nbsp;</h4>
                     <h5 style="color:#9d9d9d;">NOTE: Location name options are based on the records filled in <a href="/userProfile">USER PROFILE > FIELD MANAGEMENT</a>. Specific categories are automatically filled in when the option is selected, information pulled from what was saved under that location name.</h5>
-                    <select id="locationName" name="Location_name">
+                    <select id="locationName" name="locationName">
                         <option value="">PLEASE SELECT LOCATION NAME</option>
                     </select><br><br>
                     <h4 id="GPSLocationTitle">E. GPS Location: &nbsp;&nbsp;&nbsp;</h4>
@@ -181,30 +182,7 @@
                     </select><br><br>
                     <h3>CROP INFORMATION</h3>
                     <h4>1 . Main Crop (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
-                    <select class="clearGen mainCrop" disabled="disabled" id='mainCrop' required>
-                        <option value=''>SELECT THE MAIN CROP</option>
-                        <option>ALFALFA</option>
-                        <option>BARLEY</option>
-                        <option>COTTON</option>
-                        <option>FLOWERS</option>
-                        <option>MAIZE</option>
-                        <option>MILLET</option>
-                        <option>PEANUT</option>
-                        <option>RICE</option>
-                        <option>SORGHUM</option>
-                        <option>SOYBEAN</option>
-                        <option>SUGARBEET</option>
-                        <option>SUGARCANE</option>
-                        <option>TEFF</option>
-                        <option>TOBACCO</option>
-                        <option>WEEDS</option>
-                        <option>WHEAT</option>
-                        <option>OTHER CEREALS</option>
-                        <option>OTHER FRUITS</option>
-                        <option>OTHER GRASSES</option>
-                        <option>OTHER VEGETABLES</option>
-                    </select>
-                    <select class="clearGen mainCrop" id='mainCrop' name="Main_crop" required hidden>
+                    <select class="clearGen" id='mainCrop' required disabled>
                         <option value=''>SELECT THE MAIN CROP</option>
                         <option>ALFALFA</option>
                         <option>BARLEY</option>
@@ -229,13 +207,16 @@
                     </select><br><br>
                     <h4>1 . Main Crop Variety (auto-filled): &nbsp;&nbsp;&nbsp;</h4><input class="clearGen" id="mainCropVariety" name="Main_crop_variety" type="text" readonly placeholder="Enter Main Crop Variety Here"><br><br>
                     <h4>1 . Irrigation (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
-                    <input class="generalRadio" type="radio" name="Irrigation" value="Irrigated" required> IRRIGATED
-                    <input class="generalRadio" type="radio" name="Irrigation" value="Rain-Fed" required> RAIN-FED
-                    <input class="generalRadio" type="radio" name="Irrigation" value="Unknown" required> UNKNOWN <br><br>
+                    <div>
+                        <input class="Irrigation" type="radio" value="Irrigated" required> IRRIGATED
+                        <input class="Irrigation" type="radio" value="Rain-Fed" required> RAIN-FED
+                        <input class="Irrigation" type="radio" value="Unknown" required> UNKNOWN
+                    </div>
+                    <br><br>
                     <h4>1 . Fertilized Used (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
-                    <input class="generalRadio" type="radio" name="Fertilized_used" value="YES" required> YES
-                    <input class="generalRadio" type="radio" name="Fertilized_used" value="NO" required> NO
-                    <input class="generalRadio" type="radio" name="Fertilized_used" value="UNKNOWN" required> UNKNOWN <br><br>
+                    <input class="fertilizedUsed" type="radio" value="YES" required> YES
+                    <input class="fertilizedUsed" type="radio" value="NO" required> NO
+                    <input class="fertilizedUsed" type="radio" value="UNKNOWN" required> UNKNOWN <br><br>
                     <h4>1 . Crop Stage: &nbsp;&nbsp;&nbsp;</h4>
                     <select class="clearGen" id='cropStage' name="Crop_stage" required>
                         <option value=''>SELECT THE CROP STAGE</option>
@@ -253,16 +234,8 @@
                         <option>GOOD</option>
                     </select><br><br>
 
-                    <h4>1 . Farming System (auto-filled: &nbsp;&nbsp;&nbsp;</h4>
-                    <select class="clearGen cropSystem" id='cropSystem' onchange='rotationInterCropSystem();' disabled>
-                        <option value=''>SELECT THE FARMING SYSTEM</option>
-                        <option>SEASONAL</option>
-                        <option>ROTATION</option>
-                        <option>INTERCROPPING</option>
-                        <option>PUSH-PULL</option>
-                        <option>UNKNOWN</option>
-                    </select>
-                    <select class="clearGen cropSystem" id='cropSystem' name='Farming_system' onchange='rotationInterCropSystem();' required hidden>
+                    <h4>1 . Farming System (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
+                    <select class="clearGen" id='cropSystem' onchange='rotationInterCropSystem();' required disabled>
                         <option value=''>SELECT THE FARMING SYSTEM</option>
                         <option>SEASONAL</option>
                         <option>ROTATION</option>
@@ -273,17 +246,10 @@
                     <div id="rotationIntercropping"></div>
                     <h4>1 . Field Size (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
                     <h5 style="color:#9d9d9d;">NOTE: There is no need to enter the decimals, etc. Please enter the number ONLY.</h5>
-                    <input class="clearGen" id="fieldSizeInteger" name="Field_size_integer" type="number" min="0" max="999999" readonly placeholder="0000" onkeyup="limit()" required>.
-                    <input class="clearGen" id="fieldSizeDecimal" name="Field_size_decimal" type="number" min="0" max="9" readonly placeholder="0" onkeyup="limit()">
+                    <input class="clearGen" id="fieldSizeInteger" type="number" min="0" max="999999" readonly placeholder="0000" onkeyup="limit()" required>.
+                    <input class="clearGen" id="fieldSizeDecimal" type="number" min="0" max="9" readonly placeholder="0" onkeyup="limit()">
                     <h4 id="unitTitle">Unit (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
-                    <select class="clearGen floating-Box fieldSizeUnit" id="fieldSizeUnit" disabled>
-                        <option value=''>SELECT THE FIELD SIZE UNIT</option>
-                        <option>ACRE (acre)</option>
-                        <option>HECTARE (ha)</option>
-                        <option>SQUARE METER (m2)</option>
-                        <option>SQUARE YARD (yd2)</option>
-                    </select>
-                    <select class="clearGen floating-Box fieldSizeUnit" id="fieldSizeUnit" name="Field_size_unit" required hidden>
+                    <select class="clearGen floating-Box" id="fieldSizeUnit" disabled>
                         <option value=''>SELECT THE FIELD SIZE UNIT</option>
                         <option>ACRE (acre)</option>
                         <option>HECTARE (ha)</option>
@@ -474,8 +440,6 @@
 <script>
     var field = '<%- JSON.stringify(fieldInfo) %>';
     field = JSON.parse(field);
-    var latitude = "";
-    var longitude = "";
 
     $(document).ready(function () {
 
@@ -490,6 +454,9 @@
 
 
         $("#locationName").append(locationOptions);
+        $(".Irrigation, .fertilizedUsed").change(function () {
+            $(this).prop('checked', true).siblings().prop('checked',false);
+        })
 
         $('#locationName').change(function (){
             var locationNameD = "locationName=" + $(this).val();
@@ -505,54 +472,40 @@
                     if (!result.error) {
                         console.log(result.data);
 
+                        $("#fieldId").val(result.data.fieldId);
                         $(".mainCrop").val(result.data.mainCrop);
                         $("#mainCropVariety").val(result.data.mainCropVariety);
-                        $("[name='Irrigation'][value='" + result.data.irrigation + "']").prop("checked", true);
-                        $("[name='Fertilized_used'][value='" + result.data.fertilizedUsed + "']").prop("checked", true);
-                        $("[name='Irrigation']").not(':checked').attr('disabled', true);
-                        $("[name='Fertilized_used']").not(':checked').attr('disabled', true);
-                        $(".cropSystem").val(result.data.farmingSystem);
-                        rotationInterCropSystem(result.data.farmingSystem);
-                        $('.rotationMultiple').multiSelect("select", result.data.rotationIntercropping.split("/"));
+                        $("[class='Irrigation'][value='" + result.data.irrigation + "']").click();
+                        $("[class='fertilizedUsed'][value='" + result.data.fertilizedUsed + "']").click();
+                        $("#cropSystem").val(result.data.farmingSystem);
                         var fieldSizeD = result.data.fieldSize.split(".");
                         $("#fieldSizeInteger").val(fieldSizeD[0]);
                         $("#fieldSizeDecimal").val(fieldSizeD[1]);
-                        $(".fieldSizeUnit").val(result.data.fieldSizeUnit);
-
+                        $("#fieldSizeUnit").val(result.data.fieldSizeUnit);
                         $("#locationDiv").empty();
 
-                        latitude = result.data.latitude;
-                        longitude = result.data.longitude;
+                        var latitudeD = result.data.latitude;
+                        var longitudeD = result.data.longitude;
 
                         $("#locationDiv").append($("<h4 id='latitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Latitude: &nbsp;&nbsp;&nbsp</h4><h4 id='longitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longitude: </h4>"));
                         var latitudeTitle = $("#latitudeTitle");
-                        /*var latitudeSelect = $("<select id='latitudeDirection' name='Latitude_direction' required>");
-                        latitudeTitle.append(latitudeSelect);
-                        if (latitude[0] === "N" || !latitude[0]) {
-                            latitudeSelect.append($("<option>N</option><option>S</option>"));
-                        } else if (latitude[0] === "S") {
-                            latitudeSelect.append($("<option>S</option><option>N</option>"));
-                        }
-                        latitudeTitle.append($("</select>"));*/
 
                         var longitudeTitle = $("#longitudeTitle");
-                        /*var longitudeSelect = $("<select id='longitudeDirection' name='Longitude_direction' required>");
-                        longitudeTitle.append(longitudeSelect);
-                        if (longitude[0] === "E" || !longitude[0]) {
-                            longitudeSelect.append($("<option>E</option><option>W</option>"));
-                        } else if (longitude[0] === "W") {
-                            longitudeSelect.append($("<option>W</option><option>E</option>"));
-                        }
-                        longitudeTitle.append($("</select>"));*/
 
-                        /*latitudeTitle.append($("<input id='latitudeDegree' name='latitudeDegree' type='number' value='" + latitude[1].substring(0,latitude[1].length - 1) + "' required>°" + " <input id='latitudeMinute' name='latitudeMinute' type='number' value='" + latitude[2].substring(0,latitude[2].length - 5) + "' required>'" + " <input id='latitudeSecond' name='latitudeSecond' type='number' value='" + latitude[3].substring(0,latitude[3].length - 10) + "' required>''" + "<p></p>"));
-                        longitudeTitle.append($("<input id='longitudeDegree' name='longitudeDegree' type='number' value='" + longitude[1].substring(0,longitude[1].length - 1) + "' required>°" + " <input id='longitudeMinute' name='longitudeMinute' type='number' value='" + longitude[2].substring(0,longitude[2].length - 5) + "' required>'" + " <input id='longitudeSecond' name='longitudeSecond' type='number' value='" + longitude[3].substring(0,longitude[3].length - 10) + "' required>''" + "<p></p>"));*/
-
-                        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' name='Latitude' readonly type='number' value='" + latitude +"' required>"));
-                        longitudeTitle.append($("<input id='logitudeDecimal' class='locInput' name='Longitude' readonly type='number' value='" + longitude +"' required>"));
+                        $("#latitudeTitle").append($("<input id='latitudeDecimal' class='locInput' readonly type='number' value='" + latitudeD +"' required>"));
+                        $("#longitudeTitle").append($("<input id='logitudeDecimal' class='locInput' readonly type='number' value='" + longitudeD +"' required>"));
 
                         //$("#locationDiv").append($("<input id='refreshMap' type='button' onclick='refresh()' value='Click here to refresh the map'>"));
                         //$("#refreshMap").click();
+                        /*if ($("#cropSystem").val() === "ROTATION" || "INTERCROPPING" || "PUSH-PULL"){
+                            rotationInterCropSystem(result.data.farmingSystem);
+                            $('#rotationIntercropping').multiSelect("select", result.data.rotationIntercropping.split("/"));
+                        } else {
+                            console.log("No information to display.")
+                        }*/
+                        rotationInterCropSystem(result.data.farmingSystem);
+                        $('#rotationIntercroppingCrop').multiSelect("select", result.data.rotationIntercropping.split("/"));
+
                     }
                 }
             })
@@ -760,10 +713,10 @@
         var latitudeTitle = $("#latitudeTitle");
         var longitudeTitle = $("#longitudeTitle");
 
-        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' name='Latitude' readonly type='number' value='" + latitude +"' required>"));
-        longitudeTitle.append($("<input id='logitudeDecimal' class='locInput' name='Longitude' readonly type='number' value='" + longitude +"' required>"));
+        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' name='Latitude' readonly type='number' value='' required>"));
+        longitudeTitle.append($("<input id='logitudeDecimal' class='locInput' name='Longitude' readonly type='number' value='' required>"));
 
-        if (navigator.geolocation) {
+        /*if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition, showError);
         } else {
             $("#latitudeStatus").remove();
@@ -772,7 +725,7 @@
             alert("Geolocation is not supported by this browser.");
 
             createInputBox();
-        }
+        }*/
     }
 
     /*function showPosition(position) {
@@ -968,7 +921,7 @@
             var mainCropList = document.getElementById("mainCrop").options;
             var mainCropDiv = $("#rotationIntercropping");
             mainCropDiv.append($("<h4>1 . Rotation/Intercropping/Push-Pull Crop (auto-filled): &nbsp;&nbsp;&nbsp;</h4><button type='button' id='rotationIntercroppingCrop-select_all' class='selectMultiple'  onclick='selectAndUnselect()'>Select all</button><button type='button' id='rotationIntercroppingCrop-deselect_all'  class='selectMultiple'  onclick='selectAndUnselect()'>Deselect all</button>"));
-            var mainCropSelect = $("<select multiple='multiple' class='clearGen rotationMultiple' id='rotationIntercroppingCrop' name='Rotation_intercropping_crop'>");
+            var mainCropSelect = $("<select multiple='multiple' class='clearGen' id='rotationIntercroppingCrop' name='Rotation_intercropping_crop'>");
             mainCropDiv.append(mainCropSelect);
             for (var i = 1; i < mainCropList.length; i++) {
                 var mainCropOption = $("<option>" + mainCropList[i].value + "</option>");

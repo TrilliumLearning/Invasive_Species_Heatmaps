@@ -69,6 +69,7 @@ input[type='file']{
 
 input[type='submit'], #continue, #previous {
     float:right;
+    margin-top: 20px;
     height: 40px;
     width: 110px;
     border-radius: 5px;
@@ -81,6 +82,7 @@ input[type='submit'], #continue, #previous {
 }
 
 .cancel, .clear {
+    margin-top: 20px;
     height: 40px;
     width: 110px;
     border-radius: 5px;

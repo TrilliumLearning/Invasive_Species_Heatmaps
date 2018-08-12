@@ -1181,6 +1181,7 @@ module.exports = function (app, passport) {
     // edit on homepage
     var editTransactionID;
     var editData;
+    var fieldData;
     var locDataQ;
     var locData;
     app.get('/sendEditData', isLoggedIn, function(req, res) {
@@ -1189,6 +1190,7 @@ module.exports = function (app, passport) {
 
         var scoutingStat = "SELECT Users.firstName, Users.lastName, General_Form.*, Detailed_Scouting.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Scouting ON Detailed_Scouting.transactionID = Transaction.transactionID WHERE Transaction.transactionID = '" + editTransactionID +"';";
         var trapStat = "SELECT Users.firstName, Users.lastName, General_Form.*, Detailed_Trap.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Trap ON Detailed_Trap.transactionID = Transaction.transactionID WHERE Transaction.transactionID = '" + editTransactionID + "';";
+        var fieldStat = "SELECT Field.* FROM General_Form INNER JOIN Field ON Field.fieldId = General_Form.fieldId WHERE Transaction.transactionID = '" + editTransactionID + "';";
 
         connection.query(scoutingStat + trapStat, function (err, results, fields) {
 
@@ -1197,6 +1199,19 @@ module.exports = function (app, passport) {
                 res.json({"error": true, "message": "Failed to save edit."});
             } else {
                 console.log(results);
+                /*connection.query(fieldStat, function (err, resultsD, fields) {
+                    if (err) {
+                        console.log(err);
+                        res.json({"error": true, "message": "Failed to save edit."});
+                    } else {
+                        console.log(resultsD);
+                        if (results.length === 0) {
+                            res.json({"error": true, "message": "fail"});
+                        } else {
+                            res.json({"error": false, "FieldData": resultsD[0]});
+                        }
+                    }
+                });*/
                 if (results[0].length > 0) {
                     editData = results[0][0];
                     res.json({"error": false, "message": "/editData"});
@@ -1208,6 +1223,24 @@ module.exports = function (app, passport) {
                 }
             }
         });
+        /*connection.query(fieldStat, function (err, results, fields) {
+
+            if (err) {
+                console.log(err);
+                res.json({"error": true, "message": "Failed to save edit."});
+            } else {
+                console.log(results);
+                if (results[0].length > 0) {
+                    fieldData = results[0][0];
+                    res.json({"error": false, "message": "/editData"});
+                } else if (results[1].length > 0) {
+                    fieldData = results[1][0];
+                    res.json({"error": false, "message": "/editData"});
+                } else {
+                    res.json({"error": true, "message": "Failed to edit."});
+                }
+            }
+        });*/
     });
     app.get('/sendFieldData', isLoggedIn, function(req, res) {
         locDataQ = req.query.locationName;
@@ -1282,6 +1315,7 @@ module.exports = function (app, passport) {
         // console.log(editData.transactionID);
         res.render('dataEdit.ejs', {
             user: req.user,
+            fieldData: fieldData,
             data: editData, // get the user out of session and pass to template
             message: req.flash('Data Entry Message')
         });
@@ -1311,8 +1345,11 @@ module.exports = function (app, passport) {
     });
 
     app.get('/filterQuery', isLoggedIn, function (req, res) {
-        var scoutingStat = "SELECT Users.username, Users.firstName, Users.lastName, General_Form.*, Detailed_Scouting.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Scouting ON Detailed_Scouting.transactionID = Transaction.transactionID";
-        var trapStat = "SELECT Users.username, Users.firstName, Users.lastName, General_Form.*, Detailed_Trap.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Trap ON Detailed_Trap.transactionID = Transaction.transactionID";
+        // var scoutingStat = "SELECT Users.username, Users.firstName, Users.lastName, General_Form.*, Detailed_Scouting.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Scouting ON Detailed_Scouting.transactionID = Transaction.transactionID";
+        // var trapStat = "SELECT Users.username, Users.firstName, Users.lastName, General_Form.*, Detailed_Trap.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Trap ON Detailed_Trap.transactionID = Transaction.transactionID";
+
+        var scoutingStat = "SELECT Users.username, Users.firstName, Users.lastName, General_Form.*, Detailed_Scouting.*, Field.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Scouting ON Detailed_Scouting.transactionID = Transaction.transactionID INNER JOIN Field ON Field.fieldId = General_Form.fieldId";
+        var trapStat = "SELECT Users.username, Users.firstName, Users.lastName, General_Form.*, Detailed_Trap.*, Field.*  FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Trap ON Detailed_Trap.transactionID = Transaction.transactionID INNER JOIN Field ON Field.fieldId = General_Form.fieldId";
         //console.log(req.query);
         var myQueryObj = [
             {
@@ -2241,8 +2278,7 @@ function appendToStream(destStream, srcDir, srcFilesnames, index, success, failu
         fs.createReadStream(srcDir + srcFilesnames[index])
             .on("end", function() {
                 appendToStream(destStream, srcDir, srcFilesnames, index + 1, success, failure);
-            })
-            .on("error", function(error) {
+            }).on("error", function(error) {
                 console.error("Problem appending chunk! " + error);
                 destStream.end();
                 failure();
