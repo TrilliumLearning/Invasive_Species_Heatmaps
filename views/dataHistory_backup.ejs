@@ -84,6 +84,61 @@
             height: 7px;
         }
 
+        .x {
+            border: 1px solid #ddd;
+
+            /* Gray border */
+            border-radius: 4px;
+
+            /* Rounded border */
+            padding: 5px;
+
+            /* Some padding */
+            width: 125px;
+
+            /* Set a small width */
+            height: auto;
+        }
+
+        .y {
+            border: 1px solid #ddd;
+
+            /* Gray border */
+            border-radius: 4px;
+
+            /* Rounded border */
+            padding: 5px;
+
+            /* Some padding */
+            height: 125px;
+
+            /* Set a small width */
+            width: auto;
+        }
+
+        .z {
+            border: 1px solid #ddd;
+
+            /* Gray border */
+            border-radius: 4px;
+
+            /* Rounded border */
+            padding: 5px;
+
+            /* Some padding */
+            height: 125px;
+
+            /* Set a small width */
+            width: 125px;
+        }
+
+        /* Add a hover effect (blue shadow) */
+        .x:hover,
+        .y:hover,
+        .z:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+
         .navul {
             margin: 0;
             padding: 0;
@@ -748,22 +803,21 @@
                         if (resp[i].Entry_type === "FIELD SCOUTING") {
                             table.row.add([
                                 resp[i].transactionID,
-                                resp[i].fieldId,
                                 resp[i].Date,
-                                resp[i].locationName,
-                                resp[i].latitude,
-                                resp[i].longitude,
+                                resp[i].Location_name,
+                                resp[i].Latitude,
+                                resp[i].Longitude,
                                 resp[i].Training,
-                                resp[i].mainCrop,
-                                resp[i].mainCropVariety,
-                                resp[i].irrigation,
-                                resp[i].fertilizedUsed,
+                                resp[i].Main_crop,
+                                resp[i].Main_crop_variety,
+                                resp[i].Irrigation,
+                                resp[i].Fertilized_used,
                                 resp[i].Crop_stage,
                                 resp[i].General_health,
-                                resp[i].farmingSystem,
-                                resp[i].rotationIntercropping,
-                                resp[i].fieldSize,
-                                resp[i].fieldSizeUnit,
+                                resp[i].Farming_system,
+                                resp[i].Rotation_intercropping_crop,
+                                resp[i].Field_size,
+                                resp[i].Field_size_unit,
                                 resp[i].Main_crop_planting_date,
                                 resp[i].Date_of_last_rain,
                                 resp[i].Rain_amount,
@@ -790,22 +844,20 @@
                         } else if (resp[i].Entry_type === "PHEROMONE TRAP") {
                             trapTable.row.add([
                                 resp[i].transactionID,
-                                resp[i].fieldId,
                                 resp[i].Date,
-                                resp[i].locationName,
-                                resp[i].latitude,
-                                resp[i].longitude,
-                                resp[i].Training,
-                                resp[i].mainCrop,
-                                resp[i].mainCropVariety,
-                                resp[i].irrigation,
-                                resp[i].fertilizedUsed,
+                                resp[i].Location_name,
+                                resp[i].Latitude,
+                                resp[i].Longitude,
+                                resp[i].Main_crop,
+                                resp[i].Main_crop_variety,
+                                resp[i].Irrigation,
+                                resp[i].Fertilized_used,
                                 resp[i].Crop_stage,
                                 resp[i].General_health,
-                                resp[i].farmingSystem,
-                                resp[i].rotationIntercropping,
-                                resp[i].fieldSize,
-                                resp[i].fieldSizeUnit,
+                                resp[i].Farming_system,
+                                resp[i].Rotation_intercropping_crop,
+                                resp[i].Field_size,
+                                resp[i].Field_size_unit,
                                 resp[i].Main_crop_planting_date,
                                 resp[i].Date_of_last_rain,
                                 resp[i].Rain_amount,
@@ -824,21 +876,30 @@
                             ]).draw(false);
                         }
                         // array
+                        var latiDMS = resp[i].Latitude.split(" ");
+                        var longDMS = resp[i].Longitude.split(" ");
+                        // convert latitude & longitude from Degrees Minutes Seconds to Decimal Degree
+                        var latiDD = parseFloat(latiDMS[1].substring(0,latiDMS[1].length - 1)) + (parseFloat(latiDMS[2].substring(0,latiDMS[2].length - 1)) / 60) + (parseFloat(latiDMS[3].substring(0,latiDMS[3].length - 1)) / 3600);
+                        var longDD = parseFloat(longDMS[1].substring(0,longDMS[1].length - 1)) + (parseFloat(longDMS[2].substring(0,longDMS[2].length - 1)) / 60) + (parseFloat(longDMS[3].substring(0,longDMS[3].length - 1)) / 3600);
+                        // change to negative if S or W
+                        if (latiDMS[0] === "S") {
+                            latiDD = latiDD * -1;
+                        }
+                        if (longDMS[0] === "W") {
+                            longDD = longDD * -1;
+                        }
                         var center = {lat: 0, lng: 0};
-                        var latiDD = resp[i].latitude;
-                        var longDD = resp[i].longitude;
                         map = new google.maps.Map(document.getElementById('map'), {
                             zoom: 2,
                             center: center,
                             mapTypeId: 'hybrid'
                         });
-                        var position = {lat: Number(latiDD), lng: Number(longDD)};
-
+                        var position = {lat: latiDD, lng: longDD};
                         var marker = new google.maps.Marker({
                             position: position,
                             map: map
                         });
-                        marker.DMS = resp[i].latitude + "; " + resp[i].longitude;
+                        marker.DMS = resp[i].Latitude + "; " + resp[i].Longitude;
                         markers.push(marker);
                         markers[i].setMap(null);
                     }
@@ -939,14 +1000,9 @@
     }
     function changeColor() {
         var row = document.getElementsByClassName("change")[0].innerHTML.trim().split("</td>");
-        console.log(row);
-        var latiLong = row[4].substring(4, row[4].length) + "; " + row[5].substring(4, row[5].length);
-        console.log(latiLong);
+        var latiLong = row[3].substring(4, row[3].length) + "; " + row[4].substring(4, row[4].length);
         for (var i = 0; i < markers.length; i++) {
-            console.log(markers[i].DMS);
-            console.log(latiLong);
             if (markers[i].DMS === latiLong) {
-                console.log("A");
                 if (document.getElementsByClassName("change")[0].classList.contains("selected") && document.getElementsByClassName("change")[0].classList.contains("change")) {
                     document.getElementsByClassName("change")[0].classList.remove("change");
                     markers[i].setMap(map);
