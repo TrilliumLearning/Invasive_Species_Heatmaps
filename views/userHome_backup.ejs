@@ -1,8 +1,8 @@
-<!-- views/dataHistory.ejs -->
+<!-- views/userHome.ejs -->
 <!doctype html>
 <html>
 <head>
-    <title>Invasive Species Heatmap - Data History</title>
+    <title>Invasive Species Heatmap - User Home</title>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!--<link rel="stylesheet" href="//unpkg.com/flatpickr/dist/flatpickr.min.css">-->
-    <link rel="stylesheet" href="../css/Title.css" type="text/css">
+    <!--<link rel="stylesheet" href="../css/Title.css" type="text/css">-->
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyBX94wEDdQ52lCDhKAhcfR-flIw1NyLTMA"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
@@ -18,40 +18,33 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/flatpickr"></script>
     <!--<script src="//unpkg.com/flatpickr"></script>-->
-    <style>body {
+    <style>
+        body {
             padding-bottom: 80px;
             word-wrap: break-word;
         }
-
         .floatingBox3 {
             display: inline-table;
             width: 450px;
         }
-
         .banner {
             position: relative;
             width: 100%;
         }
-
         .floating-Box {
             display: inline-block;
-        }
-
-        .floatingBox {
-            display: inline-block;
-
             /*width:350px;*/
         }
-
+        .floatingBox {
+            display: inline-block;
+            /*width:350px;*/
+        }
         .button {
             width: 8%;
         }
-
         .date {
-            width: 20%;
             font-size: 100%;
         }
-
         table {
             overflow-x: auto;
             width: 100%;
@@ -59,55 +52,30 @@
             margin-bottom: 20px;
             border-collapse: collapse;
         }
-
         table,
         th,
         td {
             border: 1px solid #cdcdcd;
             text-align: center;
         }
-
         table th,
         table td {
             padding: 10px;
             text-align: left;
         }
-
         table::-webkit-scrollbar-thumb {
             border-radius: 2px;
             background-color: rgba(0, 0, 0, .5);
             -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
         }
-
         table::-webkit-scrollbar {
             -webkit-appearance: none;
             height: 7px;
         }
-
         .navul {
             margin: 0;
             padding: 0;
         }
-
-        .navbutton1 {
-            width: 110px;
-            font-size: 16px;
-            height: 80px;
-            margin: 0;
-            padding: 0px;
-            border-radius: 0px 0 0;
-            background-color: #000000;
-            border: 0 solid;
-            color: #ffffff;
-            -webkit-transition-duration: 0.4s;
-            transition-duration: 0.4s;
-        }
-
-        .navbutton1:hover {
-            background-color: #333;
-            color: white;
-        }
-
         .button1 {
             height: 40px;
             width: 110px;
@@ -120,29 +88,26 @@
             color: #337ab7;
             border: 1px solid #337ab7;
         }
-
         .button1:hover {
             background-color: #337ab7;
             color: white;
         }
-
-        .button2 {
-            height: 40px;
-            width: 220px;
-            border-radius: 2px;
+        .navbutton1 {
+            width: 110px;
+            font-size: 16px;
+            height: 80px;
+            margin: 0;
+            border-radius: 0px 0 0;
+            background-color: #000000;
+            border: 0 solid;
+            color: #ffffff;
             -webkit-transition-duration: 0.4s;
             transition-duration: 0.4s;
-            cursor: pointer;
-            background-color: white;
-            color: #6a6a6a;
-            border: 1px solid #6a6a6a;
         }
-
-        .button2:hover {
-            background-color: #c8c8c8;
+        .navbutton1:hover {
+            background-color: #333;
             color: white;
         }
-
         .dropbutton {
             float: right;
             width: 150px;
@@ -180,7 +145,147 @@
         .show {
             display: block;
         }
-
+        /*
+        @media screen and (max-width:1024px) {
+            .button {
+                font-size: 100%;
+                width: 20%;
+            }
+            .date {
+                font-size: 15px;
+                width: 10%;
+            }
+            .btn-sm {
+                width: 10%;
+            }
+            @media screen and (max-width:768px) {
+                .button {
+                    font-size: 100%;
+                    width: 20%;
+                }
+                .date {
+                    width: 15%;
+                    font-size: 15px;
+                }
+                .btn-sm {
+                    width: 10%;
+                }
+            }
+            @media screen and (max-width:480px) {
+                .btn {
+                    padding: 5px 6px;
+                    margin: 5px;
+                }
+                imput {
+                    width: 35%;
+                }
+                .date {
+                    width: 20%;
+                    font-size: 12px;
+                }
+                #firstName {
+                    width: 20%;
+                    height: 20px;
+                    margin-left: -10px;
+                }
+                #lastName {
+                    width: 20%;
+                    height: 20px;
+                }
+                .button {
+                    font-size: 12px;
+                    width: 15%;
+                }
+            }
+            @media screen and (max-width:414px) {
+                .button {
+                    font-size: 100%;
+                    width: 20%;
+                }
+                select {
+                    width: 35%;
+                }
+                input {
+                    width: 35%;
+                }
+                .date {
+                    width: 20%;
+                    font-size: 12px;
+                }
+                .btn {
+                    font-size: 19px;
+                    padding: 5px 6px;
+                }
+                h1 {
+                    font-size: 25px;
+                }
+                #firstName {
+                    width: 20%;
+                    height: 20px;
+                    margin-left: -10px;
+                }
+                #lastName {
+                    width: 20%;
+                    height: 20px;
+                }
+                .btn-sm {
+                    width: 15%;
+                    font-size: 12px;
+                }
+            }
+            @media screen and (max-width:375px) {
+                #firstName {
+                    width: 20%;
+                    height: 20px;
+                    margin-left: -10px;
+                }
+                #lastName {
+                    width: 20%;
+                    height: 20px;
+                }
+                h1 {
+                    font-size: 25px;
+                }
+            }
+            @media screen and (max-width:320px) {
+                .button {
+                    font-size: 100%;
+                    width: 20%;
+                }
+                .floatingBox3 {
+                    display: inline-table;
+                    width: 350px;
+                }
+                select {
+                    width: 35%;
+                }
+                input {
+                    width: 35%;
+                }
+                .date {
+                    width: 21%;
+                    font-size: 10px;
+                }
+                .btn {
+                    font-size: 12px;
+                    padding: 5px 6px;
+                    width: 80px;
+                }
+                #firstName {
+                    width: 20%;
+                    height: 20px;
+                    margin-left: -10px;
+                }
+                #lastName {
+                    width: 20%;
+                    height: 20px;
+                }
+                h1 {
+                    font-size: 25px;
+                }
+            }
+        }
+                */
     </style>
 </head>
 <div class="navul" style="height: 80px;
@@ -189,15 +294,25 @@
         <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 520px;
     height: 76px;" />
     </a>
-    <a href="/userHome" style="width: 110px;">
-        <button class="navbutton1"> User Home </button>
+    <a href="/newEntry" style="width: 110px;">
+        <button class="navbutton1"> New Entry </button>
     </a>
-    <!--<a href="/recovery2" id="restoreButton" style="width: 110px;">-->
-        <!--<button class="navbutton1"> Recovery </button>-->
-    <!--</a>-->
-    <a href="/heatmap" style="width: 110px;">
+    <a href="/dataHistory" style="width: 110px;">
+        <button class="navbutton1"> Data History </button>
+    </a>
+    <a href="/recovery" id="restoreButton" style="width: 110px;">
+        <button class="navbutton1"> Recovery </button>
+    </a>
+    <a href="/heatmap" id="heatmap" style="width: 110px;">
         <button class="navbutton1"> Heatmap </button>
     </a>
+    <!-- <div class="dropdown floating-Box">
+        <button class="btn btn-primary btn-lg" data-toggle="dropdown" id="Username">
+            <span class="caret"></span>
+        </button>
+        <ul id="userMenu" class="dropdown-menu">
+        </ul>
+    </div> -->
     <div class="dropdown" style="height: 80px; width: 200px; float: right; margin: 0;">
         <button onclick="dropDown()" class="dropbutton" id="Username">
             <%= user.firstName%>
@@ -216,10 +331,10 @@
 </div>
 <body>
 <div class="container" style="width: 900px;">
-    <div class="container center" style="width: 950px; margin-left: -40px">
+    <div class="container center" style="width: 700px;">
         <br>
         <div class="page-header text-center header">
-            <h1><span class="fa fa-calendar"></span><strong> Invasive Species Heatmap -  Data History </strong></h1>
+            <h1><span class="fa fa-home"></span><strong> Invasive Species Heatmap -  User Home </strong></h1>
             <h4><span class="fa fa-user"></span>&nbsp;<strong>Account Name</strong>: <%= user.username %></h4>&nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;
         </div>
     </div>
@@ -253,7 +368,7 @@
     padding-left: 10px;
     margin: 5px 0px;
     border-radius: 5px;
-    border: 1px solid #c8c8c8;" value="">
+    border: 1px solid #c8c8c8;" value="<%= user.firstName%>" readonly>
                 <h5 class="floating-Box">Last Name:</h5>
                 <input class="floating-Box" id="lastName" type="text" name="first name" style="background: WhiteSmoke;
     width: 275px;
@@ -261,7 +376,7 @@
     padding-left: 10px;
     margin: 5px 0px;
     border-radius: 5px;
-    border: 1px solid #c8c8c8;" value="">
+    border: 1px solid #c8c8c8;" value="<%= user.lastName%>" readonly>
             </div>
         </div>
         <div class="center clearForm" style="width: 900px;">
@@ -441,9 +556,13 @@
         <div class="center" style="width: 850px;
     padding: 0px;
     height: 40px;">
-            <button class="button1" type="button" onclick="query()">Filter</button>
-            <!--<button id="deleteButton" class="btn btn-primary btn-sm button" type="button" style="height: 40px;-->
-    <!--width: 110px; float: left; margin-right: 5px;">Delete</button>-->
+            <button id="submitButton" class="button1" type="button" onclick="query()">Filter</button>
+            <button id="editButton" class="btn btn-primary btn-sm button" type="button" style="height: 40px;
+    width: 110px;
+    float: left;
+    margin-right: 5px;">Edit</button>
+            <button id="deleteButton" class="btn btn-primary btn-sm button" type="button" style="height: 40px;
+    width: 110px; float: left; margin-right: 5px;">Delete</button>
             <button id="showButton" class="btn btn-primary btn-sm button" type="button" style="height: 40px;
     width: 110px; float: left">Show All</button>
         </div>
@@ -536,7 +655,6 @@
                     </tr>
                     </tfoot>
                 </table>
-                <button class="button2" onclick="exportTableToCSV('Scouting_<%= user.username %>.csv')">Export above rows to .CSV File</button>
                 <h4 style="color: #9d9d9d"><strong>Traps:</strong></h4>
                 <table id="trapDisplay" style="width:100%;">
                     <thead>
@@ -611,78 +729,92 @@
                     </tfoot>
                 </table>
             </div>
-            <button class="button2" onclick="exportTableToCSV2('Trap_<%= user.username %>.csv')">Export above rows to .CSV File
-            </button>
         </div>
-        <br>
         <div id="map" style="width: 850px;
     height: 400px;"></div>
     </div>
 </div>
 <script type='text/javascript'>
+    var scoutingRowSelected, trapRowSelected, queryString1, queryString2;
     var table = $("#dataDisplay").DataTable();
     var trapTable = $("#trapDisplay").DataTable();
     var UserRole = "<%= user.userrole %>";
-    var theArray;
-    var rowSelected = [];
-    var transactionID = [];
+    var scoutingTransactionID = [];
+    var trapTransactionID = [];
     var markers = [];
     var map;
-
     $(document).ready(function(){
-        $(function() {
-            table.clear();
-            table.draw();
-            trapTable.clear();
-            trapTable.draw();
-            queryAndDisplay("statusDel=" + "Active");
+        $(function () {
             flatpickr(".date", {
                 dateFormat: "Y-m-d",
                 time_24hr: true
             });
+            table.clear();
+            table.draw();
+            trapTable.clear();
+            trapTable.draw();
+            queryAndDisplay("statusDel=" + "Active" + "&firstName=" + "<%= user.firstName %>" + "&lastName=" + "<%= user.lastName %>");
         });
         $('#dataDisplay tbody').on('click', 'tr', function () {
-            thArray = [];
-            transactionID = [];
+            scoutingTransactionID = [];
             $(this).toggleClass('selected');    //toggle class for the rows selected
             $(this).toggleClass('change');    //toggle class change color
             changeColor();
-            rowSelected = table.rows('.selected').data();    //Store all the data for selected rows'
-            $('#dataDisplay > thead > tr > th').each(function () {
-                thArray.push($(this).text())
-            })
-            for (var i = 0; i < rowSelected.length; i ++) {
+            scoutingRowSelected = table.rows('.selected').data();    //Store all the data for selected rows'
+            // $('#dataDisplay > thead > tr > th').each(function () {
+            //     thArray.push($(this).text())
+            // })
+            for (var i = 0; i < scoutingRowSelected.length; i ++) {
 //                console.log("rowSelected[" + i + "][0]: " + rowSelected[i][0]);
-                transactionID.push(rowSelected[i][0]);
+                scoutingTransactionID.push(scoutingRowSelected[i][0]);
             }
         });
         $('#trapDisplay tbody').on('click', 'tr', function () {
-            thArray = [];
-            transactionID = [];
+            trapTransactionID = [];
             $(this).toggleClass('selected');    //toggle class for the rows selected
             $(this).toggleClass('change');    //toggle class change color
             changeColor();
-            rowSelected = table.rows('.selected').data();    //Store all the data for selected rows'
-            $('#trapDisplay > thead > tr > th').each(function () {
-                thArray.push($(this).text())
-            })
-            for (var i = 0; i < rowSelected.length; i ++) {
+            trapRowSelected = trapTable.rows('.selected').data();    //Store all the data for selected rows'
+            // $('#trapDisplay > thead > tr > th').each(function () {
+            //     thArray.push($(this).text())
+            // })
+            for (var i = 0; i < trapRowSelected.length; i ++) {
 //                console.log("rowSelected[" + i + "][0]: " + rowSelected[i][0]);
-                transactionID.push(rowSelected[i][0]);
+                trapTransactionID.push(trapRowSelected[i][0]);
             }
         });
-        $("#deleteButton").on("click", function () {
-            if (confirm("Are you sure you would like to delete this row(s)?") === true) {
+        $("#editButton").on("click", function () {
+            var transactionID = scoutingTransactionID.concat(trapTransactionID);
+            if (transactionID.length >= 2) {
+                confirm("Please make sure to only select ONE of the users to edit.")
+            } else if (transactionID.length === 0) {
+                confirm("No rows have been selected---- please choose ONE.")
+            } else {
                 var transactionIDStr = "transactionIDStr=" + transactionID.toString();
-                // console.log ("transactionIDStr: " + transactionIDStr);
                 $.ajax({
-                    url: '/deleteRow2',
+                    url: '/sendEditData',
                     type: 'GET',
                     dataType: 'json',
                     async: false,
                     data: transactionIDStr,
                     success: function (result) {
-                        window.location.replace('/dataHistory')
+                        window.location.replace('/editData')
+                    }
+                })
+            }
+        });
+        $("#deleteButton").on("click", function () {
+            if (confirm("Are you sure you would like to delete this row(s)?") === true) {
+                var transactionIDStr = "transactionIDStr=" + scoutingTransactionID.concat(trapTransactionID).toString();
+                // console.log ("transactionIDStr: " + transactionIDStr);
+                $.ajax({
+                    url: '/deleteRow',
+                    type: 'GET',
+                    dataType: 'json',
+                    async: false,
+                    data: transactionIDStr,
+                    success: function (result) {
+                        window.location.replace('/userHome')
                     }
                 })
             } else { return false;}
@@ -728,7 +860,10 @@
         var content1 = document.getElementsByClassName("content")[0].value;
         var content2 = document.getElementsByClassName("content")[1].value;
         var content3 = document.getElementsByClassName("content")[2].value;
-        var queryStr = "statusDel=" + "Active" + "&firstName=" + firstName + "&lastName=" + lastName + "&startDate=" + startDate + "&endDate=" + endDate + "&filter1=" + filter1 + "&filter2=" + filter2 + "&filter3=" + filter3 + "&content1=" + content1 + "&content2=" + content2 + "&content3=" + content3;
+        queryString1 = "statusDel=" + "Active" + "&firstName=" + firstName + "&lastName=" + lastName + "&startDate=" + startDate + "&endDate=" + endDate;
+        queryString2 = "&filter1=" + filter1 + "&filter2=" + filter2 + "&filter3=" + filter3 + "&content1=" + content1 + "&content2=" + content2 + "&content3=" + content3;
+        var queryStr =  queryString1 + queryString2;
+        // alert(queryStr);
         table.clear();
         table.draw();
         trapTable.clear();
@@ -748,22 +883,21 @@
                         if (resp[i].Entry_type === "FIELD SCOUTING") {
                             table.row.add([
                                 resp[i].transactionID,
-                                resp[i].fieldId,
                                 resp[i].Date,
-                                resp[i].locationName,
-                                resp[i].latitude,
-                                resp[i].longitude,
+                                resp[i].Location_name,
+                                resp[i].Latitude,
+                                resp[i].Longitude,
                                 resp[i].Training,
-                                resp[i].mainCrop,
-                                resp[i].mainCropVariety,
-                                resp[i].irrigation,
-                                resp[i].fertilizedUsed,
+                                resp[i].Main_crop,
+                                resp[i].Main_crop_variety,
+                                resp[i].Irrigation,
+                                resp[i].Fertilized_used,
                                 resp[i].Crop_stage,
                                 resp[i].General_health,
-                                resp[i].farmingSystem,
-                                resp[i].rotationIntercropping,
-                                resp[i].fieldSize,
-                                resp[i].fieldSizeUnit,
+                                resp[i].Farming_system,
+                                resp[i].Rotation_intercropping_crop,
+                                resp[i].Field_size,
+                                resp[i].Field_size_unit,
                                 resp[i].Main_crop_planting_date,
                                 resp[i].Date_of_last_rain,
                                 resp[i].Rain_amount,
@@ -790,22 +924,20 @@
                         } else if (resp[i].Entry_type === "PHEROMONE TRAP") {
                             trapTable.row.add([
                                 resp[i].transactionID,
-                                resp[i].fieldId,
                                 resp[i].Date,
-                                resp[i].locationName,
-                                resp[i].latitude,
-                                resp[i].longitude,
-                                resp[i].Training,
-                                resp[i].mainCrop,
-                                resp[i].mainCropVariety,
-                                resp[i].irrigation,
-                                resp[i].fertilizedUsed,
+                                resp[i].Location_name,
+                                resp[i].Latitude,
+                                resp[i].Longitude,
+                                resp[i].Main_crop,
+                                resp[i].Main_crop_variety,
+                                resp[i].Irrigation,
+                                resp[i].Fertilized_used,
                                 resp[i].Crop_stage,
                                 resp[i].General_health,
-                                resp[i].farmingSystem,
-                                resp[i].rotationIntercropping,
-                                resp[i].fieldSize,
-                                resp[i].fieldSizeUnit,
+                                resp[i].Farming_system,
+                                resp[i].Rotation_intercropping_crop,
+                                resp[i].Field_size,
+                                resp[i].Field_size_unit,
                                 resp[i].Main_crop_planting_date,
                                 resp[i].Date_of_last_rain,
                                 resp[i].Rain_amount,
@@ -824,21 +956,30 @@
                             ]).draw(false);
                         }
                         // array
+                        var latiDMS = resp[i].Latitude.split(" ");
+                        var longDMS = resp[i].Longitude.split(" ");
+                        // convert latitude & longitude from Degrees Minutes Seconds to Decimal Degree
+                        var latiDD = parseFloat(latiDMS[1].substring(0,latiDMS[1].length - 1)) + (parseFloat(latiDMS[2].substring(0,latiDMS[2].length - 1)) / 60) + (parseFloat(latiDMS[3].substring(0,latiDMS[3].length - 1)) / 3600);
+                        var longDD = parseFloat(longDMS[1].substring(0,longDMS[1].length - 1)) + (parseFloat(longDMS[2].substring(0,longDMS[2].length - 1)) / 60) + (parseFloat(longDMS[3].substring(0,longDMS[3].length - 1)) / 3600);
+                        // change to negative if S or W
+                        if (latiDMS[0] === "S") {
+                            latiDD = latiDD * -1;
+                        }
+                        if (longDMS[0] === "W") {
+                            longDD = longDD * -1;
+                        }
                         var center = {lat: 0, lng: 0};
-                        var latiDD = resp[i].latitude;
-                        var longDD = resp[i].longitude;
                         map = new google.maps.Map(document.getElementById('map'), {
                             zoom: 2,
                             center: center,
                             mapTypeId: 'hybrid'
                         });
-                        var position = {lat: Number(latiDD), lng: Number(longDD)};
-
+                        var position = {lat: latiDD, lng: longDD};
                         var marker = new google.maps.Marker({
                             position: position,
                             map: map
                         });
-                        marker.DMS = resp[i].latitude + "; " + resp[i].longitude;
+                        marker.DMS = resp[i].Latitude + "; " + resp[i].Longitude;
                         markers.push(marker);
                         markers[i].setMap(null);
                     }
@@ -875,78 +1016,11 @@
     //
     //     // alert(document.getElementById(name + "." + rowNumber + "." + i).width + "   " + document.getElementById(name + "." + rowNumber + "." + i).height);
     // }
-    function downloadCSV(csv, filename) {
-        var csvFile;
-        var downloadLink;
-        // CSV file
-        csvFile = new Blob([csv], {type: "text/csv"});
-        // Download link
-        downloadLink = document.createElement("a");
-        // File name
-        downloadLink.download = filename;
-        // Create a link to the file
-        downloadLink.href = window.URL.createObjectURL(csvFile);
-        // Hide download link
-        downloadLink.style.display = "none";
-        // Add the link to DOM
-        document.body.appendChild(downloadLink);
-        // Click download link
-        downloadLink.click();
-    }
-    function exportTableToCSV(filename) {
-        var csv = [];
-//        var table = document.querySelector('#trapDisplay');
-        var rows = document.querySelector("#dataDisplay").querySelectorAll(".selected, thead");
-        for (var i = 0; i < rows.length; i++) {
-            var row = [], cols = rows[i].querySelectorAll("td, th");
-            for (var j = 0; j < cols.length; j++)
-                row.push(cols[j].innerText);
-            csv.push(row.join(","));
-        }
-        // Download CSV file
-        downloadCSV(csv.join("\n"), filename);
-    }
-    function downloadCSV2(csv, filename) {
-        var csvFile;
-        var downloadLink;
-        // CSV file
-        csvFile = new Blob([csv], {type: "text/csv"});
-        // Download link
-        downloadLink = document.createElement("a");
-        // File name
-        downloadLink.download = filename;
-        // Create a link to the file
-        downloadLink.href = window.URL.createObjectURL(csvFile);
-        // Hide download link
-        downloadLink.style.display = "none";
-        // Add the link to DOM
-        document.body.appendChild(downloadLink);
-        // Click download link
-        downloadLink.click();
-    }
-    function exportTableToCSV2(filename) {
-        var csv = [];
-//        var table = document.querySelector('#trapDisplay');
-        var rows = document.querySelector("#trapDisplay").querySelectorAll(".selected, thead");
-        for (var i = 0; i < rows.length; i++) {
-            var row = [], cols = rows[i].querySelectorAll("td, th");
-            for (var j = 0; j < cols.length; j++)
-                row.push(cols[j].innerText);
-            csv.push(row.join(","));
-        }
-        // Download CSV file
-        downloadCSV2(csv.join("\n"), filename);
-    }
     function changeColor() {
         var row = document.getElementsByClassName("change")[0].innerHTML.trim().split("</td>");
-        console.log(row);
-        var latiLong = row[4].substring(4, row[4].length) + "; " + row[5].substring(4, row[5].length);
-        console.log(latiLong);
+        var latiLong = row[3].substring(4, row[3].length) + "; " + row[4].substring(4, row[4].length);
         for (var i = 0; i < markers.length; i++) {
-            console.log(markers[i].DMS);
-            console.log(latiLong);
             if (markers[i].DMS === latiLong) {
-                console.log("A");
                 if (document.getElementsByClassName("change")[0].classList.contains("selected") && document.getElementsByClassName("change")[0].classList.contains("change")) {
                     document.getElementsByClassName("change")[0].classList.remove("change");
                     markers[i].setMap(map);

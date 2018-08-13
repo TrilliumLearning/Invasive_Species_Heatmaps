@@ -404,6 +404,87 @@ module.exports = function (app, passport) {
         });
     });
 
+    app.get('/formT', isLoggedIn, function (req, res) {
+        var d = new Date();
+        var utcDateTime = d.getUTCFullYear() + "-" + ('0' + (d.getUTCMonth() + 1)).slice(-2) + "-" + ('0' + d.getUTCDate()).slice(-2);
+        var queryTransID = "SELECT COUNT(transactionID) AS number FROM Transaction WHERE transactionID LIKE '" + utcDateTime + "%';";
+
+        connection.query(queryTransID, function (err, results, fields) {
+            transactionID = utcDateTime + "_" + ('0000' + (results[0].number + 1)).slice(-5);
+            if (err) {
+                console.log(err);
+            } else {
+                var insertTransID = "INSERT INTO Transaction (transactionID, Cr_UN) VALUE (" + "'" + transactionID + "', '" + req.user.username + "');";
+                connection.query(insertTransID, function (err, results, fields) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        myStat = "SELECT * FROM Field WHERE status = 'Active' AND username = '" + req.user.username + "';";
+                        connection.query(myStat, function (err, results) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                //var result = JSON.stringify(results);
+                                console.log(results);
+                                console.log(req.user);
+                                res.render('formT.ejs', {
+                                    user: req.user,
+                                    //data: locData,
+                                    fieldInfo: results,
+                                    message: req.flash('Data Entry Message'),
+                                    firstname: req.user.firstName,
+                                    lastname: req.user.lastName,
+                                    transactionID: transactionID
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+    });
+    var CurLength;
+    var newFieldId;
+    app.get('/formV', isLoggedIn, function (req, res) {
+        CurLength = req.user.username + "_" + req.query.id;
+        newFieldId = req.user.username + "_";
+
+        res.json({'error': false});
+    });
+
+    app.get('/formP', isLoggedIn, function (req, res) {
+        /*var d = new Date();
+        var utcDateTime = d.getUTCFullYear() + "-" + ('0' + (d.getUTCMonth() + 1)).slice(-2) + "-" + ('0' + d.getUTCDate()).slice(-2);
+        var queryTransID = "SELECT COUNT(transactionID) AS number FROM Transaction WHERE transactionID LIKE '" + utcDateTime + "%';";
+
+        connection.query(queryTransID, function (err, results, fields) {
+            transactionID = utcDateTime + "_" + ('0000' + (results[0].number + 1)).slice(-5);
+            if (err) {
+                console.log(err);
+            } else {*/
+
+                /*var insertID = "INSERT INTO Field (id, username) VALUE ('" + CurLength + "', '" + req.user.username + "');";
+                connection.query(insertID, function (err, results, fields) {
+                    if (err) {
+                        console.log(err);
+                    } else {*/
+                        // Show general form
+                        res.render('formP.ejs', {
+                            user: req.user, // get the user out of session and pass to template
+                            message: req.flash('Data Entry Message'),
+                            firstname: req.user.firstName,
+                            lastname: req.user.lastName,
+                            CurLength: CurLength,
+                            newFieldId: newFieldId
+                        });
+                 //   }
+               // });
+            //}
+        //});
+
+    });
+
     // Update user profile page
     app.post('/userProfile', isLoggedIn, function (req, res) {
         res.setHeader("Access-Control-Allow-Origin", "*"); // Allow cross domain header
@@ -1094,10 +1175,14 @@ module.exports = function (app, passport) {
     // edit on homepage
     var editTransactionID;
     var editData;
+    var fieldData;
+    var locDataQ;
+    var locData;
     app.get('/sendEditData', isLoggedIn, function(req, res) {
         editTransactionID = req.query.transactionIDStr;
         var scoutingStat = "SELECT Users.firstName, Users.lastName, General_Form.*, Detailed_Scouting.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Scouting ON Detailed_Scouting.transactionID = Transaction.transactionID WHERE Transaction.transactionID = '" + editTransactionID +"';";
         var trapStat = "SELECT Users.firstName, Users.lastName, General_Form.*, Detailed_Trap.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Trap ON Detailed_Trap.transactionID = Transaction.transactionID WHERE Transaction.transactionID = '" + editTransactionID + "';";
+        var fieldStat = "SELECT Field.* FROM General_Form INNER JOIN Field ON Field.fieldId = General_Form.fieldId WHERE Transaction.transactionID = '" + editTransactionID + "';";
 
         connection.query(scoutingStat + trapStat, function (err, results, fields) {
 
@@ -1106,6 +1191,19 @@ module.exports = function (app, passport) {
                 res.json({"error": true, "message": "Failed to save edit."});
             } else {
                 console.log(results);
+                /*connection.query(fieldStat, function (err, resultsD, fields) {
+                    if (err) {
+                        console.log(err);
+                        res.json({"error": true, "message": "Failed to save edit."});
+                    } else {
+                        console.log(resultsD);
+                        if (results.length === 0) {
+                            res.json({"error": true, "message": "fail"});
+                        } else {
+                            res.json({"error": false, "FieldData": resultsD[0]});
+                        }
+                    }
+                });*/
                 if (results[0].length > 0) {
                     editData = results[0][0];
                     res.json({"error": false, "message": "/editData"});
@@ -1114,6 +1212,45 @@ module.exports = function (app, passport) {
                     res.json({"error": false, "message": "/editData"});
                 } else {
                     res.json({"error": true, "message": "Failed to edit."});
+                }
+            }
+        });
+        /*connection.query(fieldStat, function (err, results, fields) {
+
+            if (err) {
+                console.log(err);
+                res.json({"error": true, "message": "Failed to save edit."});
+            } else {
+                console.log(results);
+                if (results[0].length > 0) {
+                    fieldData = results[0][0];
+                    res.json({"error": false, "message": "/editData"});
+                } else if (results[1].length > 0) {
+                    fieldData = results[1][0];
+                    res.json({"error": false, "message": "/editData"});
+                } else {
+                    res.json({"error": true, "message": "Failed to edit."});
+                }
+            }
+        });*/
+    });
+    app.get('/sendFieldData', isLoggedIn, function(req, res) {
+        locDataQ = req.query.locationName;
+        console.log(locDataQ);
+
+        var fieldStat = "SELECT * FROM Field WHERE status = 'Active' AND username = '" + req.user.username + "' AND locationName = '" + locDataQ + "';";
+
+        connection.query(fieldStat, function (err, results, fields) {
+
+            if (err) {
+                console.log(err);
+                res.json({"error": true, "message": "Failed to save edit."});
+            } else {
+                console.log(results);
+                if (results.length === 0) {
+                    res.json({"error": true, "message": "fail"});
+                } else {
+                    res.json({"error": false, "data": results[0]});
                 }
             }
         });
@@ -1170,6 +1307,7 @@ module.exports = function (app, passport) {
         // console.log(editData.transactionID);
         res.render('dataEdit.ejs', {
             user: req.user,
+            fieldData: fieldData,
             data: editData, // get the user out of session and pass to template
             message: req.flash('Data Entry Message')
         });
@@ -1199,8 +1337,11 @@ module.exports = function (app, passport) {
     });
 
     app.get('/filterQuery', isLoggedIn, function (req, res) {
-        var scoutingStat = "SELECT Users.username, Users.firstName, Users.lastName, General_Form.*, Detailed_Scouting.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Scouting ON Detailed_Scouting.transactionID = Transaction.transactionID";
-        var trapStat = "SELECT Users.username, Users.firstName, Users.lastName, General_Form.*, Detailed_Trap.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Trap ON Detailed_Trap.transactionID = Transaction.transactionID";
+        // var scoutingStat = "SELECT Users.username, Users.firstName, Users.lastName, General_Form.*, Detailed_Scouting.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Scouting ON Detailed_Scouting.transactionID = Transaction.transactionID";
+        // var trapStat = "SELECT Users.username, Users.firstName, Users.lastName, General_Form.*, Detailed_Trap.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Trap ON Detailed_Trap.transactionID = Transaction.transactionID";
+
+        var scoutingStat = "SELECT Users.username, Users.firstName, Users.lastName, General_Form.*, Detailed_Scouting.*, Field.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Scouting ON Detailed_Scouting.transactionID = Transaction.transactionID INNER JOIN Field ON Field.fieldId = General_Form.fieldId";
+        var trapStat = "SELECT Users.username, Users.firstName, Users.lastName, General_Form.*, Detailed_Trap.*, Field.*  FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Trap ON Detailed_Trap.transactionID = Transaction.transactionID INNER JOIN Field ON Field.fieldId = General_Form.fieldId";
         //console.log(req.query);
         var myQueryObj = [
             {
@@ -1587,6 +1728,70 @@ module.exports = function (app, passport) {
             }
         });
     });
+
+    app.post('/formPP', isLoggedIn, function (req, res) {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        //console.log(req.body);
+
+        var result = Object.keys(req.body).map(function (key) {
+            return [String(key), req.body[key]];
+        });
+
+        var name = "";
+        var value = "";
+        var locationId = "";
+
+        for (var i = 0; i < result.length; i++) {
+            if (result[i][0] === "locationName") {
+                name += result[i][0] + ", ";
+                var string = result[i][1].toString();
+                string = string.replace(/ /g, "_");
+                value += '"' + string + '"' + ", ";
+                locationId = string + '"';
+                console.log(string);
+                console.log(locationId);
+            } else if (result[i][0] === "fieldId") {
+                name += result[i][0] + ", ";
+                value += '"' + result[i][1] + locationId + ", ";
+                console.log("fieldId: " + locationId);
+            } else if (result[i][0] === "Field_size_integer") {
+                // field size
+                name += "fieldSize" + ", ";
+                // one decimal place = divide by 10
+                value += '"' + (parseFloat(result[i][1]) + (result[i + 1][1] / 10)) + '"' + ", ";
+                i = i + 1;
+            } else if (result[i][0] === "rotationIntercropping") {
+                name += "rotationIntercropping" + ", ";
+                var str = result[i][1].toString();
+                str = str.replace(/,/g, "/");
+                value += '"' + str + '"' + ", ";
+            } else {
+                // normal
+                if (result[i][1] !== "") {
+                    name += result[i][0] + ", ";
+                    value += '"' + result[i][1] + '"' + ", ";
+                }
+            }
+        }
+        name = name.substring(0, name.length - 2);
+        value = value.substring(0, value.length - 2);
+
+        // console.log(name);
+        // console.log(value);
+        var deleteStatement = "DELETE FROM Field WHERE id = '" + req.body.id + "'; ";
+        var insertStatement = "INSERT INTO Field (" + name + ") VALUES (" + value + ");";
+        console.log(insertStatement);
+
+        connection.query(deleteStatement + insertStatement, function (err, results, fields) {
+            if (err) {
+                console.log(err);
+                res.json({"error": true, "message": "Insert Error! Check your entry."});
+            } else {
+                res.json({"error": false, "message": "/userProfile"});
+            }
+        });
+    });
+
 
     // =====================================
     // SIGNOUT =============================
@@ -2065,8 +2270,7 @@ function appendToStream(destStream, srcDir, srcFilesnames, index, success, failu
         fs.createReadStream(srcDir + srcFilesnames[index])
             .on("end", function() {
                 appendToStream(destStream, srcDir, srcFilesnames, index + 1, success, failure);
-            })
-            .on("error", function(error) {
+            }).on("error", function(error) {
                 console.error("Problem appending chunk! " + error);
                 destStream.end();
                 failure();

@@ -1,8 +1,8 @@
-<!-- views/profile.ejs -->
+<!-- views/form.ejs -->
 <!doctype html>
 <html>
 <head>
-    <title>Invasive Species Heatmap -  Data Edit</title>
+    <title>Invasive Species Heatmap Project -  Data Entry</title>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/style_final.css" type="text/css">
     <link rel="stylesheet" href="/css/multi-select.css" media="screen" type="text/css">
@@ -15,7 +15,7 @@
     <!--<link rel="stylesheet" href="//unpkg.com/flatpickr/dist/flatpickr.min.css">-->
     <!--<link rel="stylesheet" href="//unpkg.com/flatpickr@4.1.1/dist/flatpickr.min.css">-->
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyBX94wEDdQ52lCDhKAhcfR-flIw1NyLTMA"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/scripts/jquery.form.min.js"></script>
     <script src="/scripts/jquery.multi-select.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -23,6 +23,7 @@
     <script src="//cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/file-uploader/5.15.5/fine-uploader.js"></script>
+    <!--<script src="//unpkg.com/flatpickr@4.1.1/dist/flatpickr.js"></script>-->
 
     <script type="text/template" id="qq-template">
         <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Drop files here">
@@ -100,14 +101,16 @@
             </dialog>
         </div>
     </script>
-    <!--<script src="//unpkg.com/flatpickr@4.1.1/dist/flatpickr.js"></script>-->
     <style>
-        body 		{ padding-bottom:80px; word-wrap:break-word; }
+        body      { padding-bottom:80px; word-wrap:break-word; }
         #detailedFormScouting { display: none; }
         #detailedFormTrap { display: none; }
         #hide { display: none; }
         .FAW        { display: none; }
-
+        .banner{
+            position:relative;
+            width:100%;
+        }
     </style>
 
 </head>
@@ -121,7 +124,8 @@
     margin: auto; display: block;" />
     </a>
 </div>
-<body>
+<body onload="getLocation()">
+
     <div class="container">
         <div id="modal" class="modal">
             <!-- Modal content -->
@@ -141,13 +145,13 @@
         <h1 id="title">Step 1/2: General Form</h1>
 
         <div id="container">
-            <div id="generalForm">
+            <div style="display: block;" id="generalForm">
                 <form id = "general" method = "post">
 
-                    <h4>Transaction ID: &nbsp;&nbsp;&nbsp;</h4><input id="transactionID" name="transactionID" type="text" value="<%= data.transactionID %>" readonly><br><br>
+                    <h4>Transaction ID: &nbsp;&nbsp;&nbsp;</h4><input id="transactionID" name="transactionID" type="text" value="<%= transactionID %>" readonly><br><br>
                     <input type="text" id="fieldId" name="fieldId" value="" hidden>
-                    <h4>Your Name: &nbsp;&nbsp;&nbsp;</h4><input id="firstName" type="text" value="<%= user.firstName %>" readonly><br><br><input id="lastName" type="text" value="<%= user.lastName %>" readonly><br><br>
-                    <h4>1 . Date: &nbsp;&nbsp;&nbsp;</h4><input id="DATE1" name="Date" class="date" value="<%= data.Date %>" required><br><br>
+                    <h4>Your Name: &nbsp;&nbsp;&nbsp;</h4><input id="firstName" type="text" value="<%= firstname %>" readonly><br><br><input id="lastName" type="text" value="<%= lastname %>" readonly><br><br>
+                    <h4>1 . Date: &nbsp;&nbsp;&nbsp;</h4><input id="DATE1" name="Date" class="date" value="" required><br><br>
                     <h4>What data do you want to collect (select at least one)? &nbsp;&nbsp;&nbsp;</h4>
                     <select class="clearGen" id='entryType' name="Entry_type" required>
                         <option value=''>SELECT THE TYPE</option>
@@ -157,7 +161,9 @@
                     <h3>LOCATION</h3>
                     <h4>1 . Location Name: &nbsp;&nbsp;&nbsp;</h4>
                     <h5 style="color:#9d9d9d;">NOTE: Location name options are based on the records filled in <a href="/userProfile">USER PROFILE > FIELD MANAGEMENT</a>. Specific categories are automatically filled in when the option is selected, information pulled from what was saved under that location name.</h5>
-                    <input id="locationName" type="text" name="locationName"><br><br>
+                    <select id="locationName" name="locationName">
+                        <option value="">PLEASE SELECT LOCATION NAME</option>
+                    </select><br><br>
                     <h4 id="GPSLocationTitle">E. GPS Location (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
                     <h4 style="color:red" id="errorMessage"></h4>
                     <h5 style="color:#9d9d9d;" id="locationNote"></h5>
@@ -229,7 +235,7 @@
                     </select><br><br>
 
                     <h4>1 . Farming System (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
-                    <select class="clearGen" id='croppingSystem' onchange='rotationInterCropSystem(this.value);' required>
+                    <select class="clearGen" id='cropSystem' onchange='rotationInterCropSystem();' required disabled>
                         <option value=''>SELECT THE FARMING SYSTEM</option>
                         <option>SEASONAL</option>
                         <option>ROTATION</option>
@@ -251,9 +257,9 @@
                         <option>SQUARE YARD (yd2)</option>
                     </select><br><br>
 
-                    <h4>1 . Main Crop Planting Date: &nbsp;&nbsp;&nbsp;</h4><input id="DATE2" name="Main_crop_planting_date" class="date" value="<%= data.Main_crop_planting_date %>" required><br><br>
+                    <h4>1 . Main Crop Planting Date: &nbsp;&nbsp;&nbsp;</h4><input id="DATE2" name="Main_crop_planting_date" class="date" value="" required><br><br>
                     <h3>RAIN</h3>
-                    <h4>1 . Date of Last RainFall: &nbsp;&nbsp;&nbsp;</h4><input id="DATE3" name="Date_of_last_rain" class="dateS" onclick="rainAmount(this)" value="<%= data.Date_of_last_rain %>" placeholder="ENTER DATE OF LAST RAINFALL"><br><br>
+                    <h4>1 . Date of Last RainFall: &nbsp;&nbsp;&nbsp;</h4><input id="DATE3" name="Date_of_last_rain" class="dateS" onclick="rainAmount(this)" value="" placeholder="ENTER DATE OF LAST RAINFALL"><br><br>
                     <div id="rainAmount">
 
                     </div>
@@ -263,7 +269,7 @@
                             <input id="continue" type="submit" value="Continue"/>
                         </div>
                         <div class="floating-Box">
-                            <input class="cancel" type="button" onclick="goBack()" value=" Cancel  "/>
+                            <input class="cancel" type="button" onclick="goBack()"value=" Cancel  "/>
                         </div>
 
                         <div class="floating-Box">
@@ -276,7 +282,7 @@
             <div id="detailedFormScouting">
                 <form id="detailedScouting" method = "post">
                     <div>
-                        <h4>Transaction ID: &nbsp;&nbsp;&nbsp;</h4><input id="transactionID" name="transactionID" type="text" value="<%= data.transactionID %>" readonly><br><br>
+                        <h4>Transaction ID: &nbsp;&nbsp;&nbsp;</h4><input id="transactionID" name="transactionID" type="text" value="<%= transactionID %>" readonly><br><br>
                         <h4>2 . Pest Species: &nbsp;&nbsp;&nbsp;</h4>
                         <select class="clearDetS" id='pestSpecies' name='Pest_species' onchange="pestSelect()" required>
                             <option value=''>SELECT THE TYPE OF THE PEST</option>
@@ -286,11 +292,11 @@
                         </select><br><br>
                     </div>
                     <div class="FAW">
-                        <h2>PESTS</h2>
+                        <h3>PESTS</h3>
                         <div id="pests">
                             <h4>2 . Present / Absent: &nbsp;&nbsp;&nbsp;</h4>
-                            <input type="radio" name="Present_absent" value="PRESENT" onclick="present(this.value)" required> PRESENT
-                            <input type="radio" name="Present_absent" value="ABSENT" onclick="present(this.value)" required> ABSENT <br><br>
+                            <input type="radio" name="Present_absent" value="PRESENT" onclick="present(this)" required> PRESENT
+                            <input type="radio" name="Present_absent" value="ABSENT" onclick="present(this)" required> ABSENT <br><br>
                             <div id="damageStage">
 
                             </div>
@@ -328,11 +334,14 @@
                 </form>
                 <form id="upload" enctype="multipart/form-data" method="post">
                     <div class="FAW">
-                        <h2>RESOURCES</h2>
+                        <h3>RESOURCES</h3>
                         <h4>Photos maize at all stages of damage: &nbsp;&nbsp;&nbsp;</h4>
+                        <!--<input class="clearDetS" id="photoOfDamage" type="file" name="Damage_photo" accept="image/*" multiple/><br><br>-->
                         <div id="uploader"></div>
 
                         <div id="photo"></div>
+
+
 
                         <div class="row">
                             <div class="floating-Box">
@@ -354,9 +363,9 @@
 
             <div id="detailedFormTrap">
                 <form id="detailedTrap" method = "post">
-                    <h4>2 . Transaction ID: &nbsp;&nbsp;&nbsp;</h4><input id="transactionID" name="transactionID" type="text" value="<%= data.transactionID %>" readonly><br><br>
+                    <h4>2 . Transaction ID: &nbsp;&nbsp;&nbsp;</h4><input id="transactionID" name="transactionID" type="text" value="<%= transactionID %>" readonly><br><br>
                     <h3>TRAPS INFORMATION</h3>
-                    <h4>2 . Trap ID: &nbsp;&nbsp;&nbsp;</h4><input id="trapID" name="Trap_ID" type="text" value="<%= data.Trap_ID %>" required><br><br>
+                    <h4>2 . Trap ID: &nbsp;&nbsp;&nbsp;</h4><input id="trapID" name="Trap_ID" type="text" placeholder="ENTER TRAP ID HERE" required><br><br>
                     <h4>2 . Trap Location:</h4>
                     <select class="clearGen" id='trapLocation' name="Trap_location" required>
                         <option value=''>SELECT THE TRAP LOCATION</option>
@@ -365,10 +374,10 @@
                         <option>VILLAGE</option>
                     </select><br><br>
                     <h3>CATCHES</h3>
-                    <h4>2 . Please indicate the number of moths/traps:</h4><input id="numberOfTraps" class="inputNumber" name="Number_of_traps" type="number" value="<%= data.Number_of_traps %>" placeholder="ENTER NUMBER OF MOTHS/TRAPS" required><br><br>
-                    <h4>2 . FAW Confirmed: &nbsp;&nbsp;&nbsp;</h4><input id="FAWConfirmed" class="inputNumber" name="FAW_confirmed" type="number" value="<%= data.FAW_confirmed %>" required><br><br>
-                    <h4>2 . FAW Suspected: &nbsp;&nbsp;&nbsp;</h4><input id="FAWSuspected" class="inputNumber" name="FAW_suspected" type="number" value="<%= data.FAW_suspected %>" required><br><br>
-                    <h4>2 . Other Species: &nbsp;&nbsp;&nbsp;</h4><input id="otherSpecies" class="inputNumber" name="Other_species" type="number" value="<%= data.Other_species %>" required><br><br>
+                    <h4>2 . Please indicate the number of moths/traps:</h4><input id="numberOfTraps" class="inputNumber" name="Number_of_traps" type="number" placeholder="ENTER NUMBER OF MOTHS/TRAPS" required><br><br>
+                    <h4>2 . FAW Confirmed: &nbsp;&nbsp;&nbsp;</h4><input id="FAWConfirmed" class="inputNumber" name="FAW_confirmed" type="number" placeholder="ENTER NUMBER OF FAW CONFIRMED" required><br><br>
+                    <h4>2 . FAW Suspected: &nbsp;&nbsp;&nbsp;</h4><input id="FAWSuspected" class="inputNumber" name="FAW_suspected" type="number" placeholder="ENTER NUMBER OF FAW SUSPECTED" required><br><br>
+                    <h4>2 . Other Species: &nbsp;&nbsp;&nbsp;</h4><input id="otherSpecies" class="inputNumber" name="Other_species" type="number" placeholder="ENTER NUMBER OF OTHER SPIECES" required><br><br>
                     <h3>STATUS</h3>
                     <h4>2 . Trap Type:</h4>
                     <select class="clearGen" id='trapType' name="Trap_type" required>
@@ -395,18 +404,18 @@
                         <option>OTHER</option>
                     </select><br><br>
                     <h4>2 . Trap Replaced? &nbsp;&nbsp;&nbsp;</h4>
-                    <input type="radio" name="Trap_replaced" value="YES" onclick="trapReplaced(this).value" required> YES
-                    <input type="radio" name="Trap_replaced" value="NO" onclick="trapReplaced(this.value)" required> NO <br><br>
+                    <input type="radio" name="Trap_replaced" value="YES" onclick="trapReplaced(this)" required> YES
+                    <input type="radio" name="Trap_replaced" value="NO" onclick="trapReplaced(this)" required> NO <br><br>
                     <div id="dateTrapReplaced">
 
                     </div>
                     <h4>2 . Lure Replaced? &nbsp;&nbsp;&nbsp;</h4>
-                    <input type="radio" name="Lure_replaced" value="YES" onclick="lureReplaced(this.value)" required> YES
-                    <input type="radio" name="Lure_replaced" value="NO" onclick="lureReplaced(this.value)" required> NO <br><br>
+                    <input type="radio" name="Lure_replaced" value="YES" onclick="lureReplaced(this)" required> YES
+                    <input type="radio" name="Lure_replaced" value="NO" onclick="lureReplaced(this)" required> NO <br><br>
                     <div id="dateLureReplaced">
 
                     </div>
-                    <!--<h4>2 . Trap Serviced Date: &nbsp;&nbsp;&nbsp;</h4><input id="DATE4" name="Trap_serviced_date" class="date" value="<%= data.Trap_serviced_date %>" required><br><br>-->
+                    <!--<h4>2 . Trap Serviced Date: &nbsp;&nbsp;&nbsp;</h4><input id="DATE4" name="Trap_serviced_date" class="date" value="" required><br><br>-->
 
                     <div class="row">
                         <div class="floating-Box">
@@ -429,37 +438,29 @@
     </div>
 </div>
 <script>
+    var field = '<%- JSON.stringify(fieldInfo) %>';
+    field = JSON.parse(field);
 
-    var globalResults;
     $(document).ready(function () {
 
+        var locationOptions = "";
 
-    })
+        for (var i = 0; i < field.length; i++) {
+            var optionData = field[i].locationName;
+            console.log(optionData);
 
-    $(function(){
+            locationOptions += "<option value='" + optionData + "'>" + optionData + "</option>";
+        }
 
-        $('#Training').multiSelect();
 
-        // flatpickr(".date", {
-        //     dateFormat: "Y-m-d",
-        //     time_24hr: true
-        // });
-        //
-        flatpickr(".dateS", {
-            dateFormat: "Y-m-d",
-            time_24hr: true
-        });
-
+        $("#locationName").append(locationOptions);
         $(".Irrigation, .fertilizedUsed").change(function () {
             $(this).prop('checked', true).siblings().prop('checked',false);
         })
 
-        $("#entryType").val("<%= data.Entry_type %>");
-        $("#locationName").val("<%= data.locationName %>")
-
-        if ($("#locationName") !== "") {
-            var locationNameD = "locationName=" + $("#locationName").val();
-            console.log($("#locationName").val());
+        $('#locationName').change(function (){
+            var locationNameD = "locationName=" + $(this).val();
+            console.log($(this).val());
 
             $.ajax({
                 url: '/sendFieldData',
@@ -472,7 +473,7 @@
                         console.log(result.data);
 
                         $("#fieldId").val(result.data.fieldId);
-                        $("#mainCrop").val(result.data.mainCrop);
+                        $(".mainCrop").val(result.data.mainCrop);
                         $("#mainCropVariety").val(result.data.mainCropVariety);
                         $("[class='Irrigation'][value='" + result.data.irrigation + "']").click();
                         $("[class='fertilizedUsed'][value='" + result.data.fertilizedUsed + "']").click();
@@ -481,7 +482,6 @@
                         $("#fieldSizeInteger").val(fieldSizeD[0]);
                         $("#fieldSizeDecimal").val(fieldSizeD[1]);
                         $("#fieldSizeUnit").val(result.data.fieldSizeUnit);
-
                         $("#locationDiv").empty();
 
                         var latitudeD = result.data.latitude;
@@ -492,110 +492,51 @@
 
                         var longitudeTitle = $("#longitudeTitle");
 
-                        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' readonly type='number' value='" + latitudeD +"' required>"));
-                        longitudeTitle.append($("<input id='logitudeDecimal' class='locInput' readonly type='number' value='" + longitudeD +"' required>"));
+                        $("#latitudeTitle").append($("<input id='latitudeDecimal' class='locInput' readonly type='number' value='" + latitudeD +"' required>"));
+                        $("#longitudeTitle").append($("<input id='logitudeDecimal' class='locInput' readonly type='number' value='" + longitudeD +"' required>"));
+
+                        //$("#locationDiv").append($("<input id='refreshMap' type='button' onclick='refresh()' value='Click here to refresh the map'>"));
+                        //$("#refreshMap").click();
+                        /*if ($("#cropSystem").val() === "ROTATION" || "INTERCROPPING" || "PUSH-PULL"){
+                            rotationInterCropSystem(result.data.farmingSystem);
+                            $('#rotationIntercropping').multiSelect("select", result.data.rotationIntercropping.split("/"));
+                        } else {
+                            console.log("No information to display.")
+                        }*/
                         rotationInterCropSystem(result.data.farmingSystem);
                         $('#rotationIntercroppingCrop').multiSelect("select", result.data.rotationIntercropping.split("/"));
+
                     }
                 }
             })
-        }
-        $("#Training").multiSelect("select", "<%= data.Training %>".split(","));
-        $("#cropStage").val("<%= data.Crop_stage %>")
-        $("#healthOfCrop").val("<%= data.General_health %>");
-        $("#rainAmount").val("<%= data.Rain_amount %>");
-
-        $("#pestSpecies").val("<%= data.Pest_species %>");
-        $("[name='Present_absent'][value='<%= data.Present_absent %>']").prop("checked", true);
-        $("#previousDamage").val("<%= data.Previous_damage %>");
-        $("#naturalEnemies").val("<%= data.Natural_enemies %>");
-        $("[name='Dead_larvae'][value='<%= data.Dead_larvae %>']").prop("checked", true);
-        present("<%= data.Present_absent %>");
-        $("#cropDamage").val("<%= data.Crop_damage %>");
-        $('#pestStage').multiSelect("select", "<%= data.Pest_stage %>".split("/"));
-        $("#currentDamage").val("<%= data.Current_damage %>");
-        $("#cropInfested").val("<%= data.Crop_infested %>");
-        $('#controlUndertaken').multiSelect("select", "<%= data.Control_undertaken %>".split("/"));
-        $("#PesticideName").val("<%= data.Pesticide_name %>");
-        $("#BiopesticideName").val("<%= data.Biopesticide_name %>");
-        $("#PesticideLitres").val("<%= data.Pesticide_litres %>");
-        $("#BiopesticideLitres").val("<%= data.Biopesticide_litres %>");
-        <!--$("#uploader").val("<%= data.Damage_photo %>");-->
-        <!--var photoOfPest = "<%= data.Photo_of_Pest %>".split(";");-->
-        <!--var photoOfDamage = "<%= data.Photo_of_Damage %>".split(";");-->
-        $.ajax({
-            url: '/edit',
-            type: 'GET',
-            dataType: 'json',
-            async: false,
-            success: function (results) {
-                if (!results.error) {
-                    globalResults = results;
-                    console.log("results: " + globalResults[0].imagePath);
-
-                    let list = [];
-                    for (var i = 0; i < globalResults.length; i++) {
-                        var first = {
-                            id: i,
-                            size: 561276,
-                            thumbnailUrl: globalResults[i].imagePath,
-                            name: globalResults[i].fileName
-                        }
-
-                        list.push(first);
-                    }
-                    console.log("afwefwe: " + qq.supportedFeatures.imagePreviews === true);
-                    console.log("json object array: " + list[0].thumbnailUrl);
-
-                    uploader.addInitialFiles(list);
-                } else {
-                    console.log("didn't work :(");
-                }
-            }
         });
+    })
+
+    $(function(){
+        //getLocation();
 
 
-        // for (var p = 0; p < photoOfPest.length; p++) {
-        //     $("#photoOfPestDiv").append($("<a target=\"_blank\" href='" + photoOfPest[p] + "'><img src='" + photoOfPest[p] + "' id='p" + p + "'></a>"));
-        //
-        //     var popWidth = document.getElementById("p" + p).naturalWidth;
-        //     var popHeight = document.getElementById("p" + p).naturalHeight;
-        //
-        //     if (popWidth > popHeight) {
-        //         document.getElementById("p" + p).setAttribute("class", "x");
-        //     } else if (popWidth < popHeight) {
-        //         document.getElementById("p" + p).setAttribute("class", "y");
-        //     } else if (popWidth === popHeight) {
-        //         document.getElementById("p" + p).setAttribute("class", "z");
-        //     }
-        // }
-        //
-        // for (var d = 0; d < photoOfDamage.length; d++) {
-        //     $("#photoOfDamageDiv").append($("<a target=\"_blank\" href='" + photoOfDamage[d] + "'><img src='" + photoOfDamage[d] + "' id='d" + d + "'></a>"));
-        //
-        //     var podWidth = document.getElementById("d" + d).naturalWidth;
-        //     var podHeight = document.getElementById("d" + d).naturalHeight;
-        //     if (podWidth > podHeight) {
-        //         document.getElementById("d" + d).setAttribute("class", "x");
-        //     } else if (podWidth < podHeight) {
-        //         document.getElementById("d" + d).setAttribute("class", "y");
-        //     } else if (podWidth === podHeight) {
-        //         document.getElementById("d" + d).setAttribute("class", "z");
-        //     }
-        // }
 
+        $('#Training').multiSelect();
 
-        $("#trapLocation").val("<%= data.Trap_location %>");
-        $("[name='Trap_replaced'][value='<%= data.Trap_replaced %>']").prop("checked", true);
-        $("[name='Lure_replaced'][value='<%= data.Lure_replaced %>']").prop("checked", true);
-        $("#lureName").val("<%= data.Lure_name %>");
-
-        pestSelect();
 
         flatpickr(".date", {
             dateFormat: "Y-m-d",
             time_24hr: true
         });
+
+        flatpickr(".dateS", {
+            dateFormat: "Y-m-d",
+            time_24hr: true
+        });
+
+        var today = new Date();
+        var todayDate = today.getFullYear()+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
+        var todayDateV = document.getElementsByClassName("date");
+
+        for (var i = 0; i < todayDateV.length; i++) {
+            todayDateV[i].value = todayDate;
+        }
 
         var options = {
             url: '/upload',    // override for form's 'action' attribute
@@ -619,6 +560,9 @@
             //alert("This button has actually been selected and this can't possibly be the issue. FIRST");
 
             $("#hide").click();
+            //
+            // console.log("This button has actually been selected and this can't possibly be the issue.");
+            // showResponse();
         });
 
         $('#detailedScouting').submit(function(e) {
@@ -652,7 +596,7 @@
                                     document.getElementById("modal-header").style.backgroundColor = "#5cb85c";
                                     document.getElementById("close").innerHTML = "<a href='/userhome'>&times</a>";
 
-                                    document.getElementById("header").innerHTML = "Congratulations, your edit was successfully submitted!";
+                                    document.getElementById("header").innerHTML = "Congratulations, your data entry has been successfully completed!";
                                     document.getElementById("body").innerHTML = "<br>Click X to return to the Home Page.<br>";
 
                                     document.getElementById("modal").style.display = "block";
@@ -690,7 +634,7 @@
                                     document.getElementById("modal-header").style.backgroundColor = "#5cb85c";
                                     document.getElementById("close").innerHTML = "<a href='/userhome'>&times</a>";
 
-                                    document.getElementById("header").innerHTML = "Congratulations, your edit was successfully submitted!";
+                                    document.getElementById("header").innerHTML = "Congratulations, your data entry has been successfully completed!";
                                     document.getElementById("body").innerHTML = "<br>Click X to return to the Home Page.<br>";
 
                                     document.getElementById("modal").style.display = "block";
@@ -708,9 +652,9 @@
 
         $('#general').submit(function(e) {
             // Prevent form submission
-            //alert("A");
             e.preventDefault();
-            //alert("X");
+            // alert("X");
+            console.log($("#DATE1").val());
             var entryType = document.getElementById("entryType").value;
             if (entryType === "FIELD SCOUTING") {
                 document.getElementById("title").innerHTML = "Step 2/2: Detailed Form";
@@ -724,6 +668,7 @@
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
         });
+
     });
 
     var globalPaths;
@@ -739,8 +684,8 @@
         },
         callbacks: {
             onComplete: function (id, name, responseJSON) {
-                alert(responseJSON.newuuid);
-                alert(id + "      " + name);
+                // alert(responseJSON.newuuid);
+                // alert(id + "      " + name);
                 uploader.setUuid(id, responseJSON.newuuid);
                 // $.ajax({
                 //     url: '/submit',
@@ -760,6 +705,106 @@
         }
     });
 
+
+    //Get geolocation and map preview
+    function getLocation() {
+
+        $("#locationDiv").append($("<h4 id='latitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Latitude: &nbsp;&nbsp;&nbsp</h4><h4 id='longitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longitude: </h4>"));
+        var latitudeTitle = $("#latitudeTitle");
+        var longitudeTitle = $("#longitudeTitle");
+
+        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' name='Latitude' readonly type='number' value='' required>"));
+        longitudeTitle.append($("<input id='logitudeDecimal' class='locInput' name='Longitude' readonly type='number' value='' required>"));
+
+        /*if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            $("#latitudeStatus").remove();
+            $("#longitudeStatus").remove();
+            document.getElementById("errorMessage").innerHTML = "ERROR: Geolocation is not supported by this browser."
+            alert("Geolocation is not supported by this browser.");
+
+            createInputBox();
+        }*/
+    }
+
+    /*function showPosition(position) {
+        $("#latitudeStatus").remove();
+        $("#longitudeStatus").remove();
+
+        var uluru = {lat: position.coords.latitude, lng: position.coords.longitude};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: uluru,
+            mapTypeId: 'hybrid'
+        });
+
+        var marker = new google.maps.Marker({
+            position: uluru,
+            map: map,
+            draggable: true
+        });
+
+        google.maps.event.addListener(marker, 'dragend', function (event) {
+            document.getElementById("latitudeDecimal").value = this.getPosition().lat();
+            document.getElementById("longitudeDecimal").value = this.getPosition().lng();
+        })
+
+        var latiDD = position.coords.latitude;
+        var longDD = position.coords.longitude;
+
+        var latiDirection;
+        var longDirection;
+        // check direction
+        if (latiDD >= 0) {
+            latiDirection = "N";
+        } else if (latiDD < 0) {
+            latiDirection = "S";
+            latiDD = latiDD * -1;
+        }
+        if (longDD >= 0) {
+            longDirection = "E";
+        } else if (longDD < 0) {
+            longDirection = "W";
+            longDD = longDD * -1;
+        }
+        // convert latitude from Decimal Degree to Degrees Minutes Seconds
+        var latiDegrees = Math.floor(latiDD);
+        var latiMinutes = Math.floor((latiDD - latiDegrees) * 60);
+        var latiSeconds = ((latiDD - latiDegrees) * 60 - latiMinutes) * 60;
+        // convert longitude from Decimal Degree to Degrees Minutes Seconds
+        var longDegrees = Math.floor(longDD);
+        var longMinutes = Math.floor((longDD - longDegrees) * 60);
+        var longSeconds = ((longDD - longDegrees) * 60 - longMinutes) * 60;
+
+        var latitude = latiDirection + " " + latiDegrees + " " + latiMinutes + " " + latiSeconds;
+        var longitude = longDirection + " " + longDegrees + " " + longMinutes + " " + longSeconds;
+
+        createInputBox(latiDD, longDD);
+    }*/
+
+    function showError(error) {
+
+        var errorMessage = document.getElementById("errorMessage");
+        $("#latitudeStatus").remove();
+        $("#longitudeStatus").remove();
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                errorMessage.innerHTML = "ERROR: User denied the request for Geolocation."
+                break;
+            case error.POSITION_UNAVAILABLE:
+                errorMessage.innerHTML = "ERROR: Location information is unavailable."
+                break;
+            case error.TIMEOUT:
+                errorMessage.innerHTML = "ERROR: The request to get user location timed out."
+                break;
+            case error.UNKNOWN_ERROR:
+                errorMessage.innerHTML = "ERROR: An unknown error occurred."
+                break;
+        }
+        createInputBox();
+    }
+
     function createInputBox(lati, long) {
         // [0] = direction; [1] = degrees; [2] = minutes; [3] = seconds
         var latitude = "";
@@ -775,15 +820,40 @@
         }
 
         var latitudeTitle = $("#latitudeTitle");
+        /*var latitudeSelect = $("<select id='latitudeDirection' name='Latitude_direction' required>");
+        latitudeTitle.append(latitudeSelect);
+        if (latitude[0] === "N" || !latitude[0]) {
+            latitudeSelect.append($("<option>N</option><option>S</option>"));
+        } else if (latitude[0] === "S") {
+            latitudeSelect.append($("<option>S</option><option>N</option>"));
+        }
+        latitudeTitle.append($("</select>"));*/
 
         var longitudeTitle = $("#longitudeTitle");
+       /* var longitudeSelect = $("<select id='longitudeDirection' name='Longitude_direction' required>");
+        longitudeTitle.append(longitudeSelect);
+        if (longitude[0] === "E" || !longitude[0]) {
+            longitudeSelect.append($("<option>E</option><option>W</option>"));
+        } else if (longitude[0] === "W") {
+            longitudeSelect.append($("<option>W</option><option>E</option>"));
+        }
+        longitudeTitle.append($("</select>"));*/
 
-        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' type='number' value='" + latitude + "' required>"));
-        longitudeTitle.append($("<input id='longitudeDecimal' class='locInput' type='number' value='" + longitude + "' required>"));
+        /*latitudeTitle.append($("<input id='latitudeDegree' name='Latitude_degree' type='number' value='" + latitude[1] + "' required>°" + " <input id='latitudeMinute' name='Latitude_minute' type='number' value='" + latitude[2] + "' required>'" + " <input id='latitudeSecond' name='Latitude_second' type='number' value='" + Math.round(latitude[3] * 1000) / 1000 + "' step='any' required>''" + "<p></p>"));
+        longitudeTitle.append($("<input id='longitudeDegree' name='Longitude_degree' type='number' value='" + longitude[1] + "' required>°" + " <input id='longitudeMinute' name='Longitude_minute' type='number' value='" + longitude[2] + "' required>'" + " <input id='longitudeSecond' name='Longitude_second' type='number' value='" + Math.round(longitude[3] * 1000) / 1000 + "' step='any' required>''" + "<p></p>"));
+        */
+
+        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' name='Latitude_decimal' type='number' value='" + latitude +"' required>"));
+        longitudeTitle.append($("<input id='longitudeDecimal' class='locInput' name='Longitude_decimal' type='number' value='" + longitude +"' required>"));
+
+        //$("#locationDiv").append($("<input type='button' onclick='refresh()' value='Click here to refresh the map'>"));
     }
 
     /*function refresh() {
-        var latiDirection = document.getElementById("latitudeDirection").value;
+        var latiDecimal = document.getElementById("latitudeDecimal").value;
+        var longDecimal = document.getElementById("longitudeDecimal").value;
+
+        /*var latiDirection = document.getElementById("latitudeDirection").value;
         var longDirection = document.getElementById("longitudeDirection").value;
         var latiDegree = document.getElementById("latitudeDegree").value;
         var longDegree = document.getElementById("longitudeDegree").value;
@@ -791,6 +861,29 @@
         var longMinute = document.getElementById("longitudeMinute").value;
         var latiSecond = document.getElementById("latitudeSecond").value;
         var longSecond = document.getElementById("longitudeSecond").value;
+
+        if (latiDecimal && longDecimal) {
+            var newPosition = new google.maps.LatLng(latiDecimal, longDecimal);
+            //var newPosition = {lat: latiDecimal, lng: longDecimal};
+            document.getElementById("map").innerHTML = "";
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 4,
+                center:  newPosition,
+                mapTypeId: 'hybrid'
+            });
+
+            var marker = new google.maps.Marker({
+                position: newPosition,
+                map: map,
+                draggable: true
+            });
+
+            google.maps.event.addListener(marker, 'dragend', function (event) {
+                document.getElementById("latitudeDecimal").value = this.getPosition().lat();
+                document.getElementById("longitudeDecimal").value = this.getPosition().lng();
+            })
+
+        }
 
         if (latiDirection && longDirection && latiDegree && longDegree && latiMinute && longMinute && latiSecond && longSecond) {
             // convert latitude & longitude from Degrees Minutes Seconds to Decimal Degree
@@ -821,9 +914,9 @@
         }
     }*/
 
-    function rotationInterCropSystem(value) {
+    function rotationInterCropSystem() {
         $("#rotationIntercropping").empty();
-        if (value === "ROTATION" || value === "INTERCROPPING" || value === "PUSH-PULL") {
+        if (document.getElementById("cropSystem").value === "ROTATION" || document.getElementById("cropSystem").value === "INTERCROPPING" || document.getElementById("cropSystem").value === "PUSH-PULL") {
             //var mainCropList = ["ALFALFA", "BARLEY", "COTTON", "FLOWERS", "MAIZE", "MILLET", "PEANUT", "RICE", "SORGHUM", "SOYBEAN", "SUGARBEET", "SUGARCANE", "TEFF", "TOBACCO", "WEEDS", "WHEAT", "OTHER CEREALS", "OTHER FRUITS", "OTHER GRASSES", "OTHER VEGETABLES"];
             var mainCropList = document.getElementById("mainCrop").options;
             var mainCropDiv = $("#rotationIntercropping");
@@ -957,7 +1050,7 @@
 
     function present(status) {
         var damageStageDiv = $("#damageStage");
-        var cropInfestedDiv = $("#infested");
+        var cropInfestedDiv = $("#cropInfested");
         var controlTypeDiv = $("#controlType");
         var photoDiv = $("#photo");
         damageStageDiv.empty();
@@ -965,7 +1058,7 @@
         controlTypeDiv.empty();
         photoDiv.empty();
 
-        if (status === "PRESENT") {
+        if (status.value === "PRESENT") {
             // damageStageDiv.append($("<h4>1 . Crop Damage: &nbsp;&nbsp;&nbsp;</h4>"));
             // var mainCropSelect = $("<select class='clearGen' id='rotationIntercroppingCrop' name='rota_inter_crop'></select>");
             // damageStageDiv.append(mainCropSelect);
@@ -973,8 +1066,10 @@
             //     var mainCropOption = $("<option>" + mainCropList[i].value + "</option>");
             //     mainCropSelect.append(mainCropOption);
             // }
-            var title = [$("<h4>2 . Crop Damage: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Pest Stage: &nbsp;&nbsp;&nbsp;</h4><a href='javascript:void(0);' id='pestStage-select_all' onclick='selectAndUnselect()'>select all</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:void(0);' id='pestStage-deselect_all' onclick='selectAndUnselect()'>deselect all</a>"), $("<br<br><h4>2 . Current Damage: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Crop Infested: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Control Undertaken: &nbsp;&nbsp;&nbsp;</h4><a href='javascript:void(0);' id='controlUndertaken-select_all' onclick='selectAndUnselect()'>select all</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:void(0);' id='controlUndertaken-deselect_all' onclick='selectAndUnselect()'>deselect all</a>"), $("<h4>Photos of pest at different stages: &nbsp;&nbsp;&nbsp;</h4>")];
+            var title = [$("<h4>2 . Crop Damage: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Pest Stage: &nbsp;&nbsp;&nbsp;</h4><a href='javascript:void(0);' id='pestStage-select_all'  class='selectMultiple'  onclick='selectAndUnselect()'>Select all</a><a href='javascript:void(0);' id='pestStage-deselect_all' class='selectMultiple' onclick='selectAndUnselect()'>Deselect all</a>"), $("<br<br><h4>2 . Current Damage level (on young leaves; fresh grass in whorl): &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Crop Infested: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Control Undertaken: &nbsp;&nbsp;&nbsp;</h4><a href='javascript:void(0);' id='controlUndertaken-select_all'  class='selectMultiple' onclick='selectAndUnselect()'>Select all</a><a href='javascript:void(0);' id='controlUndertaken-deselect_all'  class='selectMultiple' onclick='selectAndUnselect()'>Deselect all</a>"), $("<h4>Photos of pest at different stages: &nbsp;&nbsp;&nbsp;</h4>")];
             var select = [$("<select class='clearGen' id='cropDamage' name='Crop_damage' required></select><br><br>"), $("<select multiple='multiple' class='clearGen' id='pestStage' name='Pest_stage' required></select>"), $("<select class='clearGen' id='currentDamage' name='Current_damage' required></select><br><br>"), $("<input class='clearGen inputNumber' id='cropInfested' name='Crop_infested' type='text' placeholder='Enter The Percentage of Crop Infested Here' required><br><br>"), $("<select multiple='multiple' class='clearGen' id='controlUndertaken' name='Control_undertaken' onchange='controlType(this)'></select>"), $("<div class='clearGen' id='uploaderPest'></div><br><br>")];
+
+
 
             controlTypeDiv.append($("<h3>CONTROL</h3>"));
 
@@ -996,9 +1091,9 @@
 
             var damageOptions = document.getElementById("previousDamage").options;
             damageOptions[0].value = "SELECT THE DAMAGE LEVEL";
-            //alert(damageOptions.length);
+
             var stageOptions = ["EGGS", "LARVAE", "PUPAE", "ADULTS"];
-            var controlTypeOptions = ["NONE", "BIOPESTICIDE", "CHEMICAL PESTICIDE", "EGG-SQUASHING", "HAND-PICKING", "MECHANICAL", "CULTURAL", "BIOCONTROL"];
+            var controlTypeOptions = ["NONE", "BIOPESTICIDE", "BIOCONTROL", "CULTURAL", "CHEMICAL PESTICIDE", "EGG-SQUASHING", "HAND-PICKING", "LOCAL CONTROL", "MECHANICAL"];
             for (var i = 0; i < controlTypeOptions.length; i++) {
                 select[4].append($("<option>" + controlTypeOptions[i] + "</option>"));
                 if (i < 4) {
@@ -1014,36 +1109,6 @@
             $("option:first", select[2]).val("");
             select[1].multiSelect();
             select[4].multiSelect();
-            $.ajax({
-                url: '/edit2',
-                type: 'GET',
-                dataType: 'json',
-                async: false,
-                success: function (results) {
-                    if (!results.error) {
-                        globalResults = results;
-                        console.log("results: " + globalResults[0].imagePath);
-
-                        let list = [];
-                        for (var i = 0; i < globalResults.length; i++) {
-                            var first = {
-                                id: i,
-                                size: 561276,
-                                thumbnailUrl: globalResults[i].imagePath,
-                                name: globalResults[i].fileName
-                            }
-
-                            list.push(first);
-                        }
-                        console.log("afwefwe: " + qq.supportedFeatures.imagePreviews === true);
-                        console.log("json object array: " + list[0].thumbnailUrl);
-
-                        uploaderPest.addInitialFiles(list);
-                    } else {
-                        console.log("didn't work :(");
-                    }
-                }
-            });
             var uploaderPest = new qq.FineUploader({
                 element: document.getElementById("uploaderPest"),
                 request: {
@@ -1055,8 +1120,8 @@
                 },
                 callbacks: {
                     onComplete: function (id, name, responseJSON) {
-                        alert(responseJSON.newuuid2);
-                        alert(id + "      " + name);
+                        // alert(responseJSON.newuuid2);
+                        // alert(id + "      " + name);
                         uploaderPest.setUuid(id, responseJSON.newuuid2);
                         // $.ajax({
                         //     url: '/submit',
@@ -1079,7 +1144,6 @@
     }
 
     function controlType(type) {
-        //alert("A");
         var pesticideDiv = $("#pesticide");
         pesticideDiv.empty();
         var controlType = $(type).val();
@@ -1102,7 +1166,7 @@
 
         function append(type, options) {
             var title = [$("<br><br><h4 id='" + type + "NameTitle'>2 . " + type + " Name: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4 id='" + type + "LitresTitle'>2 . Amount of " + type + " Used (litres): &nbsp;&nbsp;&nbsp;</h4>")];
-            var select = [$("<select class='clearGen' id='" + type + "Name' name='" + type + "_name'></select><br><br>"), $("<input type='number' class='clearGen inputNumber' id='" + type + "Litres' name='" + type + "_litres'><br><br>")];
+            var select = [$("<select class='clearGen' id='" + type + "Name' name='" + type + "_name'></select><br><br>"), $("<input type='number' class='clearGen inputNumber' id='" + type + "Litres' name='" + type + "_litres' placeholder='ENTER AMOUNT OF " + type + " USED'><br><br>")];
             for (var i = 0; i < title.length; i++) {
                 pesticideDiv.append(title[i]);
                 pesticideDiv.append(select[i]);
@@ -1124,13 +1188,15 @@
         document.documentElement.scrollTop = 0;
     }
 
+
+
     function showRequest(formData, jqForm, options) {
         var queryString = $.param(formData);
         var isValid = true;
         var i = 0;
         $('[required]').each(function() {
             if ($(this).val() === '') {
-//                alert($(this).val());
+                // alert($(this).val());
                 isValid = false;
             }
         });
@@ -1138,8 +1204,8 @@
         $('input[type=radio]:checked').each(function() {
             i = i + 1;
         });
-//        alert(isValid);
-//        alert(i);
+        // alert(isValid);
+        // alert(i);
 
         if (isValid && i === 3) {
             return true;
@@ -1150,7 +1216,8 @@
 
     function showResponse(responseText, statusText, xhr, $form) {
         if (!responseText.error) {
-//            alert(responseText.message);
+            alert(responseText.message);
+            //alert("A");
             $.ajax({
                 type: "post",
                 url: "/generalForm",
@@ -1170,7 +1237,7 @@
                                     document.getElementById("modal-header").style.backgroundColor = "#5cb85c";
                                     document.getElementById("close").innerHTML = "<a href='/userhome'>&times</a>";
 
-                                    document.getElementById("header").innerHTML = "Congratulations, your edit was successfully submitted!";
+                                    document.getElementById("header").innerHTML = "Congratulations, your Data Entry has been successfully completed!";
                                     document.getElementById("body").innerHTML = "<br>Click X to return to the Home Page.<br>";
 
                                     document.getElementById("modal").style.display = "block";
@@ -1191,59 +1258,64 @@
     }
 
     function goBack() {
-        if (confirm("Are you sure you to leave this page? All the data will be cleared accordingly!!!")) {
-            window.location.replace('/userHome');
+        if (confirm("Are you sure you to leave this page? All the data will be cleared accordingly!") === true) {
+            window.location.replace('/userhome')
+        }
+    }
+    function clearGeneral(){
+        if (confirm("Are you sure you to clear this page? All the data will be cleared accordingly!") === true) {
+            window.location.replace('/newentry')
         }
     }
 
-    function clearGeneral() {
-        document.getElementById("modal-footer").innerHTML = "";
-
-        document.getElementById("modal-header").style.backgroundColor = "#f44242";
-        document.getElementById("modal-footer").style.backgroundColor = "#f44242";
-        document.getElementById("close").innerHTML = "&times";
-
-        document.getElementById("header").innerHTML = "Warning ! Are You Sure to Clear this Page ?";
-        document.getElementById("body").innerHTML = "To Clear this page, press '<strong>Clear</strong>'.<br><br> To Cancel this action, press '<strong>Cancel</strong>' or <strong>close the dialog box</strong>.<br>";
-        var footer = $("#modal-footer");
-        footer.append($("<h3 id='clear'>Clear</h3><h3 id='cancel'>Cancel</h3>"));
-
-        // Get the <span> element that closes the modal
-        var span = document.getElementById("close");
-        var cancel = document.getElementById("cancel");
-        var clear = document.getElementById("clear");
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function () {
-            document.getElementById("modal").style.display = "none";
-        };
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target === document.getElementById("modal")) {
-                document.getElementById("modal").style.display = "none";
-            }
-        };
-
-        cancel.onclick = function () {
-            document.getElementById("modal").style.display = "none";
-        };
-
-        clear.onclick = function () {
-            document.getElementById("modal").style.display = "none";
-            $(".clearGen").val("");
-            $("#mainCrop").remove();
-            $("#otherMainCrop").remove();
-            var today = new Date();
-            var todayDate = today.getFullYear()+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
-            var todayDateV = document.getElementsByClassName("date");
-            for (var i = 0; i < todayDateV.length; i++) {
-                todayDateV[i].value = todayDate;
-            }
-        };
-
-        document.getElementById("modal").style.display = "block";
-    }
+    // function clearGeneral() {
+    //     document.getElementById("modal-footer").innerHTML = "";
+    //
+    //     document.getElementById("modal-header").style.backgroundColor = "#f44242";
+    //     document.getElementById("modal-footer").style.backgroundColor = "#f44242";
+    //     document.getElementById("close").innerHTML = "&times";
+    //
+    //     document.getElementById("header").innerHTML = "Warning! Are you sure you want to clear this page?";
+    //     document.getElementById("body").innerHTML = "To Clear this page, press '<strong>Clear</strong>'.<br><br> To Cancel this action, press '<strong>Cancel</strong>' or <strong>close the dialog box</strong>.<br>";
+    //     var footer = $("#modal-footer");
+    //     footer.append($("<h3 id='clear'>Clear</h3><h3 id='cancel'>Cancel</h3>"));
+    //
+    //     // Get the <span> element that closes the modal
+    //     var span = document.getElementById("close");
+    //     var cancel = document.getElementById("cancel");
+    //     var clear = document.getElementById("clear");
+    //
+    //     // When the user clicks on <span> (x), close the modal
+    //     span.onclick = function () {
+    //         document.getElementById("modal").style.display = "none";
+    //     };
+    //
+    //     // When the user clicks anywhere outside of the modal, close it
+    //     window.onclick = function (event) {
+    //         if (event.target == document.getElementById("modal")) {
+    //             document.getElementById("modal").style.display = "none";
+    //         }
+    //     };
+    //
+    //     cancel.onclick = function () {
+    //         document.getElementById("modal").style.display = "none";
+    //     };
+    //
+    //     clear.onclick = function () {
+    //         document.getElementById("modal").style.display = "none";
+    //         $(".clearGen").val("");
+    //         $("#mainCrop").remove();
+    //         $("#otherMainCrop").remove();
+    //         var today = new Date();
+    //         var todayDate = today.getFullYear()+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
+    //         var todayDateV = document.getElementsByClassName("date");
+    //         for (var i = 0; i < todayDateV.length; i++) {
+    //             todayDateV[i].value = todayDate;
+    //         }
+    //     };
+    //
+    //     document.getElementById("modal").style.display = "block";
+    // }
 
     function clearDetSailed() {
         document.getElementById("modal-footer").innerHTML = "";
@@ -1252,7 +1324,7 @@
         document.getElementById("modal-footer").style.backgroundColor = "#f44242";
         document.getElementById("close").innerHTML = "&times";
 
-        document.getElementById("header").innerHTML = "Warning! Are You Sure to Clear this Page?";
+        document.getElementById("header").innerHTML = "Warning! Are you sure you want to clear this page?";
         document.getElementById("body").innerHTML = "To Clear this page, press '<strong>Clear</strong>'.<br><br> To Cancel this action, press '<strong>Cancel</strong>' or <strong>close the dialog box</strong>.<br>";
         var footer = $("#modal-footer");
         footer.append($("<h3 id='clear'>Clear</h3><h3 id='cancel'>Cancel</h3>"));
@@ -1280,7 +1352,7 @@
 
         clear.onclick = function () {
             document.getElementById("modal").style.display = "none";
-            $(".clearDet").val("");
+            $(".clearDetS").val("");
             $('input[type=radio]:checked').prop("checked", false);
             $(".FAW").css("display", "none");
         };

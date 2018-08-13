@@ -1,0 +1,706 @@
+<!-- views/form.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Invasive Species Heatmap Project -  Field Management - Add Row</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/style_final.css" type="text/css">
+    <link rel="stylesheet" href="/css/multi-select.css" media="screen" type="text/css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/file-uploader/5.15.5/fine-uploader-gallery.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="//unpkg.com/flatpickr/dist/flatpickr.min.css">-->
+    <!--<link rel="stylesheet" href="//unpkg.com/flatpickr@4.1.1/dist/flatpickr.min.css">-->
+    <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyBX94wEDdQ52lCDhKAhcfR-flIw1NyLTMA"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/scripts/jquery.form.min.js"></script>
+    <script src="/scripts/jquery.multi-select.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/file-uploader/5.15.5/fine-uploader.js"></script>
+    <!--<script src="//unpkg.com/flatpickr@4.1.1/dist/flatpickr.js"></script>-->
+
+    <script type="text/template" id="qq-template">
+        <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Drop files here">
+            <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
+                <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
+            </div>
+            <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+                <span class="qq-upload-drop-area-text-selector"></span>
+            </div>
+            <div class="qq-upload-button-selector qq-upload-button">
+                <div>Upload a file</div>
+            </div>
+            <span class="qq-drop-processing-selector qq-drop-processing">
+                            <span>Processing dropped files...</span>
+                            <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+                        </span>
+            <ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
+                <li>
+                    <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
+                    <div class="qq-progress-bar-container-selector qq-progress-bar-container">
+                        <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
+                    </div>
+                    <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                    <div class="qq-thumbnail-wrapper">
+                        <img class="qq-thumbnail-selector" qq-max-size="120" qq-server-scale>
+                    </div>
+                    <button type="button" class="qq-upload-cancel-selector qq-upload-cancel">X</button>
+                    <button type="button" class="qq-upload-retry-selector qq-upload-retry">
+                        <span class="qq-btn qq-retry-icon" aria-label="Retry"></span>
+                        Retry
+                    </button>
+
+                    <div class="qq-file-info">
+                        <div class="qq-file-name">
+                            <span class="qq-upload-file-selector qq-upload-file"></span>
+                            <span class="qq-edit-filename-icon-selector qq-btn qq-edit-filename-icon" aria-label="Edit filename"></span>
+                        </div>
+                        <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                        <span class="qq-upload-size-selector qq-upload-size"></span>
+                        <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">
+                            <span class="qq-btn qq-delete-icon" aria-label="Delete"></span>
+                        </button>
+                        <button type="button" class="qq-btn qq-upload-pause-selector qq-upload-pause">
+                            <span class="qq-btn qq-pause-icon" aria-label="Pause"></span>
+                        </button>
+                        <button type="button" class="qq-btn qq-upload-continue-selector qq-upload-continue">
+                            <span class="qq-btn qq-continue-icon" aria-label="Continue"></span>
+                        </button>
+                    </div>
+                </li>
+            </ul>
+
+            <dialog class="qq-alert-dialog-selector">
+                <div class="qq-dialog-message-selector"></div>
+                <div class="qq-dialog-buttons">
+                    <button type="button" class="qq-cancel-button-selector">Close</button>
+                </div>
+            </dialog>
+
+            <dialog class="qq-confirm-dialog-selector">
+                <div class="qq-dialog-message-selector"></div>
+                <div class="qq-dialog-buttons">
+                    <button type="button" class="qq-cancel-button-selector">No</button>
+                    <button type="button" class="qq-ok-button-selector">Yes</button>
+                </div>
+            </dialog>
+
+            <dialog class="qq-prompt-dialog-selector">
+                <div class="qq-dialog-message-selector"></div>
+                <input type="text">
+                <div class="qq-dialog-buttons">
+                    <button type="button" class="qq-cancel-button-selector">Cancel</button>
+                    <button type="button" class="qq-ok-button-selector">Ok</button>
+                </div>
+            </dialog>
+        </div>
+    </script>
+    <style>
+        body      { padding-bottom:80px; word-wrap:break-word; }
+        #detailedFormScouting { display: none; }
+        #detailedFormTrap { display: none; }
+        #hide { display: none; }
+        .FAW        { display: none; }
+        .banner{
+            position:relative;
+            width:100%;
+        }
+
+    </style>
+
+</head>
+<div class="navul" style="height: 150px;
+    background: #000000;">
+    <a class="navul" href="//aworldbridge.com" style="background: #000000;
+    width: 500px;
+    height: 80px;">
+        <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 950px;
+    height: 150px;
+    margin: auto; display: block;" />
+    </a>
+</div>
+<body onload="getLocation()">
+
+    <div class="container">
+        <div id="modal" class="modal">
+            <!-- Modal content -->
+            <div id="modal-content">
+                <div id="modal-header">
+                    <span id="close"></span>
+                    <h2 id="header"></h2>
+                </div>
+                <div id="modal-body">
+                    <p id="body"></p>
+                </div>
+                <div id="modal-footer">
+                </div>
+            </div>
+        </div>
+
+        <h1 id="title">Field Management Form</h1>
+
+        <div id="container">
+            <div style="display: block;" id="generalForm">
+                <form id = "general" method = "post">
+                    <h4>ID: &nbsp;&nbsp;&nbsp;</h4><input  id='id' type="text" name='id' value="<%= CurLength %>" readonly><br><br>
+                    <input type="text" name="username" value="<%= user.username %>" hidden>
+                    <h4>Your Name: &nbsp;&nbsp;&nbsp;</h4><input id="firstName" type="text" value="<%= firstname %>" readonly><br><br><input id="lastName" type="text" value="<%= lastname %>" readonly><br><br>
+
+                    <h3>LOCATION</h3>
+                    <h4>1 . Location Name: &nbsp;&nbsp;&nbsp;</h4>
+                    <h5 style="color:#9d9d9d;">NOTE: This location will appear as an option when making a NEW ENTRY. The fields below will be automatically filled out according this location name when filling out the NEW ENTRY > GENERAL FORM.</h5>
+                    <input class="clearGen" id="locationName" name="locationName" type="text" placeholder="Enter Location Here" required><br><br>
+                    <h4 id="GPSLocationTitle">E. GPS Location: &nbsp;&nbsp;&nbsp;</h4>
+                    <h4 style="color:red" id="errorMessage"></h4>
+                    <h5 style="color:#9d9d9d;" id="locationNote"></h5>
+                    <div id="locationDiv"></div>
+                    <div id="map"></div><br>
+
+                    <h3>CROP INFORMATION</h3>
+                    <h4>1 . Main Crop: &nbsp;&nbsp;&nbsp;</h4>
+                    <select class="clearGen" id='mainCrop' name="mainCrop" required>
+                        <option value=''>SELECT THE MAIN CROP</option>
+                        <option>ALFALFA</option>
+                        <option>BARLEY</option>
+                        <option>COTTON</option>
+                        <option>FLOWERS</option>
+                        <option>MAIZE</option>
+                        <option>MILLET</option>
+                        <option>PEANUT</option>
+                        <option>RICE</option>
+                        <option>SORGHUM</option>
+                        <option>SOYBEAN</option>
+                        <option>SUGARBEET</option>
+                        <option>SUGARCANE</option>
+                        <option>TEFF</option>
+                        <option>TOBACCO</option>
+                        <option>WEEDS</option>
+                        <option>WHEAT</option>
+                        <option>OTHER CEREALS</option>
+                        <option>OTHER FRUITS</option>
+                        <option>OTHER GRASSES</option>
+                        <option>OTHER VEGETABLES</option>
+                    </select><br><br>
+                    <h4>1 . Main Crop Variety: &nbsp;&nbsp;&nbsp;</h4><input class="clearGen" id="mainCropVariety" name="mainCropVariety" type="text" placeholder="Enter Main Crop Variety Here"><br><br>
+                    <h4>1 . Irrigation: &nbsp;&nbsp;&nbsp;</h4>
+                    <input type="radio" name="irrigation" value="Irrigated" required> IRRIGATED
+                    <input type="radio" name="irrigation" value="Rain-Fed" required> RAIN-FED
+                    <input type="radio" name="irrigation" value="Unknown" required> UNKNOWN <br><br>
+                    <h4>1 . Fertilized Used: &nbsp;&nbsp;&nbsp;</h4>
+                    <input type="radio" name="fertilizedUsed" value="YES" required> YES
+                    <input type="radio" name="fertilizedUsed" value="NO" required> NO
+                    <input type="radio" name="fertilizedUsed" value="UNKNOWN" required> UNKNOWN <br><br>
+
+                    <h4>1 . Farming System: &nbsp;&nbsp;&nbsp;</h4>
+                    <select class="clearGen" id='cropSystem' name='farmingSystem' onchange='rotationInterCropSystem();' required>
+                        <option value=''>SELECT THE FARMING SYSTEM</option>
+                        <option>SEASONAL</option>
+                        <option>ROTATION</option>
+                        <option>INTERCROPPING</option>
+                        <option>PUSH-PULL</option>
+                        <option>UNKNOWN</option>
+                    </select><br><br>
+                    <div id="rotationIntercropping"></div>
+                    <h4>1 . Field Size: &nbsp;&nbsp;&nbsp;</h4>
+                    <h5 style="color:#9d9d9d;">NOTE: There is no need to enter the decimals, etc. Please enter the number ONLY.</h5>
+                    <input class="clearGen" id="fieldSizeInteger" name="Field_size_integer" type="number" min="0" max="999999" placeholder="0000" onkeyup="limit()" required>.
+                    <input class="clearGen" id="fieldSizeDecimal" name="Field_size_decimal" type="number" min="0" max="9" placeholder="0" onkeyup="limit()">
+                    <h4 id="unitTitle">Unit: &nbsp;&nbsp;&nbsp;</h4>
+                    <select class="clearGen floating-Box" id="fieldSizeUnit" name="fieldSizeUnit" required>
+                        <option value=''>SELECT THE FIELD SIZE UNIT</option>
+                        <option>ACRE (acre)</option>
+                        <option>HECTARE (ha)</option>
+                        <option>SQUARE METER (m2)</option>
+                        <option>SQUARE YARD (yd2)</option>
+                    </select><br><br>
+                    <input type="text" name="fieldId" value="<%= newFieldId %>" hidden>
+
+                    <div class="row">
+                        <div class="floating-Box">
+                            <input class="cancel" type="button" onclick="goBack()" value=" Cancel  "/>
+                        </div>
+
+                        <div class="floating-Box">
+                            <input  class="clear" type="button" onclick="clearGeneral()" value="   Clear   "/>
+                        </div>
+                        <div class="floating-Box">
+                            <input id="submit" type="submit" value="Add Row">
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+<script>
+
+    $(function(){
+        //getLocation();
+
+
+
+        $('#Training').multiSelect();
+
+
+        flatpickr(".date", {
+            dateFormat: "Y-m-d",
+            time_24hr: true
+        });
+
+        flatpickr(".dateS", {
+            dateFormat: "Y-m-d",
+            time_24hr: true
+        });
+
+        var today = new Date();
+        var todayDate = today.getFullYear()+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
+        var todayDateV = document.getElementsByClassName("date");
+
+        for (var i = 0; i < todayDateV.length; i++) {
+            todayDateV[i].value = todayDate;
+        }
+
+        var options = {
+            url: '/upload',    // override for form's 'action' attribute
+            type: 'post',        // 'get' or 'post', override for form's 'method' attribute
+            dataType: 'json',        // 'xml', 'script', or 'json' (expected server response type)
+            clearForm: true,        // clear all form fields after successful submit
+            // beforeSubmit:  showRequest,  // pre-submit callback
+            success:       showResponse  // post-submit callback
+
+            //target:        '#output2',   // target element(s) to be updated with server response
+            // other available options:
+            //resetForm: true        // reset the form after successful submit
+            // $.ajax options can be used here too, for example:
+            //timeout:   3000
+        };
+
+        $('#upload').submit(function(e) {
+            // $("#upload").ajaxSubmit(options);
+            // Prevent form submission
+            e.preventDefault();
+            //alert("This button has actually been selected and this can't possibly be the issue. FIRST");
+
+            $("#hide").click();
+            //
+            // console.log("This button has actually been selected and this can't possibly be the issue.");
+            // showResponse();
+        });
+
+        $('#general').submit(function(e) {
+            // Prevent form submission
+            e.preventDefault();
+            // $.ajax({
+            //     url: '/upload',    // override for form's 'action' attribute
+            //     type: 'post',        // 'get' or 'post', override for form's 'method' attribute
+            //     dataType: 'json',        // 'xml', 'script', or 'json' (expected server response type)
+            //     clearForm: true,        // clear all form fields after successful submit
+            //     // beforeSubmit:  showRequest,  // pre-submit callback
+            //     success: showResponse  // post-submit callback
+            // })
+            //alert("This button has actually been selected and this can't possibly be the issue.");
+            $.ajax({
+                type: "post",
+                url: "/formPP",
+                dataType: 'json',
+                data: $("#general").serialize(),
+                success: function (result) {
+                    if (!result.error) {
+                        document.getElementById("modal-footer").style.display = "none";
+
+                        document.getElementById("modal-header").style.backgroundColor = "#5cb85c";
+                        document.getElementById("close").innerHTML = "<a href='/userProfile'>&times</a>";
+
+                        document.getElementById("header").innerHTML = "Congratulations, your field entry has been successfully completed!";
+                        document.getElementById("body").innerHTML = "<br>Click X to return to User Profile.<br>";
+
+                        document.getElementById("modal").style.display = "block";
+                    } else {
+                        alert(result.message);
+                    }
+                }
+            })
+
+        });
+
+    });
+
+
+    //Get geolocation and map preview
+    function getLocation() {
+
+        $("#locationDiv").append($("<h4 id='latitudeTitle''>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Latitude: &nbsp;&nbsp;&nbsp;</h4><h4 id='latitudeStatus'>Locating......</h4><h4 class='floating-Box' id='longitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longitude: </h4><h4 id='longitudeStatus'>Locating......</h4>"));
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            $("#latitudeStatus").remove();
+            $("#longitudeStatus").remove();
+            document.getElementById("errorMessage").innerHTML = "ERROR: Geolocation is not supported by this browser."
+            alert("Geolocation is not supported by this browser.");
+
+            createInputBox();
+        }
+    }
+
+    function showPosition(position) {
+        $("#latitudeStatus").remove();
+        $("#longitudeStatus").remove();
+
+        var uluru = {lat: position.coords.latitude, lng: position.coords.longitude};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: uluru,
+            mapTypeId: 'hybrid'
+        });
+
+        var marker = new google.maps.Marker({
+            position: uluru,
+            map: map,
+            draggable: true
+        });
+
+        google.maps.event.addListener(marker, 'dragend', function (event) {
+            document.getElementById("latitudeDecimal").value = this.getPosition().lat().toFixed(6);
+            document.getElementById("longitudeDecimal").value = this.getPosition().lng().toFixed(6);
+        })
+
+        var latiDD = position.coords.latitude;
+        var longDD = position.coords.longitude;
+
+        createInputBox(latiDD, longDD);
+    }
+
+    function showError(error) {
+
+        var errorMessage = document.getElementById("errorMessage");
+        $("#latitudeStatus").remove();
+        $("#longitudeStatus").remove();
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                errorMessage.innerHTML = "ERROR: User denied the request for Geolocation."
+                break;
+            case error.POSITION_UNAVAILABLE:
+                errorMessage.innerHTML = "ERROR: Location information is unavailable."
+                break;
+            case error.TIMEOUT:
+                errorMessage.innerHTML = "ERROR: The request to get user location timed out."
+                break;
+            case error.UNKNOWN_ERROR:
+                errorMessage.innerHTML = "ERROR: An unknown error occurred."
+                break;
+        }
+        createInputBox();
+    }
+
+    function createInputBox(lati, long) {
+        // [0] = direction; [1] = degrees; [2] = minutes; [3] = seconds
+        var latitude = "";
+        var longitude = "";
+        if (lati && long) {
+            document.getElementById("locationNote").innerHTML = "NOTE: Please verify the Latitude/Longitude and change if it is incorrect. Dragging the placemark will automatically fill in decimals to the location.";
+            latitude = lati.toFixed(6);
+            longitude = long.toFixed(6);
+            /*latitude = lati.split(" ");
+            longitude = long.split(" ");*/
+        } else {
+            document.getElementById("locationNote").innerHTML = "NOTE: Please manually enter the Latitude/Longitude.";
+        }
+
+        var latitudeTitle = $("#latitudeTitle");
+
+        var longitudeTitle = $("#longitudeTitle");
+
+
+        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' name='latitude' type='number' step='any' value='" + latitude +"' onkeyup='limitLoc()' required>"));
+        longitudeTitle.append($("<input id='longitudeDecimal' class='locInput' name='longitude' type='number' step='any' value='" + longitude +"' onkeyup='limitLoc()' required>"));
+
+        $("#locationDiv").append($("<input class='floating-Box mapButton' type='button' onclick='refresh()' value='Click here to refresh the map'>"));
+    }
+
+    function refresh() {
+        var latiDecimal = document.getElementById("latitudeDecimal").value;
+        var longDecimal = document.getElementById("longitudeDecimal").value;
+
+        if (latiDecimal && longDecimal) {
+            var newPosition = new google.maps.LatLng(latiDecimal, longDecimal);
+            //var newPosition = {lat: latiDecimal, lng: longDecimal};
+            document.getElementById("map").innerHTML = "";
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 4,
+                center:  newPosition,
+                mapTypeId: 'hybrid'
+            });
+
+            var marker = new google.maps.Marker({
+                position: newPosition,
+                map: map,
+                draggable: true
+            });
+
+            google.maps.event.addListener(marker, 'dragend', function (event) {
+                document.getElementById("latitudeDecimal").value = this.getPosition().lat().toFixed(6);
+                document.getElementById("longitudeDecimal").value = this.getPosition().lng().toFixed(6);
+            })
+
+        }
+    }
+
+    function rotationInterCropSystem() {
+        $("#rotationIntercropping").empty();
+        if (document.getElementById("cropSystem").value === "ROTATION" || document.getElementById("cropSystem").value === "INTERCROPPING" || document.getElementById("cropSystem").value === "PUSH-PULL") {
+            //var mainCropList = ["ALFALFA", "BARLEY", "COTTON", "FLOWERS", "MAIZE", "MILLET", "PEANUT", "RICE", "SORGHUM", "SOYBEAN", "SUGARBEET", "SUGARCANE", "TEFF", "TOBACCO", "WEEDS", "WHEAT", "OTHER CEREALS", "OTHER FRUITS", "OTHER GRASSES", "OTHER VEGETABLES"];
+            var mainCropList = document.getElementById("mainCrop").options;
+            var mainCropDiv = $("#rotationIntercropping");
+            mainCropDiv.append($("<h4>1 . Rotation/Intercropping/Push-Pull Crop: &nbsp;&nbsp;&nbsp;</h4><button type='button' id='rotationIntercroppingCrop-select_all' onclick='selectAndUnselect()'>Select all</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type='button' id='rotationIntercroppingCrop-deselect_all' onclick='selectAndUnselect()'>Deselect all</button>"));
+            var mainCropSelect = $("<select multiple='multiple' class='clearGen' id='rotationIntercroppingCrop' name='rotationIntercropping'>");
+            mainCropDiv.append(mainCropSelect);
+            for (var i = 1; i < mainCropList.length; i++) {
+                var mainCropOption = $("<option>" + mainCropList[i].value + "</option>");
+                mainCropSelect.append(mainCropOption);
+            }
+            mainCropDiv.append($("</select>"));
+            $('#rotationIntercroppingCrop').multiSelect();
+        }
+    }
+
+    function selectAndUnselect(e) {
+        var activeElementId = document.activeElement.id;
+        var id = activeElementId.split("-")[0];
+        var action = activeElementId.split("-")[1];
+        $("#" + id).multiSelect(action);
+        //return false;
+    }
+
+    function limit() {
+        var key = event.which || event.keyCode;
+        var activeElementId = document.activeElement.id;
+        if (activeElementId === "fieldSizeInteger") {
+            var four_digit = document.getElementById("fieldSizeInteger").value;
+
+            if (key === 190) {
+                //alert(document.getElementById("fieldSizeInteger").value);
+                document.getElementById("fieldSizeInteger").value = four_digit + "00000";
+
+                document.getElementById("fieldSizeDecimal").focus();
+            }
+
+            if (document.getElementById("fieldSizeInteger").value.length > 4) {
+                //alert(four_digit + " " + four_digit.length);
+
+                document.getElementById("fieldSizeInteger").value = four_digit.substring(0, 4);
+            }
+        } else if (activeElementId === "fieldSizeDecimal") {
+            var one_digit = document.getElementById("fieldSizeDecimal").value;
+
+            if (one_digit.length > 1) {
+                document.getElementById("fieldSizeDecimal").value = one_digit.substring(0, 1);
+            }
+        }
+    }
+
+    function limitLoc() {
+        var key = event.which || event.keyCode;
+        var activeElementId = document.activeElement.id;
+        if (activeElementId === "latitudeDecimal") {
+            var sixDecimal = document.getElementById("latitudeDecimal").value;
+
+            if (key === 13) {
+                //alert(document.getElementById("fieldSizeInteger").value);
+                document.getElementById("longitudeDecimal").focus();
+            }
+
+            if (document.getElementById("latitudeDecimal").value.length > 9) {
+                //alert(four_digit + " " + four_digit.length);
+                document.getElementById("latitudeDecimal").value = sixDecimal.substring(0, 9);
+                //document.getElementById("longitudeDecimal").focus();
+            }
+        } else if (activeElementId === "longitudeDecimal") {
+            var sevenDecimal = document.getElementById("longitudeDecimal").value;
+
+            if (sevenDecimal.length > 10) {
+                document.getElementById("longitudeDecimal").value = sevenDecimal.substring(0, 10);
+            }
+        }
+    }
+
+    function showRequest(formData, jqForm, options) {
+        var queryString = $.param(formData);
+        var isValid = true;
+        var i = 0;
+        $('[required]').each(function() {
+            if ($(this).val() === '') {
+                // alert($(this).val());
+                isValid = false;
+            }
+        });
+
+        $('input[type=radio]:checked').each(function() {
+            i = i + 1;
+        });
+        // alert(isValid);
+        // alert(i);
+
+        if (isValid && i === 3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function showResponse(responseText, statusText, xhr, $form) {
+        if (!responseText.error) {
+            alert(responseText.message);
+            //alert("A");
+            $.ajax({
+                type: "post",
+                url: "/generalForm",
+                dataType: 'json',
+                data: $("#general").serialize(),
+                success: function (result) {
+                    if (!result.error) {
+                        $.ajax({
+                            type: "post",
+                            url: "/detailedFormScouting",
+                            dataType: 'json',
+                            data: $("#detailedScouting").serialize(),
+                            success: function (result) {
+                                if (!result.error) {
+                                    document.getElementById("modal-footer").style.display = "none";
+
+                                    document.getElementById("modal-header").style.backgroundColor = "#5cb85c";
+                                    document.getElementById("close").innerHTML = "<a href='/userhome'>&times</a>";
+
+                                    document.getElementById("header").innerHTML = "Congratulations, your Data Entry has been successfully completed!";
+                                    document.getElementById("body").innerHTML = "<br>Click X to return to the Home Page.<br>";
+
+                                    document.getElementById("modal").style.display = "block";
+                                } else {
+                                    alert(result.message);
+                                }
+                            }
+                        })
+                    } else {
+                        alert(result.message);
+                    }
+                }
+            })
+        } else {
+            // error
+            alert(responseText.message);
+        }
+    }
+
+    function goBack() {
+        if (confirm("Are you sure you to leave this page? All the data will be cleared accordingly!") === true) {
+            window.location.replace('/userhome')
+        }
+    }
+    function clearGeneral(){
+        if (confirm("Are you sure you to clear this page? All the data will be cleared accordingly!") === true) {
+            window.location.replace('/newentry')
+        }
+    }
+
+    // function clearGeneral() {
+    //     document.getElementById("modal-footer").innerHTML = "";
+    //
+    //     document.getElementById("modal-header").style.backgroundColor = "#f44242";
+    //     document.getElementById("modal-footer").style.backgroundColor = "#f44242";
+    //     document.getElementById("close").innerHTML = "&times";
+    //
+    //     document.getElementById("header").innerHTML = "Warning! Are you sure you want to clear this page?";
+    //     document.getElementById("body").innerHTML = "To Clear this page, press '<strong>Clear</strong>'.<br><br> To Cancel this action, press '<strong>Cancel</strong>' or <strong>close the dialog box</strong>.<br>";
+    //     var footer = $("#modal-footer");
+    //     footer.append($("<h3 id='clear'>Clear</h3><h3 id='cancel'>Cancel</h3>"));
+    //
+    //     // Get the <span> element that closes the modal
+    //     var span = document.getElementById("close");
+    //     var cancel = document.getElementById("cancel");
+    //     var clear = document.getElementById("clear");
+    //
+    //     // When the user clicks on <span> (x), close the modal
+    //     span.onclick = function () {
+    //         document.getElementById("modal").style.display = "none";
+    //     };
+    //
+    //     // When the user clicks anywhere outside of the modal, close it
+    //     window.onclick = function (event) {
+    //         if (event.target == document.getElementById("modal")) {
+    //             document.getElementById("modal").style.display = "none";
+    //         }
+    //     };
+    //
+    //     cancel.onclick = function () {
+    //         document.getElementById("modal").style.display = "none";
+    //     };
+    //
+    //     clear.onclick = function () {
+    //         document.getElementById("modal").style.display = "none";
+    //         $(".clearGen").val("");
+    //         $("#mainCrop").remove();
+    //         $("#otherMainCrop").remove();
+    //         var today = new Date();
+    //         var todayDate = today.getFullYear()+'-'+('0' + (today.getMonth()+1)).slice(-2)+'-'+('0' + today.getDate()).slice(-2);
+    //         var todayDateV = document.getElementsByClassName("date");
+    //         for (var i = 0; i < todayDateV.length; i++) {
+    //             todayDateV[i].value = todayDate;
+    //         }
+    //     };
+    //
+    //     document.getElementById("modal").style.display = "block";
+    // }
+
+    $("<input  id='id' name='id' value=\"\" readonly>")
+
+    function clearDetSailed() {
+        document.getElementById("modal-footer").innerHTML = "";
+
+        document.getElementById("modal-header").style.backgroundColor = "#f44242";
+        document.getElementById("modal-footer").style.backgroundColor = "#f44242";
+        document.getElementById("close").innerHTML = "&times";
+
+        document.getElementById("header").innerHTML = "Warning! Are you sure you want to clear this page?";
+        document.getElementById("body").innerHTML = "To Clear this page, press '<strong>Clear</strong>'.<br><br> To Cancel this action, press '<strong>Cancel</strong>' or <strong>close the dialog box</strong>.<br>";
+        var footer = $("#modal-footer");
+        footer.append($("<h3 id='clear'>Clear</h3><h3 id='cancel'>Cancel</h3>"));
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementById("close");
+        var cancel = document.getElementById("cancel");
+        var clear = document.getElementById("clear");
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            document.getElementById("modal").style.display = "none";
+        };
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target === document.getElementById("modal")) {
+                document.getElementById("modal").style.display = "none";
+            }
+        };
+
+        cancel.onclick = function () {
+            document.getElementById("modal").style.display = "none";
+        };
+
+        clear.onclick = function () {
+            document.getElementById("modal").style.display = "none";
+            $(".clearDetS").val("");
+            $('input[type=radio]:checked').prop("checked", false);
+            $(".FAW").css("display", "none");
+        };
+
+        document.getElementById("modal").style.display = "block";
+    }
+</script>
+</body>
+</html>

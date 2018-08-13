@@ -163,195 +163,16 @@
         .show {
             display: block;
         }
-
-        /*
-        @media screen and (max-width:1024px) {
-            .button {
-                font-size: 100%;
-                width: 20%;
-            }
-
-            .date {
-                font-size: 15px;
-                width: 10%;
-            }
-
-            .btn-sm {
-                width: 10%;
-            }
-
-
-            @media screen and (max-width:768px) {
-                .button {
-                    font-size: 100%;
-                    width: 20%;
-                }
-
-                .date {
-                    width: 15%;
-                    font-size: 15px;
-                }
-
-                .btn-sm {
-                    width: 10%;
-                }
-            }
-
-
-            @media screen and (max-width:480px) {
-                .btn {
-                    padding: 5px 6px;
-                    margin: 5px;
-                }
-
-                imput {
-                    width: 35%;
-                }
-
-                .date {
-                    width: 20%;
-                    font-size: 12px;
-                }
-
-                #firstName {
-                    width: 20%;
-                    height: 20px;
-                    margin-left: -10px;
-                }
-
-                #lastName {
-                    width: 20%;
-                    height: 20px;
-                }
-
-                .button {
-                    font-size: 12px;
-                    width: 15%;
-                }
-            }
-
-
-            @media screen and (max-width:414px) {
-                .button {
-                    font-size: 100%;
-                    width: 20%;
-                }
-
-                select {
-                    width: 35%;
-                }
-
-                input {
-                    width: 35%;
-                }
-
-                .date {
-                    width: 20%;
-                    font-size: 12px;
-                }
-
-                .btn {
-                    font-size: 19px;
-                    padding: 5px 6px;
-                }
-
-                h1 {
-                    font-size: 25px;
-                }
-
-                #firstName {
-                    width: 20%;
-                    height: 20px;
-                    margin-left: -10px;
-                }
-
-                #lastName {
-                    width: 20%;
-                    height: 20px;
-                }
-
-                .btn-sm {
-                    width: 15%;
-                    font-size: 12px;
-                }
-            }
-
-
-            @media screen and (max-width:375px) {
-                #firstName {
-                    width: 20%;
-                    height: 20px;
-                    margin-left: -10px;
-                }
-
-                #lastName {
-                    width: 20%;
-                    height: 20px;
-                }
-
-                h1 {
-                    font-size: 25px;
-                }
-            }
-
-
-            @media screen and (max-width:320px) {
-                .button {
-                    font-size: 100%;
-                    width: 20%;
-                }
-
-                .floatingBox3 {
-                    display: inline-table;
-                    width: 350px;
-                }
-
-                select {
-                    width: 35%;
-                }
-
-                input {
-                    width: 35%;
-                }
-
-                .date {
-                    width: 21%;
-                    font-size: 10px;
-                }
-
-                .btn {
-                    font-size: 12px;
-                    padding: 5px 6px;
-                    width: 80px;
-                }
-
-                #firstName {
-                    width: 20%;
-                    height: 20px;
-                    margin-left: -10px;
-                }
-
-                #lastName {
-                    width: 20%;
-                    height: 20px;
-                }
-
-                h1 {
-                    font-size: 25px;
-                }
-            }
-        }
-                */
     </style>
 </head>
 <div class="navul" style="height: 80px;
     background: #000000;">
     <a class="navul" href="//aworldbridge.com" style="background: #000000;">
         <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 520px;
-    height: 80px;" />
+    height: 76px;" />
     </a>
-    <a href="/newEntry" style="width: 110px;">
-        <button class="navbutton1"> New Entry </button>
+    <a href="/formT" style="width: 110px;">
+        <button class="navbutton1" > New Entry </button>
     </a>
     <a href="/dataHistory" style="width: 110px;">
         <button class="navbutton1"> Data History </button>
@@ -388,7 +209,7 @@
 </div>
 <body>
 <div class="container" style="width: 900px;">
-    <div class="container center" style="width: 700px;">
+    <div class="container center" style="width: 900px;">
         <br>
         <div class="page-header text-center header">
             <h1><span class="fa fa-home"></span><strong> Invasive Species Heatmap -  User Home </strong></h1>
@@ -632,6 +453,7 @@
                     <thead>
                     <tr>
                         <th>Transaction_ID</th>
+                        <th>Field_ID</th>
                         <th>Date</th>
                         <th>Location_Name</th>
                         <th>Latitude</th>
@@ -674,6 +496,7 @@
                     <tfoot>
                     <tr>
                         <th>Transaction_ID</th>
+                        <th>Field_ID</th>
                         <th>Date</th>
                         <th>Location_Name</th>
                         <th>Latitude</th>
@@ -717,6 +540,7 @@
                     <thead>
                     <tr>
                         <th>Transaction_ID</th>
+                        <th>Field_ID</th>
                         <th>Date</th>
                         <th>Location_Name</th>
                         <th>Latitude</th>
@@ -753,6 +577,7 @@
                     <tfoot>
                     <tr>
                         <th>Transaction_ID</th>
+                        <th>Field_ID</th>
                         <th>Date</th>
                         <th>Location_Name</th>
                         <th>Latitude</th>
@@ -840,6 +665,7 @@
                 trapTransactionID.push(trapRowSelected[i][0]);
             }
         });
+
         $("#editButton").on("click", function () {
             var transactionID = scoutingTransactionID.concat(trapTransactionID);
             if (transactionID.length >= 2) {
@@ -940,21 +766,22 @@
                         if (resp[i].Entry_type === "FIELD SCOUTING") {
                             table.row.add([
                                 resp[i].transactionID,
+                                resp[i].fieldId,
                                 resp[i].Date,
-                                resp[i].Location_name,
-                                resp[i].Latitude,
-                                resp[i].Longitude,
+                                resp[i].locationName,
+                                resp[i].latitude,
+                                resp[i].longitude,
                                 resp[i].Training,
-                                resp[i].Main_crop,
-                                resp[i].Main_crop_variety,
-                                resp[i].Irrigation,
-                                resp[i].Fertilized_used,
+                                resp[i].mainCrop,
+                                resp[i].mainCropVariety,
+                                resp[i].irrigation,
+                                resp[i].fertilizedUsed,
                                 resp[i].Crop_stage,
                                 resp[i].General_health,
-                                resp[i].Farming_system,
-                                resp[i].Rotation_intercropping_crop,
-                                resp[i].Field_size,
-                                resp[i].Field_size_unit,
+                                resp[i].farmingSystem,
+                                resp[i].rotationIntercropping,
+                                resp[i].fieldSize,
+                                resp[i].fieldSizeUnit,
                                 resp[i].Main_crop_planting_date,
                                 resp[i].Date_of_last_rain,
                                 resp[i].Rain_amount,
@@ -981,20 +808,22 @@
                         } else if (resp[i].Entry_type === "PHEROMONE TRAP") {
                             trapTable.row.add([
                                 resp[i].transactionID,
+                                resp[i].fieldId,
                                 resp[i].Date,
-                                resp[i].Location_name,
-                                resp[i].Latitude,
-                                resp[i].Longitude,
-                                resp[i].Main_crop,
-                                resp[i].Main_crop_variety,
-                                resp[i].Irrigation,
-                                resp[i].Fertilized_used,
+                                resp[i].locationName,
+                                resp[i].latitude,
+                                resp[i].longitude,
+                                resp[i].Training,
+                                resp[i].mainCrop,
+                                resp[i].mainCropVariety,
+                                resp[i].irrigation,
+                                resp[i].fertilizedUsed,
                                 resp[i].Crop_stage,
                                 resp[i].General_health,
-                                resp[i].Farming_system,
-                                resp[i].Rotation_intercropping_crop,
-                                resp[i].Field_size,
-                                resp[i].Field_size_unit,
+                                resp[i].farmingSystem,
+                                resp[i].rotationIntercropping,
+                                resp[i].fieldSize,
+                                resp[i].fieldSizeUnit,
                                 resp[i].Main_crop_planting_date,
                                 resp[i].Date_of_last_rain,
                                 resp[i].Rain_amount,
@@ -1013,30 +842,21 @@
                             ]).draw(false);
                         }
                         // array
-                        var latiDMS = resp[i].Latitude.split(" ");
-                        var longDMS = resp[i].Longitude.split(" ");
-                        // convert latitude & longitude from Degrees Minutes Seconds to Decimal Degree
-                        var latiDD = parseFloat(latiDMS[1].substring(0,latiDMS[1].length - 1)) + (parseFloat(latiDMS[2].substring(0,latiDMS[2].length - 1)) / 60) + (parseFloat(latiDMS[3].substring(0,latiDMS[3].length - 1)) / 3600);
-                        var longDD = parseFloat(longDMS[1].substring(0,longDMS[1].length - 1)) + (parseFloat(longDMS[2].substring(0,longDMS[2].length - 1)) / 60) + (parseFloat(longDMS[3].substring(0,longDMS[3].length - 1)) / 3600);
-                        // change to negative if S or W
-                        if (latiDMS[0] === "S") {
-                            latiDD = latiDD * -1;
-                        }
-                        if (longDMS[0] === "W") {
-                            longDD = longDD * -1;
-                        }
                         var center = {lat: 0, lng: 0};
+                        var latiDD = resp[i].latitude;
+                        var longDD = resp[i].longitude;
                         map = new google.maps.Map(document.getElementById('map'), {
                             zoom: 2,
                             center: center,
                             mapTypeId: 'hybrid'
                         });
-                        var position = {lat: latiDD, lng: longDD};
+                        var position = {lat: Number(latiDD), lng: Number(longDD)};
+
                         var marker = new google.maps.Marker({
                             position: position,
                             map: map
                         });
-                        marker.DMS = resp[i].Latitude + "; " + resp[i].Longitude;
+                        marker.DMS = resp[i].latitude + "; " + resp[i].longitude;
                         markers.push(marker);
                         markers[i].setMap(null);
                     }
@@ -1075,9 +895,14 @@
     // }
     function changeColor() {
         var row = document.getElementsByClassName("change")[0].innerHTML.trim().split("</td>");
-        var latiLong = row[3].substring(4, row[3].length) + "; " + row[4].substring(4, row[4].length);
+        console.log(row);
+        var latiLong = row[4].substring(4, row[4].length) + "; " + row[5].substring(4, row[5].length);
+        console.log(latiLong);
         for (var i = 0; i < markers.length; i++) {
+            console.log(markers[i].DMS);
+            console.log(latiLong);
             if (markers[i].DMS === latiLong) {
+                console.log("A");
                 if (document.getElementsByClassName("change")[0].classList.contains("selected") && document.getElementsByClassName("change")[0].classList.contains("change")) {
                     document.getElementsByClassName("change")[0].classList.remove("change");
                     markers[i].setMap(map);

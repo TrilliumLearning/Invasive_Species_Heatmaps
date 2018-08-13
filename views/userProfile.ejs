@@ -208,7 +208,7 @@
     background: #000000;">
     <a class="navul" href="//aworldbridge.com" style="background: #000000;">
         <img class="banner" src="../pic/NewWBBanner.jpg" style="width: 520px;
-    height: 80px;" />
+    height: 76px;" />
     </a>
     <a href="/userHome" style="width: 110px;">
         <button class="navbutton1"> User Home </button>
@@ -238,7 +238,7 @@
 <body>
 <div class="container" style="width: 900px;
     padding: 0px;">
-    <div class="container center" style="width: 700px;
+    <div class="container center" style="width: 900px;
     padding: 0px;">
         <br>
         <div class="page-header text-center header">
@@ -369,6 +369,7 @@
                         <th>Irrigation</th>
                         <th>Fertilized Used</th>
                         <th>Farming System</th>
+                        <th>Rotation\Intercropping\Push-Pull</th>
                         <th>Field Size</th>
                         <th>Field Size Unit</th>
                     </tr>
@@ -415,6 +416,7 @@
     </div>
 <script>
     var UserRole = "<%= user.userrole %>";
+    var passwordC = "<%= user.currentpassword %>"
     var table = $("#field").DataTable();
     var fieldID;
     var OriLength;
@@ -439,6 +441,7 @@
                     field[i].irrigation,
                     field[i].fertilizedUsed,
                     field[i].farmingSystem,
+                    field[i].rotationIntercropping,
                     field[i].fieldSize,
                     field[i].fieldSizeUnit
                 ]).draw(false);
@@ -540,11 +543,24 @@
         } else { return false;}
     });
     $("#add").on("click", function () {
-        $(".buttons").css("display", "none");
-        $("#addField, #addRow, #deleteRow, #cancel").css("display", "inline");
-        $("#field tbody").off("click");
-        $("tr").removeClass("selected");
-        row();
+        //$(".buttons").css("display", "none");
+        //$("#addField, #addRow, #deleteRow, #cancel").css("display", "inline");
+        //$("#field tbody").off("click");
+        //$("tr").removeClass("selected");
+        CurLength++;
+        var CurLengthD = "id=" + CurLength;
+        $.ajax({
+            url: '/formV',
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            data: CurLengthD,
+            success: function (result) {
+                window.location.replace("/formP");
+                console.log(CurLength);
+            }
+        })
+        //row();
     });
     $("#addRow").on("click", function () {
         row();
@@ -726,9 +742,9 @@
             // "<input type='radio' name='fertilizedUsed' value='UNKNOWN' required> UNKNOWN ",
             "<select id='irrigation' name='irrigation' required> " +
             "<option value=''>SELECT THE IRRIGATION METHOD</option> " +
-            "<option>IRRIGATED</option> " +
-            "<option>RAIN-FED</option> " +
-            "<option>UNKNOWN</option> " +
+            "<option value='Irrigated'>IRRIGATED</option> " +
+            "<option value='Rain-Fed'>RAIN-FED</option> " +
+            "<option value='Unknown'>UNKNOWN</option> " +
             "</select>",
             "<select id='fertilizedUsed' name='fertilizedUsed' required> " +
             "<option value=''>SELECT THE FERTILIZED USED</option> " +
@@ -790,25 +806,26 @@
         var oldP=document.getElementById("currentpassword").value;
         var newP=document.getElementById("newpassword").value;
         var confirmP =document.getElementById("Confirmpassword").value;
-        if (newP != "") {
-            if(oldP != "" && confirmP != "") {
-                if(oldP != newP) {
-                    if(newP == confirmP) {
-                        alert ("V");
-                        return true;
+        if (oldP === passwordC) {
+            if (newP != "") {
+                if (oldP != "" && confirmP != "") {
+                    if (oldP != newP) {
+                        if (newP == confirmP) {
+                            alert("You can submit now!");
+                        } else {
+                            alert("New password do not match!");
+                        }
                     } else {
-                        alert("New passwords do not match!");
-                        return false;
+                        alert("Please make sure your new password is different from old one.");
                     }
                 } else {
-                    alert("Please make sure your new password is different from old one.");
-                    return false;
+                    alert("All password fields are required.");
                 }
-            } else {
-                alert("All password fields are required");
-                return false;
-            }
-        } else {return true}
+            } else {return true}
+        } else if (oldP !== passwordC) {
+            alert("Please make sure you typed your current password correctly.");
+        }
+
     }
     function submit(e) {
         e.preventDefault();
