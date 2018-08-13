@@ -116,7 +116,7 @@
     background: #000000;">
 	<a class="navul" href="//aworldbridge.com" style="background: #000000;
     width: 500px;
-    height: 80px;">
+    height: 76px;">
 		<img class="banner" src="../pic/NewWBBanner.jpg" style="width: 950px;
     height: 150px;
     margin: auto; display: block;" />
@@ -147,19 +147,6 @@
 				<label for="lastName">Last Name:</label>
 				<input type="text" id="lastName" class="form-control" name="Last_Name" value="<%= lastName %>" style="height: 50px;">
 			</div>
-			<br>
-			<div class="form-group">
-				<h4 class="floating-Box" style="width: 150px;"><strong>Reset Password</strong></h4>
-				<input type="checkbox" class="checkpass floating-Box">
-				<div>
-					<label for="newpassword">New Password:</label>
-					<input type="password" id="newpassword" class="form-control" name="newPassword" maxlength="2000px" style="height: 50px;">
-				</div>
-				<div>
-					<label for="Confirmpassword">Confirm New Password:</label>
-					<input type="password" id="Confirmpassword" class="form-control" name="confirmPassword" maxlength="2000px" style="height: 50px;">
-				</div>
-			</div>
 			<div class="form-group">
 				<label>User Role:</label>
 				<br>
@@ -177,10 +164,38 @@
 				</select>
 			</div>
 			<br>
+
+		</form>
+		<p style="font-size:15px">
+			<label for="password" >Do you want to change your password?</label>
+			<input type="checkbox" id="password" name="password" onclick="myFunction()">
+		</p>
+		<div class="generalForm">
+			<form id="pswchange" style="display:none;" class="well form-horizontal">
+				<fieldset>
+					<div>
+						<label style="font-size:18px;">Password Change</label>
+					</div>
+					<div class="form-group">
+						<label class="col-md-4 control-label">New Password</label>
+						<div class="col-md-8 inputGroupContainer">
+							<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span><input id="newPassword" name="newpassword" class="form-control" value="" type="password"></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-4 control-label">Confirm New Password</label>
+						<div class="col-md-8 inputGroupContainer">
+							<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span><input id="ConfirmPassword" name="ConfirmNewPassword" class="form-control"  value="" type="password"></div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+		<div>
 			<button type="submit" class="button1"> Update </button>
 			<hr>
 			<a href="/userManagement" style="margin-left: 230px;">Cancel</a>
-		</form>
+		</div>
 	</div>
 </div>
 <script>
@@ -226,6 +241,16 @@
         });
         return false;
     });
+    function myFunction(){
+        var checkbox = document.getElementById("password");
+        var text = document.getElementById("pswchange");
+        if (checkbox.checked === true){
+            text.style.display = "block";
+        } else{
+            text.style.display = "none";
+        }
+
+    }
 </script>
 </body>
 </html>
