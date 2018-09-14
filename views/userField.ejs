@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Invasive Species Heatmap - User Profile</title>
+    <title>Invasive Species Heatmap - Field Management</title>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/Profile.css" type="text/css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
@@ -213,12 +213,6 @@
     <a href="/userHome" style="width: 110px;">
         <button class="navbutton1"> User Home </button>
     </a>
-    <a style="width: 110px;">
-        <button id="information" class="navbutton1 refresh" onclick="refresh(this.id)" style="display: none"> Information </button>
-    </a>
-    <a style="width: 110px;">
-        <button id="fieldManagement" class="navbutton1 refresh" onclick="refresh(this.id)" style="width: 160px;"> Field Management </button>
-    </a>
     <div class="dropdown" style="height: 80px; width: 200px; float: right; margin: 0;">
         <button onclick="dropDown()" class="dropbutton" id="Username">
             <%= user.firstName%>
@@ -227,12 +221,10 @@
         <div id="userMenuAdmin" class="dropdown-content">
             <a href="/userProfile"> User Profile </a>
             <a href="/userManagement"> User Management </a>
-            <a href="/userField"> Field Management </a>
             <a href="/signout"> Sign Out </a>
         </div>
         <div id="userMenuRegular" class="dropdown-content">
             <a href="/userProfile"> User Profile </a>
-            <a href="/userField"> Field Management </a>
             <a href="/signout"> Sign Out </a>
         </div>
     </div>
@@ -244,121 +236,12 @@
     padding: 0px;">
         <br>
         <div class="page-header text-center header">
-            <h1><span class="fa fa-pencil"></span><strong> Invasive Species Heatmap -  User Profile </strong></h1>
+            <h1><span class="fa fa-pencil"></span><strong> Invasive Species Heatmap -  Field Management </strong></h1>
             <h4><span class="fa fa-user"></span>&nbsp;<strong>Account Name</strong>: <%= user.username %></h4>&nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;                    &nbsp;&nbsp;
         </div>
     </div>
         <div class="container1">
-            <div class="container" id="informationDiv" style="width: 900px;
-    padding: 0px;">
-                <form class="container" id="submit" onsubmit="return checkForm()" action="/userProfile" method="post" style="width: 900px;
-    padding: 0px;">
-                    <div class="center floating-Box" style="width: 350px;">
-                        <h4 class="floating-Box" style="width: 500px;"><strong>Username:</strong></h4>
-                        <h5 class="floating-Box" style="width: 80px;">First Name:</h5>
-                        <input type="text" id="usernameF" name="usernameF" value="<%= user.firstName %>" style="width: 250px;
-    height: 50px;
-    margin: 5px 5px 5px 0px;
-    padding-left: 10px;
-    border-radius: 5px;
-    border: 1px solid #c8c8c8;">
-                        <h5 class="floating-Box" style="width: 80px;">Last Name:</h5>
-                        <input type="text" id="usernameL" name="usernameL" value="<%= user.lastName %>" style="width: 250px;
-    height: 50px;
-    margin: 5px 5px 5px 0px;
-    padding-left: 10px;
-    border-radius: 5px;
-    border: 1px solid #c8c8c8;">
-                    </div>
-                    <div class="center floating-Box" style="width: 530px;">
-                        <h4 id="userrole" class="floating-Box" style="width: 125px;"><strong>User Role:</strong></h4>
-                        <input class="input floating-Box" type="text" style="background: WhiteSmoke;
-    width: 395px;
-    height: 50px;
-    padding-left: 10px;
-    border-radius: 5px;
-    border: 1px solid #c8c8c8;
-    margin: 5px 5px 5px 0px;" value="<%= user.userrole%>" readonly>
-                        <h4 class="floating-Box"><strong style="width: 125px;">Date created:&nbsp;&nbsp;</strong></h4>
-                        <input class="change1 floating-Box" type="text" style="background: WhiteSmoke;
-    width: 395px;
-    height: 50px;
-    padding-left: 10px;
-    border-radius: 5px;
-    border: 1px solid #c8c8c8;
-    margin: 5px 5px 5px 0px;" value="<%= user.dateCreated %>" readonly>
-                    </div>
-                    <br>
-                    <div class="center floating-Box" style="width: 350px;">
-                        <h4 class="floating-Box" style="width: 175px;"><strong>LoginName/Email:</strong></h4>
-                        <input class="input" type="text" style="background: WhiteSmoke;
-    width: 150px;
-    height: 50px;
-    padding-left: 10px;
-    border-radius: 5px;
-    border: 1px solid #c8c8c8;
-    margin: 5px;" value="<%= user.username%>" readonly>
-                        <h4 class="floating-Box" style="width: 175px;"><strong>Last Modificated by:</strong></h4>
-                        <input class="input" type="text" style="background: WhiteSmoke;
-    width: 150px;
-    height: 50px;
-    padding-left: 10px;
-    border-radius: 5px;
-    border: 1px solid #c8c8c8;
-    margin: 5px;" value="<%= user.username%>" readonly>
-                    </div>
-                    <div class="center floating-Box" style="width: 530px;">
-                        <h4 class="floating-Box" style="width: 530px;"><strong>Last Modification:</strong></h4>
-                        <input class="change1" type="text" style="background: WhiteSmoke;
-    width: 520px;
-    height: 50px;
-    padding-left: 10px;
-    border-radius: 5px;
-    border: 1px solid #c8c8c8;
-    margin-left: 0;
-    margin-top: 15px;" value="<%= user.dateModified %>" readonly>
-                    </div>
-                    <br>
-                    <br>
-                    <p style="font-size:15px">
-                        <label for="password" >Do you want to change your password?</label>
-                        <input type="checkbox" id="password" name="password" onclick="myFunction()">
-                    </p>
-                    <div id="pswchange" style="width: 700px; margin-left: 100px; display: none">
-                        <h4 style="width: 500px;"><strong>Password Reset</strong>:   </h4>
-
-                        <h5 class="floating-Box" style="width: 190px;">Current Password: </h5>
-                        <input class="floating-Box" type="password" id="currentpassword" name="currentpassword" maxlength="2000px" style="width: 450px;
-    height: 50px;
-    margin: 5px;
-    padding-left: 10px;
-    border-radius: 5px;
-    border: 1px solid #c8c8c8;">
-                        <h5 class="floating-Box" style="width: 190px;">New Password: </h5>
-                        <input class="floating-Box" type="password" id="newpassword" name="newpassword" maxlength="2000px" style="width: 450px;
-    height: 50px;
-    margin: 5px;
-    padding-left: 10px;
-    border-radius: 5px;
-    border: 1px solid #c8c8c8;">
-                        <h5 class="floating-Box" style="width: 190px;">Confirm New Password: </h5>
-                        <input class="floating-Box" type="password" id="Confirmpassword" name="Confirmpassword" maxlength="2000px" style="width: 450px;
-    height: 50px;
-    margin: 5px;
-    padding-left: 10px;
-    border-radius: 5px;
-    border: 1px solid #c8c8c8;">
-                    </div>
-                    <br>
-                    <button id="SS" type="submit" class="button1"> Save Changes </button>
-                    <hr style="margin-bottom: 10px;">
-                    <div style="width: 880px">
-                        <p class="text-center" style="margin: auto; display: block;"> <a onclick="userHome()">Cancel</a></p>
-                    </div>
-                </form>
-            </div>
-            <div class="center" id="fieldManagementDiv" style="display: none;
-    width: 900px;">
+            <div class="center" id="fieldManagementDiv" style="width: 900px;">
                 <table id="field" style="width: 900px">
                     <thead>
                     <tr>
@@ -421,6 +304,7 @@
     var passwordC = "<%= user.currentpassword %>"
     var table = $("#field").DataTable();
     var fieldID;
+    var uniqueId;
     var OriLength;
     var CurLength;
     $(document).ready(function(){
@@ -517,12 +401,14 @@
     });
     function selectRow(tbody) {
         fieldID = [];
+        uniqueId = []
         $(tbody).toggleClass('selected');    //toggle class for the rows selected
         var rowSelected = table.rows('.selected').data();    //Store all the data for selected rows'
         console.log(rowSelected);
         for (var i = 0; i < rowSelected.length; i ++) {
             // console.log(rowSelected[i][0]);
             fieldID.push(rowSelected[i][0]);
+            uniqueId.push(rowSelected[i][1]);
         }
     }
     $("#delete").on("click", function () {
@@ -576,7 +462,28 @@
         }
     });
     $("#edit").on("click", function () {
-        var selectedRow = $(".selected");
+        var fieldId = uniqueId;
+        if (fieldId.length >= 2) {
+            confirm("Please make sure to only select ONE of the fields to edit.")
+        } else if (fieldId.length === 0) {
+            confirm("No rows have been selected---- please choose ONE.")
+        } else {
+            var fieldIDStr = "fieldId=" + "<%= user.username%>" + "_" + fieldId ;
+            $.ajax({
+                url: '/sendFieldDataP',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                data: fieldIDStr,
+                success: function (result) {
+                    if (!result.error) {
+                        console.log(result.data);
+                        window.location.replace("/editFieldData");
+                    }
+                }
+            })
+        }
+        /*var selectedRow = $(".selected");
         // var edit = table.rows('.selected').data();
         // console.log(edit);
         if (selectedRow.length !== 0) {
@@ -597,7 +504,7 @@
             }
         } else {
             alert("Please choose the row you wish to edit");
-        }
+        }*/
         // if (selectedRow.length === 1) {
         //     $(".buttons").css("display", "none");
         //     $("#editField, #cancel").css("display", "inline");

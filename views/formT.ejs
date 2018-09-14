@@ -160,7 +160,7 @@
                     </select><br><br>
                     <h3>LOCATION</h3>
                     <h4>1 . Location Name: &nbsp;&nbsp;&nbsp;</h4>
-                    <h5 style="color:#9d9d9d;">NOTE: Location name options are based on the records filled in <a href="/userProfile">USER PROFILE > FIELD MANAGEMENT</a>. Specific categories are automatically filled in when the option is selected, information pulled from what was saved under that location name.</h5>
+                    <h5 style="color:#9d9d9d;">NOTE: Location name options are based on the records filled in <a href="/userField">FIELD MANAGEMENT</a>. Specific categories are automatically filled in when the option is selected, information pulled from what was saved under that location name.</h5>
                     <select id="locationName" name="locationName">
                         <option value="">PLEASE SELECT LOCATION NAME</option>
                     </select><br><br>
@@ -473,7 +473,7 @@
                         console.log(result.data);
 
                         $("#fieldId").val(result.data.fieldId);
-                        $(".mainCrop").val(result.data.mainCrop);
+                        $("#mainCrop").val(result.data.mainCrop);
                         $("#mainCropVariety").val(result.data.mainCropVariety);
                         $("[class='Irrigation'][value='" + result.data.irrigation + "']").click();
                         $("[class='fertilizedUsed'][value='" + result.data.fertilizedUsed + "']").click();
@@ -1258,12 +1258,12 @@
     }
 
     function goBack() {
-        if (confirm("Are you sure you to leave this page? All the data will be cleared accordingly!") === true) {
+        if (confirm("Are you sure you want to leave this page? All the data will be cleared accordingly!") === true) {
             window.location.replace('/userhome')
         }
     }
     function clearGeneral(){
-        if (confirm("Are you sure you to clear this page? All the data will be cleared accordingly!") === true) {
+        if (confirm("Are you sure you want to clear this page? All the data will be cleared accordingly!") === true) {
             window.location.replace('/newentry')
         }
     }
