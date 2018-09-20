@@ -111,6 +111,11 @@
             position:relative;
             width:100%;
         }
+        h4.required::after{
+            content:"*This field is required";
+            font-size: 15px;
+            color: lightcoral;
+        }
     </style>
 
 </head>
@@ -152,14 +157,14 @@
                     <input type="text" id="fieldId" name="fieldId" value="" hidden>
                     <h4>Your Name: &nbsp;&nbsp;&nbsp;</h4><input id="firstName" type="text" value="<%= firstname %>" readonly><br><br><input id="lastName" type="text" value="<%= lastname %>" readonly><br><br>
                     <h4>1 . Date: &nbsp;&nbsp;&nbsp;</h4><input id="DATE1" name="Date" class="date" value="" required><br><br>
-                    <h4>What data do you want to collect (select at least one)? &nbsp;&nbsp;&nbsp;</h4>
+                    <h4 class="required" id="entryTypeTitle">What data do you want to collect (select at least one)? </h4>
                     <select class="clearGen" id='entryType' name="Entry_type" required>
                         <option value=''>SELECT THE TYPE</option>
                         <option>FIELD SCOUTING</option>
                         <option>PHEROMONE TRAP</option>
                     </select><br><br>
                     <h3>LOCATION</h3>
-                    <h4>1 . Location Name: &nbsp;&nbsp;&nbsp;</h4>
+                    <h4 class="required" id="locationNameTitle">1 . Location Name: </h4>
                     <h5 style="color:#9d9d9d;">NOTE: Location name options are based on the records filled in <a href="/userField">FIELD MANAGEMENT</a>. Specific categories are automatically filled in when the option is selected, information pulled from what was saved under that location name.</h5>
                     <select id="locationName" name="locationName">
                         <option value="">PLEASE SELECT LOCATION NAME</option>
@@ -169,7 +174,7 @@
                     <h5 style="color:#9d9d9d;" id="locationNote"></h5>
                     <div id="locationDiv"></div>
                     <h3>TRAINING</h3>
-                    <h4>1 . Training of assistance received: &nbsp;&nbsp;&nbsp;</h4>
+                    <h4 class="required" id="trainingTitle">1 . Training of assistance received: </h4>
                     <button type='button' class="selectMultiple" id='Training-select_all' onclick='selectAndUnselect()'>Select all</button><button type='button' class="selectMultiple"  id='Training-deselect_all' onclick='selectAndUnselect()'>Deselect all</button>
                     <select multiple = 'multiple' class="clearGen" id='Training' name="Training" required>
                         <option>COMMUNITY FOCAL PERSON</option>
@@ -205,7 +210,7 @@
                         <option>OTHER GRASSES</option>
                         <option>OTHER VEGETABLES</option>
                     </select><br><br>
-                    <h4>1 . Main Crop Variety (auto-filled): &nbsp;&nbsp;&nbsp;</h4><input class="clearGen" id="mainCropVariety" name="Main_crop_variety" type="text" readonly placeholder="Enter Main Crop Variety Here"><br><br>
+                    <h4>1 . Main Crop Variety (auto-filled): &nbsp;&nbsp;&nbsp;</h4><input class="clearGen" id="mainCropVariety" name="Main_crop_variety" type="text" readonly placeholder="Enter Main Crop Variety Here" disabled><br><br>
                     <h4>1 . Irrigation (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
                     <div>
                         <input class="Irrigation" type="radio" value="Irrigated" required> IRRIGATED
@@ -217,7 +222,7 @@
                     <input class="fertilizedUsed" type="radio" value="YES" required> YES
                     <input class="fertilizedUsed" type="radio" value="NO" required> NO
                     <input class="fertilizedUsed" type="radio" value="UNKNOWN" required> UNKNOWN <br><br>
-                    <h4>1 . Crop Stage: &nbsp;&nbsp;&nbsp;</h4>
+                    <h4 class="required" id="cropStageTitle">1 . Crop Stage: </h4>
                     <select class="clearGen" id='cropStage' name="Crop_stage" required>
                         <option value=''>SELECT THE CROP STAGE</option>
                         <option>SOWING</option>
@@ -226,7 +231,7 @@
                         <option>REPRODUCTIVE</option>
                         <option>MATURITY</option>
                     </select><br><br>
-                    <h4>1 . General Health of Crop: &nbsp;&nbsp;&nbsp;</h4>
+                    <h4 class="required" id="healthOfCropTitle">1 . General Health of Crop: </h4>
                     <select class="clearGen" id='healthOfCrop' name='General_health' required>
                         <option value=''>SELECT THE GENERAL HEALTH LEVEL</option>
                         <option>POOR</option>
@@ -246,8 +251,8 @@
                     <div id="rotationIntercropping"></div>
                     <h4>1 . Field Size (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
                     <h5 style="color:#9d9d9d;">NOTE: There is no need to enter the decimals, etc. Please enter the number ONLY.</h5>
-                    <input class="clearGen" id="fieldSizeInteger" type="number" min="0" max="999999" readonly placeholder="0000" onkeyup="limit()" required>.
-                    <input class="clearGen" id="fieldSizeDecimal" type="number" min="0" max="9" readonly placeholder="0" onkeyup="limit()">
+                    <input class="clearGen" id="fieldSizeInteger" type="number" min="0" max="999999" readonly placeholder="0000" onkeyup="limit()" required disabled>.
+                    <input class="clearGen" id="fieldSizeDecimal" type="number" min="0" max="9" readonly placeholder="0" onkeyup="limit()" disabled>
                     <h4 id="unitTitle">Unit (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
                     <select class="clearGen floating-Box" id="fieldSizeUnit" disabled>
                         <option value=''>SELECT THE FIELD SIZE UNIT</option>
@@ -257,7 +262,7 @@
                         <option>SQUARE YARD (yd2)</option>
                     </select><br><br>
 
-                    <h4>1 . Main Crop Planting Date: &nbsp;&nbsp;&nbsp;</h4><input id="DATE2" name="Main_crop_planting_date" class="date" value="" required><br><br>
+                    <h4 class="required" id="plantingDateTitle">1 . Main Crop Planting Date: </h4><input id="DATE2" name="Main_crop_planting_date" class="date" value="" required><br><br>
                     <h3>RAIN</h3>
                     <h4>1 . Date of Last RainFall: &nbsp;&nbsp;&nbsp;</h4><input id="DATE3" name="Date_of_last_rain" class="dateS" onclick="rainAmount(this)" value="" placeholder="ENTER DATE OF LAST RAINFALL"><br><br>
                     <div id="rainAmount">
@@ -283,7 +288,7 @@
                 <form id="detailedScouting" method = "post">
                     <div>
                         <h4>Transaction ID: &nbsp;&nbsp;&nbsp;</h4><input id="transactionID" name="transactionID" type="text" value="<%= transactionID %>" readonly><br><br>
-                        <h4>2 . Pest Species: &nbsp;&nbsp;&nbsp;</h4>
+                        <h4 class="required" id="pestSpeciesTitle">2 . Pest Species: </h4>
                         <select class="clearDetS" id='pestSpecies' name='Pest_species' onchange="pestSelect()" required>
                             <option value=''>SELECT THE TYPE OF THE PEST</option>
                             <option>FAW</option>
@@ -294,13 +299,13 @@
                     <div class="FAW">
                         <h3>PESTS</h3>
                         <div id="pests">
-                            <h4>2 . Present / Absent: &nbsp;&nbsp;&nbsp;</h4>
-                            <input type="radio" name="Present_absent" value="PRESENT" onclick="present(this)" required> PRESENT
-                            <input type="radio" name="Present_absent" value="ABSENT" onclick="present(this)" required> ABSENT <br><br>
+                            <h4 class="required" id="presentAbsentTitle">2 . Present / Absent: </h4>
+                            <input type="radio" class="presentAbsent" name="Present_absent" value="PRESENT" onclick="present(this)" required> PRESENT
+                            <input type="radio" class="presentAbsent" name="Present_absent" value="ABSENT" onclick="present(this)" required> ABSENT <br><br>
                             <div id="damageStage">
 
                             </div>
-                            <h4>2 . Previous Damage level (on older leaves): &nbsp;&nbsp;&nbsp;</h4>
+                            <h4 class="required" id="previousDamageTitle">2 . Previous Damage level (on older leaves): </h4>
                             <select class="clearDetS" id='previousDamage' name='Previous_damage' required>
                                 <option value=''>SELECT THE DAMAGE LEVEL</option>
                                 <option>NONE</option>
@@ -308,7 +313,7 @@
                                 <option>MODERATE</option>
                                 <option>HIGH</option>
                             </select><br><br>
-                            <h4>2 . Natural Enemies Present? &nbsp;&nbsp;&nbsp;</h4>
+                            <h4 class="required" id="naturalEnemiesTitle">2 . Natural Enemies Present? </h4>
                             <select class="clearDetS" id='naturalEnemies' name='Natural_enemies' required>
                                 <option value=''>SELECT THE NATURAL ENEMIES</option>
                                 <option>NONE</option>
@@ -316,10 +321,10 @@
                                 <option>PATHOGENS</option>
                                 <option>PREDATORS</option>
                             </select><br><br>
-                            <h4>2 . Dead larvae killed by natural enemies? &nbsp;&nbsp;&nbsp;</h4>
-                            <input type="radio" name="Dead_larvae" value="YES" required> YES
-                            <input type="radio" name="Dead_larvae" value="NO" required> NO
-                            <input type="radio" name="Dead_larvae" value="UNKNOWN" required> UNKNOWN <br><br>
+                            <h4 class="required" id="deadLarvaeTitle">2 . Dead larvae killed by natural enemies? </h4>
+                            <input type="radio" class="deadLarvae" name="Dead_larvae" value="YES" required> YES
+                            <input type="radio" class="deadLarvae" name="Dead_larvae" value="NO" required> NO
+                            <input type="radio" class="deadLarvae" name="Dead_larvae" value="UNKNOWN" required> UNKNOWN <br><br>
                             <div id="cropInfested">
 
                             </div>
@@ -365,8 +370,8 @@
                 <form id="detailedTrap" method = "post">
                     <h4>2 . Transaction ID: &nbsp;&nbsp;&nbsp;</h4><input id="transactionID" name="transactionID" type="text" value="<%= transactionID %>" readonly><br><br>
                     <h3>TRAPS INFORMATION</h3>
-                    <h4>2 . Trap ID: &nbsp;&nbsp;&nbsp;</h4><input id="trapID" name="Trap_ID" type="text" placeholder="ENTER TRAP ID HERE" required><br><br>
-                    <h4>2 . Trap Location:</h4>
+                    <h4 class="required" id="trapIDTitle">2 . Trap ID: &nbsp;&nbsp;&nbsp;</h4><input id="trapID" name="Trap_ID" type="text" placeholder="ENTER TRAP ID HERE" required><br><br>
+                    <h4 class="required" id="trapLocationTitle">2 . Trap Location: </h4>
                     <select class="clearGen" id='trapLocation' name="Trap_location" required>
                         <option value=''>SELECT THE TRAP LOCATION</option>
                         <option>FIELD CENTER</option>
@@ -374,18 +379,18 @@
                         <option>VILLAGE</option>
                     </select><br><br>
                     <h3>CATCHES</h3>
-                    <h4>2 . Please indicate the number of moths/traps:</h4><input id="numberOfTraps" class="inputNumber" name="Number_of_traps" type="number" placeholder="ENTER NUMBER OF MOTHS/TRAPS" required><br><br>
+                    <h4>2 . Please indicate the number of moths/traps: </h4><input id="numberOfTraps" class="inputNumber" name="Number_of_traps" type="number" placeholder="ENTER NUMBER OF MOTHS/TRAPS" required><br><br>
                     <h4>2 . FAW Confirmed: &nbsp;&nbsp;&nbsp;</h4><input id="FAWConfirmed" class="inputNumber" name="FAW_confirmed" type="number" placeholder="ENTER NUMBER OF FAW CONFIRMED" required><br><br>
                     <h4>2 . FAW Suspected: &nbsp;&nbsp;&nbsp;</h4><input id="FAWSuspected" class="inputNumber" name="FAW_suspected" type="number" placeholder="ENTER NUMBER OF FAW SUSPECTED" required><br><br>
                     <h4>2 . Other Species: &nbsp;&nbsp;&nbsp;</h4><input id="otherSpecies" class="inputNumber" name="Other_species" type="number" placeholder="ENTER NUMBER OF OTHER SPIECES" required><br><br>
                     <h3>STATUS</h3>
-                    <h4>2 . Trap Type:</h4>
+                    <h4 class="required" id="trapTypeTitle">2 . Trap Type: </h4>
                     <select class="clearGen" id='trapType' name="Trap_type" required>
                         <option value=''>SELECT THE TRAP TYPE</option>
                         <option>BUCKET</option>
                         <option>STICKY DELTA</option>
                     </select><br><br>
-                    <h4>2 . Lure Name:</h4>
+                    <h4 class="required" id="lureNameTitle">2 . Lure Name: </h4>
                     <select class="clearGen" id='lureName' name="Lure_name" required>
                         <option value=''>SELECT THE LURE NAME</option>
                         <option>CHEMTICA</option>
@@ -403,13 +408,13 @@
                         <option>UNKNOWN</option>
                         <option>OTHER</option>
                     </select><br><br>
-                    <h4>2 . Trap Replaced? &nbsp;&nbsp;&nbsp;</h4>
+                    <h4 class="required" id="trapReplacedTitle">2 . Trap Replaced? </h4>
                     <input type="radio" name="Trap_replaced" value="YES" onclick="trapReplaced(this)" required> YES
                     <input type="radio" name="Trap_replaced" value="NO" onclick="trapReplaced(this)" required> NO <br><br>
                     <div id="dateTrapReplaced">
 
                     </div>
-                    <h4>2 . Lure Replaced? &nbsp;&nbsp;&nbsp;</h4>
+                    <h4 class="required" id="lureReplacedTitle">2 . Lure Replaced? </h4>
                     <input type="radio" name="Lure_replaced" value="YES" onclick="lureReplaced(this)" required> YES
                     <input type="radio" name="Lure_replaced" value="NO" onclick="lureReplaced(this)" required> NO <br><br>
                     <div id="dateLureReplaced">
@@ -462,6 +467,12 @@
             var locationNameD = "locationName=" + $(this).val();
             console.log($(this).val());
 
+            if($(this).val() === "") {
+                $("#locationNameTitle").addClass('required');
+            } else {
+                $("#locationNameTitle").removeClass('required');
+            }
+
             $.ajax({
                 url: '/sendFieldData',
                 type: 'GET',
@@ -504,7 +515,9 @@
                             console.log("No information to display.")
                         }*/
                         rotationInterCropSystem(result.data.farmingSystem);
-                        $('#rotationIntercroppingCrop').multiSelect("select", result.data.rotationIntercropping.split("/"));
+                        $('#rotationIntercroppingCrop').multiSelect("select", result.data.rotationIntercropping.split("/")).attr2("disabled", true);
+                        $(".Irrigation").attr("disabled", true);
+                        $(".fertilizedUsed").attr("disabled", true);
 
                     }
                 }
@@ -515,10 +528,92 @@
     $(function(){
         //getLocation();
 
-
-
         $('#Training').multiSelect();
 
+        $("#Training").change( function() {
+            var value = $(this).val();
+            console.log(value);
+            if(value.length > 0) {
+                console.log("full");
+                $("#trainingTitle").removeClass('required');
+
+            } else {
+                console.log("empty");
+                $("#trainingTitle").addClass('required');
+            }
+        })
+
+        $("#entryType").change( function() {
+            if($(this).val() === "") {
+                $("#entryTypeTitle").addClass('required');
+            } else {
+                $("#entryTypeTitle").removeClass('required');
+            }
+        })
+
+        $("#cropStage").change( function() {
+            if($(this).val() === "") {
+                $("#cropStageTitle").addClass('required');
+            } else {
+                $("#cropStageTitle").removeClass('required');
+            }
+        })
+
+        $("#healthOfCrop").change( function() {
+            if($(this).val() === "") {
+                $("#healthOfCropTitle").addClass('required');
+            } else {
+                $("#healthOfCropTitle").removeClass('required');
+            }
+        })
+
+        $("#DATE2").change( function() {
+            if($(this).val() === "") {
+                $("#plantingDateTitle").addClass('required');
+            } else {
+                $("#plantingDateTitle").removeClass('required');
+            }
+        })
+
+        $("#pestSpecies").change( function() {
+            if($(this).val() === "") {
+                $("#pestSpeciesTitle").addClass('required');
+            } else {
+                $("#pestSpeciesTitle").removeClass('required');
+            }
+        })
+
+        $(".presentAbsent").change( function() {
+            if($(this).val() === "") {
+                $("#presentAbsentTitle").addClass('required');
+            } else {
+                $("#presentAbsentTitle").removeClass('required');
+            }
+        })
+
+        $("#previousDamage").change( function() {
+            if($(this).val() === "") {
+                $("#previousDamageTitle").addClass('required');
+            } else {
+                $("#previousDamageTitle").removeClass('required');
+            }
+        })
+
+        $("#naturalEnemies").change( function() {
+            if($(this).val() === "") {
+                $("#naturalEnemiesTitle").addClass('required');
+            } else {
+                $("#naturalEnemiesTitle").removeClass('required');
+            }
+        })
+
+        $(".deadLarvae").change( function() {
+            if($(this).val() === "") {
+                $("#deadLarvaeTitle").addClass('required');
+            } else {
+                $("#deadLarvaeTitle").removeClass('required');
+            }
+        })
 
         flatpickr(".date", {
             dateFormat: "Y-m-d",
@@ -728,61 +823,6 @@
         }*/
     }
 
-    /*function showPosition(position) {
-        $("#latitudeStatus").remove();
-        $("#longitudeStatus").remove();
-
-        var uluru = {lat: position.coords.latitude, lng: position.coords.longitude};
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 4,
-            center: uluru,
-            mapTypeId: 'hybrid'
-        });
-
-        var marker = new google.maps.Marker({
-            position: uluru,
-            map: map,
-            draggable: true
-        });
-
-        google.maps.event.addListener(marker, 'dragend', function (event) {
-            document.getElementById("latitudeDecimal").value = this.getPosition().lat();
-            document.getElementById("longitudeDecimal").value = this.getPosition().lng();
-        })
-
-        var latiDD = position.coords.latitude;
-        var longDD = position.coords.longitude;
-
-        var latiDirection;
-        var longDirection;
-        // check direction
-        if (latiDD >= 0) {
-            latiDirection = "N";
-        } else if (latiDD < 0) {
-            latiDirection = "S";
-            latiDD = latiDD * -1;
-        }
-        if (longDD >= 0) {
-            longDirection = "E";
-        } else if (longDD < 0) {
-            longDirection = "W";
-            longDD = longDD * -1;
-        }
-        // convert latitude from Decimal Degree to Degrees Minutes Seconds
-        var latiDegrees = Math.floor(latiDD);
-        var latiMinutes = Math.floor((latiDD - latiDegrees) * 60);
-        var latiSeconds = ((latiDD - latiDegrees) * 60 - latiMinutes) * 60;
-        // convert longitude from Decimal Degree to Degrees Minutes Seconds
-        var longDegrees = Math.floor(longDD);
-        var longMinutes = Math.floor((longDD - longDegrees) * 60);
-        var longSeconds = ((longDD - longDegrees) * 60 - longMinutes) * 60;
-
-        var latitude = latiDirection + " " + latiDegrees + " " + latiMinutes + " " + latiSeconds;
-        var longitude = longDirection + " " + longDegrees + " " + longMinutes + " " + longSeconds;
-
-        createInputBox(latiDD, longDD);
-    }*/
-
     function showError(error) {
 
         var errorMessage = document.getElementById("errorMessage");
@@ -848,71 +888,6 @@
 
         //$("#locationDiv").append($("<input type='button' onclick='refresh()' value='Click here to refresh the map'>"));
     }
-
-    /*function refresh() {
-        var latiDecimal = document.getElementById("latitudeDecimal").value;
-        var longDecimal = document.getElementById("longitudeDecimal").value;
-
-        /*var latiDirection = document.getElementById("latitudeDirection").value;
-        var longDirection = document.getElementById("longitudeDirection").value;
-        var latiDegree = document.getElementById("latitudeDegree").value;
-        var longDegree = document.getElementById("longitudeDegree").value;
-        var latiMinute = document.getElementById("latitudeMinute").value;
-        var longMinute = document.getElementById("longitudeMinute").value;
-        var latiSecond = document.getElementById("latitudeSecond").value;
-        var longSecond = document.getElementById("longitudeSecond").value;
-
-        if (latiDecimal && longDecimal) {
-            var newPosition = new google.maps.LatLng(latiDecimal, longDecimal);
-            //var newPosition = {lat: latiDecimal, lng: longDecimal};
-            document.getElementById("map").innerHTML = "";
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 4,
-                center:  newPosition,
-                mapTypeId: 'hybrid'
-            });
-
-            var marker = new google.maps.Marker({
-                position: newPosition,
-                map: map,
-                draggable: true
-            });
-
-            google.maps.event.addListener(marker, 'dragend', function (event) {
-                document.getElementById("latitudeDecimal").value = this.getPosition().lat();
-                document.getElementById("longitudeDecimal").value = this.getPosition().lng();
-            })
-
-        }
-
-        if (latiDirection && longDirection && latiDegree && longDegree && latiMinute && longMinute && latiSecond && longSecond) {
-            // convert latitude & longitude from Degrees Minutes Seconds to Decimal Degree
-            var latiDD = parseFloat(latiDegree) + (parseFloat(latiMinute) / 60) + (parseFloat(latiSecond) / 3600);
-            var longDD = parseFloat(longDegree) + (parseFloat(longMinute) / 60) + (parseFloat(longSecond) / 3600);
-            // change to negative if S or W
-            if (latiDirection === "S") {
-                latiDD = latiDD * -1;
-            }
-            if (longDirection === "W") {
-                longDD = longDD * -1;
-            }
-
-            var newPosition = {lat: latiDD, lng: longDD};
-            document.getElementById("map").innerHTML = "";
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 4,
-                center:  newPosition,
-                mapTypeId: 'hybrid'
-            });
-
-            var marker = new google.maps.Marker({
-                position:  newPosition,
-                map: map
-            });
-        } else {
-
-        }
-    }*/
 
     function rotationInterCropSystem() {
         $("#rotationIntercropping").empty();
@@ -1066,7 +1041,7 @@
             //     var mainCropOption = $("<option>" + mainCropList[i].value + "</option>");
             //     mainCropSelect.append(mainCropOption);
             // }
-            var title = [$("<h4>2 . Crop Damage: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Pest Stage: &nbsp;&nbsp;&nbsp;</h4><a href='javascript:void(0);' id='pestStage-select_all'  class='selectMultiple'  onclick='selectAndUnselect()'>Select all</a><a href='javascript:void(0);' id='pestStage-deselect_all' class='selectMultiple' onclick='selectAndUnselect()'>Deselect all</a>"), $("<br<br><h4>2 . Current Damage level (on young leaves; fresh grass in whorl): &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Crop Infested: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4>2 . Control Undertaken: &nbsp;&nbsp;&nbsp;</h4><a href='javascript:void(0);' id='controlUndertaken-select_all'  class='selectMultiple' onclick='selectAndUnselect()'>Select all</a><a href='javascript:void(0);' id='controlUndertaken-deselect_all'  class='selectMultiple' onclick='selectAndUnselect()'>Deselect all</a>"), $("<h4>Photos of pest at different stages: &nbsp;&nbsp;&nbsp;</h4>")];
+            var title = [$("<h4 class='required' id='cropDamageTitle'>2 . Crop Damage: </h4>"), $("<h4 class='required' id='pestStageTitle'>2 . Pest Stage: </h4><button id='pestStage-select_all'  class='selectMultiple'  onclick='selectAndUnselect()'>Select all</button><button id='pestStage-deselect_all' class='selectMultiple' onclick='selectAndUnselect()'>Deselect all</button>"), $("<br<br><h4  class='required' id='currentDamageTitle'>2 . Current Damage level (on young leaves; fresh grass in whorl): </h4>"), $("<h4>2 . Crop Infested: </h4>"), $("<h4 class='required' id='controlUndertakenTitle'>2 . Control Undertaken: </h4><button id='controlUndertaken-select_all'  class='selectMultiple' onclick='selectAndUnselect()'>Select all</button><button id='controlUndertaken-deselect_all'  class='selectMultiple' onclick='selectAndUnselect()'>Deselect all</button>"), $("<h4>Photos of pest at different stages: &nbsp;&nbsp;&nbsp;</h4>")];
             var select = [$("<select class='clearGen' id='cropDamage' name='Crop_damage' required></select><br><br>"), $("<select multiple='multiple' class='clearGen' id='pestStage' name='Pest_stage' required></select>"), $("<select class='clearGen' id='currentDamage' name='Current_damage' required></select><br><br>"), $("<input class='clearGen inputNumber' id='cropInfested' name='Crop_infested' type='text' placeholder='Enter The Percentage of Crop Infested Here' required><br><br>"), $("<select multiple='multiple' class='clearGen' id='controlUndertaken' name='Control_undertaken' onchange='controlType(this)'></select>"), $("<div class='clearGen' id='uploaderPest'></div><br><br>")];
 
 
@@ -1140,6 +1115,64 @@
                     }
                 }
             });
+
+            $("#cropDamage").change( function() {
+                if($(this).val() === "") {
+                    $("#cropDamageTitle").addClass('required');
+                } else {
+                    $("#cropDamageTitle").removeClass('required');
+                }
+            })
+
+            $("#pestStage").change( function() {
+                var value = $(this).val();
+                if( value.length > 0 ) {
+                    $("#pestStageTitle").removeClass('required');
+                } else {
+                    $("#pestStageTitle").addClass('required');
+                }
+            })
+
+            $("#currentDamage").change( function() {
+                if($(this).val() === "") {
+                    $("#currentDamageTitle").addClass('required');
+                } else {
+                    $("#currentDamageTitle").removeClass('required');
+                }
+            })
+
+            $("#controlUndertaken").change( function() {
+                var value = $(this).val();
+                if( value.length > 0 ) {
+                    $("#controlUndertakenTitle").removeClass('required');
+                } else {
+                    $("#controlUndertakenTitle").addClass('required');
+                }
+            })
+            $("#previousDamage").change( function() {
+                if($(this).val() === "") {
+                    $("#previousDamageTitle").addClass('required');
+                } else {
+                    $("#previousDamageTitle").removeClass('required');
+                }
+            })
+
+            $("#naturalEnemies").change( function() {
+                if($(this).val() === "") {
+                    $("#naturalEnemiesTitle").addClass('required');
+                } else {
+                    $("#naturalEnemiesTitle").removeClass('required');
+                }
+            })
+
+            $(".deadLarvae").change( function() {
+                if($(this).val() === "") {
+                    $("#deadLarvaeTitle").addClass('required');
+                } else {
+                    $("#deadLarvaeTitle").removeClass('required');
+                }
+            })
+
         }
     }
 
@@ -1165,7 +1198,7 @@
         }
 
         function append(type, options) {
-            var title = [$("<br><br><h4 id='" + type + "NameTitle'>2 . " + type + " Name: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4 id='" + type + "LitresTitle'>2 . Amount of " + type + " Used (litres): &nbsp;&nbsp;&nbsp;</h4>")];
+            var title = [$("<br><br><h4 class='required' id='" + type + "NameTitle'>2 . " + type + " Name: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4 id='" + type + "LitresTitle'>2 . Amount of " + type + " Used (litres): &nbsp;&nbsp;&nbsp;</h4>")];
             var select = [$("<select class='clearGen' id='" + type + "Name' name='" + type + "_name'></select><br><br>"), $("<input type='number' class='clearGen inputNumber' id='" + type + "Litres' name='" + type + "_litres' placeholder='ENTER AMOUNT OF " + type + " USED'><br><br>")];
             for (var i = 0; i < title.length; i++) {
                 pesticideDiv.append(title[i]);
@@ -1177,6 +1210,23 @@
             }
             $("option:first", select[0]).val("");
         }
+
+        $("#BiopesticideName").change( function() {
+            if($(this).val() === "") {
+                $("#BiopesticideNameTitle").addClass('required');
+            } else {
+                $("#BiopesticideNameTitle").removeClass('required');
+            }
+        })
+
+        $("#PesticideName").change( function() {
+            if($(this).val() === "") {
+                $("#PesticideNameTitle").addClass('required');
+            } else {
+                $("#PesticideNameTitle").removeClass('required');
+            }
+        })
+
     }
 
     function previousForm() {

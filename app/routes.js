@@ -1610,22 +1610,12 @@ module.exports = function (app, passport) {
         var value = "";
 
         for (var i = 0; i < result.length; i++) {
-            if (result[i][0] === "Latitude_direction" || result[i][0] === "Longitude_direction") {
-                // lati and long
-                name += result[i][0].substring(0, result[i][0].length - 10) + ", ";
-                value += '"' + result[i][1] + " " + result[i + 1][1] + "° " + result[i + 2][1] + "' " + result[i + 3][1] + "''" + '"' + ", ";
-                i = i + 3;
-            } else if (result[i][0] === "Field_size_integer") {
+            if (result[i][0] === "Field_size_integer") {
                 // field size
                 name += result[i][0].substring(0, result[i][0].length - 8) + ", ";
                 // one decimal place = divide by 10
                 value += '"' + (parseFloat(result[i][1]) + (result[i + 1][1] / 10)) + '"' + ", ";
                 i = i + 1;
-            } else if (result[i][0] === "Rotation_intercropping_crop") {
-                name += result[i][0] + ", ";
-                var str = result[i][1].toString();
-                str = str.replace(/,/g, "/");
-                value += '"' + str + '"' + ", ";
             } else {
                 // normal
                 if (result[i][1] !== "") {

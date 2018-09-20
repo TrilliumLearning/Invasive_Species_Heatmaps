@@ -476,7 +476,7 @@
                         $("#mainCropVariety").val(result.data.mainCropVariety);
                         $("[class='Irrigation'][value='" + result.data.irrigation + "']").click();
                         $("[class='fertilizedUsed'][value='" + result.data.fertilizedUsed + "']").click();
-                        $("#cropSystem").val(result.data.farmingSystem);
+                        $("#croppingSystem").val(result.data.farmingSystem);
                         var fieldSizeD = result.data.fieldSize.split(".");
                         $("#fieldSizeInteger").val(fieldSizeD[0]);
                         $("#fieldSizeDecimal").val(fieldSizeD[1]);
