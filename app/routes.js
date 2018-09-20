@@ -39,7 +39,7 @@ var today, date2, date3, time2, time3, dateTime, tokenExpire;
 var smtpTrans = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'aaaa.zhao@g.feitianacademy.org',
+        user: 'aaaa.zhao@g.northernacademy.org',
         pass: "12344321"
     }
 });
@@ -331,7 +331,7 @@ module.exports = function (app, passport) {
             function(token, done, err) {
                 // Message object
                 var message = {
-                    from: 'FTAA <aaaa.zhao@g.feitianacademy.org>', // sender info
+                    from: 'FTAA <aaaa.zhao@g.northernacademy.org>', // sender info
                     to: username, // Comma separated list of recipients
                     subject: subject, // Subject of the message
 
@@ -364,7 +364,7 @@ module.exports = function (app, passport) {
 
     function successMail(username, subject, text, res) {
         var message = {
-            from: 'FTAA <aaaa.zhao@g.feitianacademy.org>',
+            from: 'FTAA <aaaa.zhao@g.northernacademy.org>',
             to: username,
             subject: subject,
             text: text
