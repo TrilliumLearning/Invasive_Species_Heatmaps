@@ -51,11 +51,11 @@ input[type="button"]:disabled {
 
 }
 
-input[type='text']:disabled::placeholder {
+/*input[type='text']:disabled::placeholder {
     color: #dd7777;
     font: inherit;
 
-}
+}*/
 
 input[type='file']{
     font-size: inherit;

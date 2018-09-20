@@ -125,7 +125,7 @@
     margin: auto; display: block;" />
     </a>
 </div>
-<body onload="getLocation()">
+<body onload="createInputBox()">
 
     <div class="container">
         <div id="modal" class="modal">
@@ -148,7 +148,8 @@
         <div id="container">
             <div style="display: block;" id="generalForm">
                 <form id = "general" method = "post">
-                    <h4>ID: &nbsp;&nbsp;&nbsp;</h4><input  id='id' type="text" name='id' value="<%= CurLength %>" readonly><br><br>
+                    <h4 hidden>ID: &nbsp;&nbsp;&nbsp;</h4><input  id='id' type="text" name='id' value="" hidden><br>
+                    <h4>Field ID: &nbsp;&nbsp;&nbsp;</h4><input  id='fieldId' type="text" name='fieldId' value="" readonly><br><br>
                     <input type="text" name="username" value="<%= user.username %>" hidden>
                     <h4>Your Name: &nbsp;&nbsp;&nbsp;</h4><input id="firstName" type="text" value="<%= firstname %>" readonly><br><br><input id="lastName" type="text" value="<%= lastname %>" readonly><br><br>
 
@@ -189,13 +190,13 @@
                     </select><br><br>
                     <h4>1 . Main Crop Variety: &nbsp;&nbsp;&nbsp;</h4><input class="clearGen" id="mainCropVariety" name="mainCropVariety" type="text" placeholder="Enter Main Crop Variety Here"><br><br>
                     <h4>1 . Irrigation: &nbsp;&nbsp;&nbsp;</h4>
-                    <input type="radio" name="irrigation" value="Irrigated" required> IRRIGATED
-                    <input type="radio" name="irrigation" value="Rain-Fed" required> RAIN-FED
-                    <input type="radio" name="irrigation" value="Unknown" required> UNKNOWN <br><br>
+                    <input type="radio" class="Irrigation" name="irrigation" value="Irrigated" required> IRRIGATED
+                    <input type="radio" class="Irrigation" name="irrigation" value="Rain-Fed" required> RAIN-FED
+                    <input type="radio" class="Irrigation" name="irrigation" value="Unknown" required> UNKNOWN <br><br>
                     <h4>1 . Fertilized Used: &nbsp;&nbsp;&nbsp;</h4>
-                    <input type="radio" name="fertilizedUsed" value="YES" required> YES
-                    <input type="radio" name="fertilizedUsed" value="NO" required> NO
-                    <input type="radio" name="fertilizedUsed" value="UNKNOWN" required> UNKNOWN <br><br>
+                    <input type="radio" class='fertilizedUsed' name="fertilizedUsed" value="YES" required> YES
+                    <input type="radio" class='fertilizedUsed' name="fertilizedUsed" value="NO" required> NO
+                    <input type="radio" class='fertilizedUsed' name="fertilizedUsed" value="UNKNOWN" required> UNKNOWN <br><br>
 
                     <h4>1 . Farming System: &nbsp;&nbsp;&nbsp;</h4>
                     <select class="clearGen" id='cropSystem' name='farmingSystem' onchange='rotationInterCropSystem();' required>
@@ -219,7 +220,6 @@
                         <option>SQUARE METER (m2)</option>
                         <option>SQUARE YARD (yd2)</option>
                     </select><br><br>
-                    <input type="text" name="fieldId" value="<%= newFieldId %>" hidden>
 
                     <div class="row">
                         <div class="floating-Box">
@@ -230,7 +230,7 @@
                             <input  class="clear" type="button" onclick="clearGeneral()" value="   Clear   "/>
                         </div>
                         <div class="floating-Box">
-                            <input id="submit" type="submit" value="Add Row">
+                            <input id="submit" type="submit" value="Save Edits">
                         </div>
 
                     </div>
@@ -240,8 +240,51 @@
         </div>
 <script>
 
+    console.log("Adgenfjkenfjd");
     $(function(){
         //getLocation();
+
+        $("#id").val("<%= datafield.id %>")
+        $("#fieldId").val("<%= datafield.fieldId %>");
+        $("#locationName").val("<%= datafield.locationName %>")
+        $("#mainCrop").val("<%= datafield.mainCrop %>");
+        $("#mainCropVariety").val("<%= datafield.mainCropVariety %>");
+        $("[class='Irrigation'][value='" + "<%= datafield.irrigation %>" + "']").click();
+        $("[class='fertilizedUsed'][value='" + "<%= datafield.fertilizedUsed %>" + "']").click();
+        $("#cropSystem").val("<%= datafield.farmingSystem %>");
+        var fieldSizeD = "<%= datafield.fieldSize %>".split(".");
+        $("#fieldSizeInteger").val(fieldSizeD[0]);
+        $("#fieldSizeDecimal").val(fieldSizeD[1]);
+        $("#fieldSizeUnit").val("<%= datafield.fieldSizeUnit %>");
+        $("#locationDiv").empty();
+
+        var latitudeD = "<%= datafield.latitude %>";
+        var longitudeD = "<%= datafield.longitude %>";
+
+        $("#locationDiv").append($("<h4 id='latitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Latitude: &nbsp;&nbsp;&nbsp</h4><h4 id='longitudeTitle'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longitude: </h4>"));
+
+        var latitudeTitle = $("#latitudeTitle");
+
+        var longitudeTitle = $("#longitudeTitle");
+
+        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' name='latitude' type='number' step='any' value='" + latitudeD +"' onkeyup='limitLoc()' required>"));
+        longitudeTitle.append($("<input id='longitudeDecimal' class='locInput' name='longitude' type='number' step='any' value='" + longitudeD +"' onkeyup='limitLoc()' required>" + "<input class='floating-Box mapButton' type='button' onclick='refresh()' value='Click here to refresh the map' style='margin-left: 10px;'>"));
+
+
+        $(document).ready(function () {
+            $(".mapButton").trigger('click');
+        })
+
+        //$("#locationDiv").append($("<input id='refreshMap' type='button' onclick='refresh()' value='Click here to refresh the map'>"));
+        //$("#refreshMap").click();
+        /*if ($("#cropSystem").val() === "ROTATION" || "INTERCROPPING" || "PUSH-PULL"){
+            rotationInterCropSystem(result.data.farmingSystem);
+            $('#rotationIntercropping').multiSelect("select", result.data.rotationIntercropping.split("/"));
+        } else {
+            console.log("No information to display.")
+        }*/
+        rotationInterCropSystem("<%= datafield.farmingSystem %>");
+        $('#rotationIntercroppingCrop').multiSelect("select", "<%= datafield.rotationIntercropping %>".split("/"));
 
 
 
@@ -307,7 +350,7 @@
             //alert("This button has actually been selected and this can't possibly be the issue.");
             $.ajax({
                 type: "post",
-                url: "/formPP",
+                url: "/formP_edit",
                 dataType: 'json',
                 data: $("#general").serialize(),
                 success: function (result) {
@@ -317,7 +360,7 @@
                         document.getElementById("modal-header").style.backgroundColor = "#5cb85c";
                         document.getElementById("close").innerHTML = "<a href='/userField'>&times</a>";
 
-                        document.getElementById("header").innerHTML = "Congratulations, your field entry has been successfully completed!";
+                        document.getElementById("header").innerHTML = "Congratulations, your field entry has been successfully saved!";
                         document.getElementById("body").innerHTML = "<br>Click X to return to Field Management.<br>";
 
                         document.getElementById("modal").style.display = "block";
@@ -344,14 +387,17 @@
             $("#longitudeStatus").remove();
             document.getElementById("errorMessage").innerHTML = "ERROR: Geolocation is not supported by this browser."
             alert("Geolocation is not supported by this browser.");
-
             createInputBox();
+
         }
     }
 
     function showPosition(position) {
         $("#latitudeStatus").remove();
         $("#longitudeStatus").remove();
+
+        var latitudeD = "<%= datafield.latitude %>";
+        var longitudeD = "<%= datafield.longitude %>";
 
         var uluru = {lat: position.coords.latitude, lng: position.coords.longitude};
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -410,7 +456,8 @@
             /*latitude = lati.split(" ");
             longitude = long.split(" ");*/
         } else {
-            document.getElementById("locationNote").innerHTML = "NOTE: Please manually enter the Latitude/Longitude.";
+            //document.getElementById("locationNote").innerHTML = "NOTE: Please manually enter the Latitude/Longitude.";
+            document.getElementById("locationNote").innerHTML = "NOTE: Please verify the Latitude/Longitude and change if it is incorrect. Dragging the placemark will automatically fill in decimals to the location.";
         }
 
         var latitudeTitle = $("#latitudeTitle");
@@ -418,10 +465,10 @@
         var longitudeTitle = $("#longitudeTitle");
 
 
-        latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' name='latitude' type='number' step='any' value='" + latitude +"' onkeyup='limitLoc()' required>"));
-        longitudeTitle.append($("<input id='longitudeDecimal' class='locInput' name='longitude' type='number' step='any' value='" + longitude +"' onkeyup='limitLoc()' required>"));
+        //latitudeTitle.append($("<input id='latitudeDecimal' class='locInput' name='latitude' type='number' step='any' value='" + latitude +"' onkeyup='limitLoc()' required>"));
+        //longitudeTitle.append($("<input id='longitudeDecimal' class='locInput' name='longitude' type='number' step='any' value='" + longitude +"' onkeyup='limitLoc()' required>"));
 
-        $("#locationDiv").append($("<input class='floating-Box mapButton' type='button' onclick='refresh()' value='Click here to refresh the map'>"));
+        //$("#locationDiv").append($("<input class='floating-Box mapButton' type='button' onclick='refresh()' value='Click here to refresh the map'>"));
     }
 
     function refresh() {

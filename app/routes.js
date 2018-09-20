@@ -404,6 +404,23 @@ module.exports = function (app, passport) {
         });
     });
 
+    app.get('/userField', isLoggedIn, function (req, res) {
+        myStat = "SELECT * FROM Field WHERE status = 'Active' AND username = '" + req.user.username + "';";
+        connection.query(myStat, function (err, results) {
+            if (err) {
+                console.log(err);
+            } else {
+                // var result = JSON.stringify(results);
+                console.log(results);
+                res.render('userField.ejs', {
+                    user: req.user,
+                    fieldInfo: results,
+                    str: JSON.stringify(results)
+                });
+            }
+        });
+    });
+
     app.get('/formT', isLoggedIn, function (req, res) {
         var d = new Date();
         var utcDateTime = d.getUTCFullYear() + "-" + ('0' + (d.getUTCMonth() + 1)).slice(-2) + "-" + ('0' + d.getUTCDate()).slice(-2);
@@ -1177,7 +1194,8 @@ module.exports = function (app, passport) {
     var editData;
     var fieldData;
     var locDataQ;
-    var locData;
+    var fieldIDStr;
+    var editFieldData;
     app.get('/sendEditData', isLoggedIn, function(req, res) {
         editTransactionID = req.query.transactionIDStr;
         var scoutingStat = "SELECT Users.firstName, Users.lastName, General_Form.*, Detailed_Scouting.* FROM Transaction INNER JOIN Users ON Users.username = Transaction.Cr_UN INNER JOIN General_Form ON General_Form.transactionID = Transaction.transactionID INNER JOIN Detailed_Scouting ON Detailed_Scouting.transactionID = Transaction.transactionID WHERE Transaction.transactionID = '" + editTransactionID +"';";
@@ -1255,6 +1273,28 @@ module.exports = function (app, passport) {
             }
         });
     });
+    app.get('/sendFieldDataP', isLoggedIn, function(req, res) {
+        fieldIDStr = req.query.fieldId;
+        console.log(locDataQ);
+
+        var fieldStat = "SELECT * FROM Field WHERE status = 'Active' AND username = '" + req.user.username + "' AND fieldId = '" + fieldIDStr + "';";
+
+        connection.query(fieldStat, function (err, results, fields) {
+
+            if (err) {
+                console.log(err);
+                res.json({"error": true, "message": "Failed to save edit."});
+            } else {
+                console.log(results);
+                if (results.length === 0) {
+                    res.json({"error": true, "message": "fail"});
+                } else {
+                    editFieldData = results[0];
+                    res.json({"error": false, "message": "/editFieldData"});
+                }
+            }
+        });
+    });
     app.get('/edit', isLoggedIn, function (req, res) {
         // res.render("test.ejs");
         // console.log("11");
@@ -1309,6 +1349,18 @@ module.exports = function (app, passport) {
             user: req.user,
             fieldData: fieldData,
             data: editData, // get the user out of session and pass to template
+            message: req.flash('Data Entry Message')
+        });
+    });
+    app.get('/editFieldData', isLoggedIn, function(req, res) {
+        // console.log(editData.transactionID);
+        console.log(editFieldData);
+        console.log("adfsdfasdf");
+        res.render('formP_edit.ejs', {
+            user: req.user,
+            firstname: req.user.firstName,
+            lastname: req.user.lastName,
+            datafield: editFieldData, // get the user out of session and pass to template
             message: req.flash('Data Entry Message')
         });
     });
@@ -1558,22 +1610,12 @@ module.exports = function (app, passport) {
         var value = "";
 
         for (var i = 0; i < result.length; i++) {
-            if (result[i][0] === "Latitude_direction" || result[i][0] === "Longitude_direction") {
-                // lati and long
-                name += result[i][0].substring(0, result[i][0].length - 10) + ", ";
-                value += '"' + result[i][1] + " " + result[i + 1][1] + "° " + result[i + 2][1] + "' " + result[i + 3][1] + "''" + '"' + ", ";
-                i = i + 3;
-            } else if (result[i][0] === "Field_size_integer") {
+            if (result[i][0] === "Field_size_integer") {
                 // field size
                 name += result[i][0].substring(0, result[i][0].length - 8) + ", ";
                 // one decimal place = divide by 10
                 value += '"' + (parseFloat(result[i][1]) + (result[i + 1][1] / 10)) + '"' + ", ";
                 i = i + 1;
-            } else if (result[i][0] === "Rotation_intercropping_crop") {
-                name += result[i][0] + ", ";
-                var str = result[i][1].toString();
-                str = str.replace(/,/g, "/");
-                value += '"' + str + '"' + ", ";
             } else {
                 // normal
                 if (result[i][1] !== "") {
@@ -1788,6 +1830,69 @@ module.exports = function (app, passport) {
                 res.json({"error": true, "message": "Insert Error! Check your entry."});
             } else {
                 res.json({"error": false, "message": "/userProfile"});
+            }
+        });
+    });
+
+    app.post('/formP_edit', isLoggedIn, function (req, res) {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        //console.log(req.body);
+
+        var result = Object.keys(req.body).map(function (key) {
+            return [String(key), req.body[key]];
+        });
+
+        var name = "";
+        var value = "";
+        var locationId = "";
+
+        for (var i = 0; i < result.length; i++) {
+            if (result[i][0] === "locationName") {
+                name += result[i][0] + ", ";
+                var string = result[i][1].toString();
+                string = string.replace(/ /g, "_");
+                value += '"' + string + '"' + ", ";
+                locationId = string;
+                console.log(string);
+                console.log(locationId);
+            } else if (result[i][0] === "fieldId") {
+                name += result[i][0] + ", ";
+                value += '"' + result[i][1] + locationId + '"' + ", ";
+                console.log("fieldId: " + locationId);
+            } else if (result[i][0] === "Field_size_integer") {
+                // field size
+                name += "fieldSize" + ", ";
+                // one decimal place = divide by 10
+                value += '"' + (parseFloat(result[i][1]) + (result[i + 1][1] / 10)) + '"' + ", ";
+                i = i + 1;
+            } else if (result[i][0] === "rotationIntercropping") {
+                name += "rotationIntercropping" + ", ";
+                var str = result[i][1].toString();
+                str = str.replace(/,/g, "/");
+                value += '"' + str + '"' + ", ";
+            } else {
+                // normal
+                if (result[i][1] !== "") {
+                    name += result[i][0] + ", ";
+                    value += '"' + result[i][1] + '"' + ", ";
+                }
+            }
+        }
+        name = name.substring(0, name.length - 2);
+        value = value.substring(0, value.length - 2);
+
+        // console.log(name);
+        // console.log(value);
+        var deleteStatement = "DELETE FROM Field WHERE id = '" + req.body.id + "'; ";
+        var insertStatement = "INSERT INTO Field (" + name + ") VALUES (" + value + ");";
+        console.log(insertStatement);
+
+        connection.query(deleteStatement + insertStatement, function (err, results, fields) {
+            if (err) {
+                console.log(err);
+                res.json({"error": true, "message": "Insert Error! Check your entry."});
+            } else {
+                res.json({"error": false, "message": "/userField"});
             }
         });
     });

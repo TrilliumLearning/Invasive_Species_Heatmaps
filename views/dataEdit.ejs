@@ -156,7 +156,7 @@
                     </select><br><br>
                     <h3>LOCATION</h3>
                     <h4>1 . Location Name: &nbsp;&nbsp;&nbsp;</h4>
-                    <h5 style="color:#9d9d9d;">NOTE: Location name options are based on the records filled in <a href="/userProfile">USER PROFILE > FIELD MANAGEMENT</a>. Specific categories are automatically filled in when the option is selected, information pulled from what was saved under that location name.</h5>
+                    <h5 style="color:#9d9d9d;">NOTE: Location name options are based on the records filled in <a href="/userField"> FIELD MANAGEMENT</a>. Specific categories are automatically filled in when the option is selected, information pulled from what was saved under that location name.</h5>
                     <input id="locationName" type="text" name="locationName"><br><br>
                     <h4 id="GPSLocationTitle">E. GPS Location (auto-filled): &nbsp;&nbsp;&nbsp;</h4>
                     <h4 style="color:red" id="errorMessage"></h4>
@@ -476,7 +476,7 @@
                         $("#mainCropVariety").val(result.data.mainCropVariety);
                         $("[class='Irrigation'][value='" + result.data.irrigation + "']").click();
                         $("[class='fertilizedUsed'][value='" + result.data.fertilizedUsed + "']").click();
-                        $("#cropSystem").val(result.data.farmingSystem);
+                        $("#croppingSystem").val(result.data.farmingSystem);
                         var fieldSizeD = result.data.fieldSize.split(".");
                         $("#fieldSizeInteger").val(fieldSizeD[0]);
                         $("#fieldSizeDecimal").val(fieldSizeD[1]);
