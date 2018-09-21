@@ -370,7 +370,7 @@
                 <form id="detailedTrap" method = "post">
                     <h4>2 . Transaction ID: &nbsp;&nbsp;&nbsp;</h4><input id="transactionID" name="transactionID" type="text" value="<%= transactionID %>" readonly><br><br>
                     <h3>TRAPS INFORMATION</h3>
-                    <h4 class="required" id="trapIDTitle">2 . Trap ID: &nbsp;&nbsp;&nbsp;</h4><input id="trapID" name="Trap_ID" type="text" placeholder="ENTER TRAP ID HERE" required><br><br>
+                    <h4 class="required" id="trapIDTitle">2 . Trap ID: </h4><input id="trapID" name="Trap_ID" type="text" placeholder="ENTER TRAP ID HERE" value="" required><br><br>
                     <h4 class="required" id="trapLocationTitle">2 . Trap Location: </h4>
                     <select class="clearGen" id='trapLocation' name="Trap_location" required>
                         <option value=''>SELECT THE TRAP LOCATION</option>
@@ -379,10 +379,10 @@
                         <option>VILLAGE</option>
                     </select><br><br>
                     <h3>CATCHES</h3>
-                    <h4>2 . Please indicate the number of moths/traps: </h4><input id="numberOfTraps" class="inputNumber" name="Number_of_traps" type="number" placeholder="ENTER NUMBER OF MOTHS/TRAPS" required><br><br>
-                    <h4>2 . FAW Confirmed: &nbsp;&nbsp;&nbsp;</h4><input id="FAWConfirmed" class="inputNumber" name="FAW_confirmed" type="number" placeholder="ENTER NUMBER OF FAW CONFIRMED" required><br><br>
-                    <h4>2 . FAW Suspected: &nbsp;&nbsp;&nbsp;</h4><input id="FAWSuspected" class="inputNumber" name="FAW_suspected" type="number" placeholder="ENTER NUMBER OF FAW SUSPECTED" required><br><br>
-                    <h4>2 . Other Species: &nbsp;&nbsp;&nbsp;</h4><input id="otherSpecies" class="inputNumber" name="Other_species" type="number" placeholder="ENTER NUMBER OF OTHER SPIECES" required><br><br>
+                    <h4 class="required" id="numberOfTrapsTitle">2 . Please indicate the number of moths/traps: </h4><input id="numberOfTraps" class="inputNumber" name="Number_of_traps" type="number" placeholder="ENTER NUMBER OF MOTHS/TRAPS" value="" required><br><br>
+                    <h4 class="required" id="FAWConfirmedTitle">2 . FAW Confirmed: </h4><input id="FAWConfirmed" class="inputNumber" name="FAW_confirmed" type="number" placeholder="ENTER NUMBER OF FAW CONFIRMED" value="" required><br><br>
+                    <h4 class="required" id="FAWSuspectedTitle">2 . FAW Suspected: </h4><input id="FAWSuspected" class="inputNumber" name="FAW_suspected" type="number" placeholder="ENTER NUMBER OF FAW SUSPECTED" value="" required><br><br>
+                    <h4 class="required" id="otherSpeciesTitle">2 . Other Species: </h4><input id="otherSpecies" class="inputNumber" name="Other_species" type="number" placeholder="ENTER NUMBER OF OTHER SPIECES" value="" required><br><br>
                     <h3>STATUS</h3>
                     <h4 class="required" id="trapTypeTitle">2 . Trap Type: </h4>
                     <select class="clearGen" id='trapType' name="Trap_type" required>
@@ -409,14 +409,14 @@
                         <option>OTHER</option>
                     </select><br><br>
                     <h4 class="required" id="trapReplacedTitle">2 . Trap Replaced? </h4>
-                    <input type="radio" name="Trap_replaced" value="YES" onclick="trapReplaced(this)" required> YES
-                    <input type="radio" name="Trap_replaced" value="NO" onclick="trapReplaced(this)" required> NO <br><br>
+                    <input type="radio" class="trapReplaced" name="Trap_replaced" value="YES" onclick="trapReplaced(this)" required> YES
+                    <input type="radio" class="trapReplaced" name="Trap_replaced" value="NO" onclick="trapReplaced(this)" required> NO <br><br>
                     <div id="dateTrapReplaced">
 
                     </div>
                     <h4 class="required" id="lureReplacedTitle">2 . Lure Replaced? </h4>
-                    <input type="radio" name="Lure_replaced" value="YES" onclick="lureReplaced(this)" required> YES
-                    <input type="radio" name="Lure_replaced" value="NO" onclick="lureReplaced(this)" required> NO <br><br>
+                    <input type="radio" class="lureReplaced" name="Lure_replaced" value="YES" onclick="lureReplaced(this)" required> YES
+                    <input type="radio" class="lureReplaced" name="Lure_replaced" value="NO" onclick="lureReplaced(this)" required> NO <br><br>
                     <div id="dateLureReplaced">
 
                     </div>
@@ -441,7 +441,6 @@
             </div>
         </div>
     </div>
-</div>
 <script>
     var field = '<%- JSON.stringify(fieldInfo) %>';
     field = JSON.parse(field);
@@ -612,6 +611,86 @@
                 $("#deadLarvaeTitle").addClass('required');
             } else {
                 $("#deadLarvaeTitle").removeClass('required');
+            }
+        })
+
+        $("#trapID").change( function() {
+            if($(this).val() === "") {
+                $("#trapIDTitle").addClass('required');
+            } else {
+                $("#trapIDTitle").removeClass('required');
+            }
+        })
+
+        $("#trapLocation").change( function() {
+            if($(this).val() === "") {
+                $("#trapLocationTitle").addClass('required');
+            } else {
+                $("#trapLocationTitle").removeClass('required');
+            }
+        })
+
+        $("#trapType").change( function() {
+            if($(this).val() === "") {
+                $("#trapTypeTitle").addClass('required');
+            } else {
+                $("#trapTypeTitle").removeClass('required');
+            }
+        })
+
+        $("#lureName").change( function() {
+            if($(this).val() === "") {
+                $("#lureNameTitle").addClass('required');
+            } else {
+                $("#lureNameTitle").removeClass('required');
+            }
+        })
+
+        $("#numberOfTraps").change( function() {
+            if($(this).val() === "") {
+                $("#numberOfTrapsTitle").addClass('required');
+            } else {
+                $("#numberOfTrapsTitle").removeClass('required');
+            }
+        })
+
+        $("#FAWConfirmed").change( function() {
+            if($(this).val() === "") {
+                $("#FAWConfirmedTitle").addClass('required');
+            } else {
+                $("#FAWConfirmedTitle").removeClass('required');
+            }
+        })
+
+        $("#FAWSuspected").change( function() {
+            if($(this).val() === "") {
+                $("#FAWSuspectedTitle").addClass('required');
+            } else {
+                $("#FAWSuspectedTitle").removeClass('required');
+            }
+        })
+
+        $("#otherSpecies").change( function() {
+            if($(this).val() === "") {
+                $("#otherSpeciesTitle").addClass('required');
+            } else {
+                $("#otherSpeciesTitle").removeClass('required');
+            }
+        })
+
+        $(".trapReplaced").change( function() {
+            if($(this).val() === "") {
+                $("#trapReplacedTitle").addClass('required');
+            } else {
+                $("#trapReplacedTitle").removeClass('required');
+            }
+        })
+
+        $(".lureReplaced").change( function() {
+            if($(this).val() === "") {
+                $("#lureReplacedTitle").addClass('required');
+            } else {
+                $("#lureReplacedTitle").removeClass('required');
             }
         })
 
@@ -976,8 +1055,8 @@
         dateTrapReplacedDiv.empty();
         if (status.value === "YES") {
             dateTrapReplacedDiv.show();
-            var title = $("<h4>2 . Date Trap Replaced: &nbsp;&nbsp;&nbsp;</h4>");
-            var date =  $("<input id='DATE4' name='Date_trap_last_replaced' class='date2' value=''><br><br>");
+            var title = $("<h4 class='required' id='dateTrapReplacedTitle'>2 . Date Trap Replaced: </h4>");
+            var date =  $("<input id='DATE4' name='Date_trap_replaced' class='date2' value=''><br><br>");
 
             dateTrapReplacedDiv.append(title);
             dateTrapReplacedDiv.append(date);
@@ -995,6 +1074,14 @@
             todayDateV[i].value = todayDate;
         }
 
+        $("#DATE4").change( function() {
+            if($(this).val() === "") {
+                $("#dateTrapReplacedTitle").addClass('required');
+            } else {
+                $("#dateTrapReplacedTitle").removeClass('required');
+            }
+        })
+
 
     }
 
@@ -1002,8 +1089,8 @@
         var dateLureReplacedDiv = $("#dateLureReplaced");
         dateLureReplacedDiv.empty();
         if (status.value === "YES") {
-            var title = $("<h4>2 . Date Lure Replaced: &nbsp;&nbsp;&nbsp;</h4>");
-            var date =  $("<input id='DATE5' name='Date_lure_last_replaced' class='date3' value=''><br><br>");
+            var title = $("<h4 class='required' id='dateLureReplacedTitle'>2 . Date Lure Replaced: </h4>");
+            var date =  $("<input id='DATE5' name='Date_lure_replaced' class='date3' value=''><br><br>");
 
             dateLureReplacedDiv.append(title);
             dateLureReplacedDiv.append(date);
@@ -1020,6 +1107,14 @@
         for (var i = 0; i < todayDateV.length; i++) {
             todayDateV[i].value = todayDate;
         }
+
+        $("#DATE5").change( function() {
+            if($(this).val() === "") {
+                $("#dateLureReplacedTitle").addClass('required');
+            } else {
+                $("#dateLureReplacedTitle").removeClass('required');
+            }
+        })
 
     }
 
@@ -1041,8 +1136,8 @@
             //     var mainCropOption = $("<option>" + mainCropList[i].value + "</option>");
             //     mainCropSelect.append(mainCropOption);
             // }
-            var title = [$("<h4 class='required' id='cropDamageTitle'>2 . Crop Damage: </h4>"), $("<h4 class='required' id='pestStageTitle'>2 . Pest Stage: </h4><button id='pestStage-select_all'  class='selectMultiple'  onclick='selectAndUnselect()'>Select all</button><button id='pestStage-deselect_all' class='selectMultiple' onclick='selectAndUnselect()'>Deselect all</button>"), $("<br<br><h4  class='required' id='currentDamageTitle'>2 . Current Damage level (on young leaves; fresh grass in whorl): </h4>"), $("<h4>2 . Crop Infested: </h4>"), $("<h4 class='required' id='controlUndertakenTitle'>2 . Control Undertaken: </h4><button id='controlUndertaken-select_all'  class='selectMultiple' onclick='selectAndUnselect()'>Select all</button><button id='controlUndertaken-deselect_all'  class='selectMultiple' onclick='selectAndUnselect()'>Deselect all</button>"), $("<h4>Photos of pest at different stages: &nbsp;&nbsp;&nbsp;</h4>")];
-            var select = [$("<select class='clearGen' id='cropDamage' name='Crop_damage' required></select><br><br>"), $("<select multiple='multiple' class='clearGen' id='pestStage' name='Pest_stage' required></select>"), $("<select class='clearGen' id='currentDamage' name='Current_damage' required></select><br><br>"), $("<input class='clearGen inputNumber' id='cropInfested' name='Crop_infested' type='text' placeholder='Enter The Percentage of Crop Infested Here' required><br><br>"), $("<select multiple='multiple' class='clearGen' id='controlUndertaken' name='Control_undertaken' onchange='controlType(this)'></select>"), $("<div class='clearGen' id='uploaderPest'></div><br><br>")];
+            var title = [$("<h4 class='required' id='cropDamageTitle'>2 . Crop Damage: </h4>"), $("<h4 class='required' id='pestStageTitle'>2 . Pest Stage: </h4><button id='pestStage-select_all'  class='selectMultiple'  onclick='selectAndUnselect()'>Select all</button><button id='pestStage-deselect_all' class='selectMultiple' onclick='selectAndUnselect()'>Deselect all</button>"), $("<br<br><h4  class='required' id='currentDamageTitle'>2 . Current Damage level (on young leaves; fresh grass in whorl): </h4>"), $("<h4 class='required' id='cropInfestedTitle'>2 . Crop Infested: </h4>"), $("<h4 class='required' id='controlUndertakenTitle'>2 . Control Undertaken: </h4><button id='controlUndertaken-select_all'  class='selectMultiple' onclick='selectAndUnselect()'>Select all</button><button id='controlUndertaken-deselect_all'  class='selectMultiple' onclick='selectAndUnselect()'>Deselect all</button>"), $("<h4>Photos of pest at different stages: &nbsp;&nbsp;&nbsp;</h4>")];
+            var select = [$("<select class='clearGen' id='cropDamage' name='Crop_damage' required></select><br><br>"), $("<select multiple='multiple' class='clearGen' id='pestStage' name='Pest_stage' required></select>"), $("<select class='clearGen' id='currentDamage' name='Current_damage' required></select><br><br>"), $("<input class='clearGen inputNumber' id='cropInfested' name='Crop_infested' type='text' placeholder='Enter The Percentage of Crop Infested Here' value='' required><br><br>"), $("<select multiple='multiple' class='clearGen' id='controlUndertaken' name='Control_undertaken' onchange='controlType(this)'></select>"), $("<div class='clearGen' id='uploaderPest'></div><br><br>")];
 
 
 
@@ -1173,6 +1268,14 @@
                 }
             })
 
+            $("#cropInfested").change( function() {
+                if($(this).val() === "") {
+                    $("#cropInfestedTitle").addClass('required');
+                } else {
+                    $("#cropInfestedTitle").removeClass('required');
+                }
+            })
+
         }
     }
 
@@ -1198,8 +1301,8 @@
         }
 
         function append(type, options) {
-            var title = [$("<br><br><h4 class='required' id='" + type + "NameTitle'>2 . " + type + " Name: &nbsp;&nbsp;&nbsp;</h4>"), $("<h4 id='" + type + "LitresTitle'>2 . Amount of " + type + " Used (litres): &nbsp;&nbsp;&nbsp;</h4>")];
-            var select = [$("<select class='clearGen' id='" + type + "Name' name='" + type + "_name'></select><br><br>"), $("<input type='number' class='clearGen inputNumber' id='" + type + "Litres' name='" + type + "_litres' placeholder='ENTER AMOUNT OF " + type + " USED'><br><br>")];
+            var title = [$("<br><br><h4 class='required' id='" + type + "NameTitle'>2 . " + type + " Name: </h4>"), $("<h4 id='" + type + "LitresTitle'>2 . Amount of " + type + " Used (litres): </h4>")];
+            var select = [$("<select class='clearGen' id='" + type + "Name' name='" + type + "_name'></select><br><br>"), $("<input type='number' class='clearGen inputNumber' id='" + type + "Litres' name='" + type + "_litres' placeholder='ENTER AMOUNT OF " + type + " USED' value=''><br><br>")];
             for (var i = 0; i < title.length; i++) {
                 pesticideDiv.append(title[i]);
                 pesticideDiv.append(select[i]);
@@ -1219,11 +1322,27 @@
             }
         })
 
+        $("#Biopesticide_litres").change( function() {
+            if($(this).val() === "") {
+                $("#BiopesticideLitresTitle").addClass('required');
+            } else {
+                $("#BiopesticideLitresTitle").removeClass('required');
+            }
+        })
+
         $("#PesticideName").change( function() {
             if($(this).val() === "") {
                 $("#PesticideNameTitle").addClass('required');
             } else {
                 $("#PesticideNameTitle").removeClass('required');
+            }
+        })
+
+        $("#Pesticide_litres").change( function() {
+            if($(this).val() === "") {
+                $("#PesticideLitresTitle").addClass('required');
+            } else {
+                $("#PesticideLitresTitle").removeClass('required');
             }
         })
 
